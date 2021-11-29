@@ -1,6 +1,9 @@
 {% extends 'base_problem.html' %}
 {% block css %}
     <link rel="stylesheet" href="/static/vendors/parsons/parsons.css"/>
+    <!-- 
+    <link rel="stylesheet" href= "{{ url_for('static',filename='vendors/parsons/parsons.css') }}"/>
+    <link rel="stylesheet" href= "{{ url_for('static',filename='css/prettify.css') }}"/>  -->
     <link rel="stylesheet" href="/static/css/prettify.css"/>
 
     <style type="text/css">
@@ -24,8 +27,18 @@
                     </div>
                     <div class="row float-right">
                         <div class="col-sm-12">
-                            <button id="move-on" type="button" class="btn btn-success"  style="display:none">View Instructor Solution</button>
+                            <!-- <button id="move-on" type="button" class="btn btn-success"  style="display:none">View Instructor Solution</button> -->
                             <button id="submit" type="button" class="btn btn-primary">Run Tests</button>
+                            {% if not_first_prob %}
+                            <button id="prev" type="button" class="btn btn-primary">Previous Problem</button>
+                            {% else %}
+                            <button id="prev" type="button" class="btn btn-primary" disabled>Previous Problem</button>
+                            {% endif %}
+                            {% if not_last_prob %}
+                            <button id="next" type="button" class="btn btn-primary">Next Problem</button>
+                            {% else %}
+                            <button id="next" type="button" class="btn btn-primary" disabled>Next Problem</button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -134,6 +147,7 @@
             $("#test_description").hide();
             $("#errors").hide();
             var submittedCode = JSON.parse(getSolutionCode())['code'] + '\n'
+            console.log(getSolutionCode()['code_metadata']);
             var params = {
                 "problem_name": problemName,
                 "submitted_code": submittedCode,
@@ -153,23 +167,36 @@
                 success: function (response, status) {
                     var data = JSON.parse(response);
                     $("#errors").show();
-                    var success_count = (data.test_results.match(/testcase pass/g) || []).length;
-                    var error_count = (data.test_results.match(/testcase fail/g) || []).length;
-                    error_count += (data.test_results.match(/testcase error/g) || []).length;
+                    var success_count = data.test_results.passed;
+                    var error_count = data.test_results.failed;
+                    var doctest_logs = data.test_results.doctest_logs;
+                    var num_cases = data.test_results.num_cases;
                     var test_results;
                     if (error_count === 0) {
                         test_results = '<div class="testcase pass"><span class="msg">All tests passed</span></div>';
                         enableMoveOn();
                         storeQuestionStatus(3);
                     } else {
-                        test_results = '<div class="testcase fail"><span class="msg"> Failed Test #' + (success_count+error_count).toString() + '</span></div>'
+                        test_results = '<div class="testcase fail"> Passing ' + success_count.toString() + ' of ' + (success_count + error_count).toString() + ' total cases' + ' </div>';
+                        test_results += '<span style="white-space: pre-line"><pre><code>' + doctest_logs +  '  <pre></code></span></div>';
                     }
-                    $("#errors_body").html(test_results + data.test_results);
+                    $("#errors_body").html(test_results);
                 }
             })
         }
+        function nextProblem() {
+            window.location = '/next_problem/' + problemName;
+        }
+        function prevProblem() {
+            window.location = '/prev_problem/' + problemName;
+        }
 
         $("#submit").click(_.throttle(submitParsons, 500));
+
+        $("#next").click(_.throttle(nextProblem, 500));
+
+        $("#prev").click(_.throttle(prevProblem, 500));
+
 
         $("#move-on").click(function() {
             // Deregisters beforeunload handler to avoid double logging
@@ -191,10 +218,47 @@
         {% endif %}
     });
 
+    var start = new Date().getTime();
 
     $(window).on("beforeunload", function (e) {
         logParsons('unload');
+        var end = new Date().getTime();
+        millis_so_far += (start - end)
     });
+    
+    var start = new Date().getTime();
+    var millis_so_far = 0;
+    $(window).on("blur", function () {
+        console.log("blur")
+        var end = new Date().getTime();
+        millis_so_far += (start - end);
+        const data = {
+            'problem_name': problemName,
+            'event': 'stop'
+        };
+        fetch("/analytics_event", {
+            method: "POST", 
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    })
+    $(window).on("focus", function () {
+        console.log("focus")
+        start = new Date().getTime();
+        const data = {
+            'problem_name': problemName,
+            'event': 'start'
+        };
+        fetch("/analytics_event", {
+            method: "POST", 
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    })
 
     var enableMoveOn = function() {
         if ($("#move-on").is(":hidden")) {
