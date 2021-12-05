@@ -317,7 +317,6 @@
             });
 
      $.each(given, function(index, item) {
-       console.log(item);
         widgetData.push(item);
       });
 
@@ -409,6 +408,59 @@
        codeMetadata +=  originalLine + "\n";
      }
      return [solutionCode, codeMetadata];
+   };
+   
+   	
+   ParsonsWidget.prototype.parsonsReprCode = function() {	
+    var solutionCode = "";	
+    var reprCodeSoln = "";	
+    var reprCodeNonSoln = "";	
+    var lines = this.normalizeIndents(this.getModifiedCode("#ul-" + this.options.sortableId));	
+    var lines_in_soln = [];	
+    // find lines in solution	
+    for (let i = 0; i < lines.length; i++) {	
+      lines_in_soln.push(lines[i].id);	
+      var blankText = "";	
+      let yamlConfigClone = $("#" + lines[i].id).clone();	
+      yamlConfigClone.find("input").each(function (_, inp) {	
+          inp.replaceWith('!BLANK');	
+          blankText += " #blank" + inp.value	
+      });	
+      let codeClone = $("#" + lines[i].id).clone();	
+      codeClone.find("input").each(function (_, inp) {	
+          inp.replaceWith(inp.value);	
+      });	
+      yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();	
+      codeClone[0].innerText = codeClone[0].innerText.trimRight();	
+      	
+      // remove line numbers at the end of each line	
+      // is not a problem in solutionCode(), worth investigating	
+      var line = yamlConfigClone[0].innerText;	
+      var tokensLst = line.split(" ");	
+      tokensLst.pop(); 	
+      line = tokensLst.join(" ");	
+      line = line + ` #${lines[i].indent}given` + blankText;	
+      reprCodeSoln +=  line + "\n";	
+    }	
+    for (let i = 0; i < this.modified_lines.length; i++) {	
+      if (!lines_in_soln.includes(this.modified_lines[i].id)) {	
+        var blankText = "";	
+        let yamlConfigClone = $("#" + this.modified_lines[i].id).clone();	
+        yamlConfigClone.find("input").each(function (_, inp) {	
+            inp.replaceWith('!BLANK');	
+            blankText += " #blank" + inp.value	
+        });	
+        let codeClone = $("#" + this.modified_lines[i].id).clone();	
+        codeClone.find("input").each(function (_, inp) {	
+            inp.replaceWith(inp.value);	
+        });	
+        yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();	
+        codeClone[0].innerText = codeClone[0].innerText.trimRight();	
+        var line = yamlConfigClone[0].innerText;	
+        reprCodeNonSoln += line + "\n";	
+      }	
+    }	
+    return reprCodeSoln + reprCodeNonSoln;	
    };
 
    ParsonsWidget.prototype.addLogEntry = function(entry) {
@@ -755,7 +807,6 @@
     ParsonsWidget.prototype.codeLineToHTML = function(codeline) {
       while (codeline.code.search(/!BLANK/) >= 0) {
         var replaceText = "";
-        console.log(codeline.code)
         if (codeline.code.search(blankRegexp) >= 0) {
           replaceText = codeline.code.match(blankRegexp)[1].trim()
           codeline.code = codeline.code.replace(blankRegexp, "");
