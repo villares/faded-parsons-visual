@@ -1,0 +1,60 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Running tests
+
+---------------------------------------------------------------------
+Doctests for example
+
+>>> example(0, 1, 2) # .Case 1
+Traceback (most recent call last):
+  File "/Users/tommyjoseph/Desktop/okpy-work/faded-parsons-frontend/fpp/example.py", line 12, in example
+    return num and bool
+NameError: name 'num' is not defined
+
+# Error: expected
+#     0
+# but got
+#     Traceback (most recent call last):
+#       ...
+#     NameError: name 'num' is not defined
+❌ Test Case 1 failed
+---------------------------------------------------------------------
+
+>>> example(1, 2, 3) # .Case 2
+Traceback (most recent call last):
+  File "/Users/tommyjoseph/Desktop/okpy-work/faded-parsons-frontend/fpp/example.py", line 12, in example
+    return num and bool
+NameError: name 'num' is not defined
+
+# Error: expected
+#     3
+# but got
+#     Traceback (most recent call last):
+#       ...
+#     NameError: name 'num' is not defined
+❌ Test Case 2 failed
+---------------------------------------------------------------------
+
+>>> example(True, 2, 3) # .Case 3
+Traceback (most recent call last):
+  File "/Users/tommyjoseph/Desktop/okpy-work/faded-parsons-frontend/fpp/example.py", line 12, in example
+    return num and bool
+NameError: name 'num' is not defined
+
+# Error: expected
+#     3
+# but got
+#     Traceback (most recent call last):
+#       ...
+#     NameError: name 'num' is not defined
+❌ Test Case 3 failed
+---------------------------------------------------------------------
+
+
+---------------------------------------------------------------------
+Test summary
+    0 test cases passed before encountering first failed test case
+
+Backup... 0.0% completeBackup... 100% complete
+[31mBackup past deadline by 1545 days, 23 hours, 41 minutes, and 42 seconds[0m
+[32mBackup successful for user: tommy11jo@berkeley.edu[0m
+
