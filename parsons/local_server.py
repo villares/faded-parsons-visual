@@ -1,9 +1,11 @@
 import os
 import sys
-print("name is ", __name__)
 old_client_path = '/Users/tommyjoseph/desktop/okpy-work/ok-client'
 show_cases_path = '/Users/tommyjoseph/desktop/okpy-work/show-all-cases/ok-client'
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
+# in the future, ok-client modules will all be stored in single ok file 
+# should replace above line when production ready
+# sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath("ok")))
 
 import client.exceptions as ex
 from client.api.assignment import load_assignment
@@ -51,7 +53,8 @@ def parsons(problem_name, code_skeleton=False):
     #   code_lines = problem_config['code_lines'] + \
     #         '\nprint(!BLANK)' * 2 + '\n# !BLANK' * 2
     # code_lines = problem_config['code_lines'] + '\nprint(!BLANK)'
-    code_lines = problem_config['code_lines'] + '\ndebug(!BLANK)'
+    # code_lines = problem_config['code_lines'] + '\ndebug(!BLANK)'
+    code_lines = problem_config['code_lines'] + '\nprint(!BLANK)'
     repr_fname = f'{FPP_FOLDER_PATH}/{names_to_paths[problem_name]}{FPP_REPR_SUFFIX}'
     if os.path.exists(repr_fname):
         with open(repr_fname, "r") as f:
@@ -235,12 +238,21 @@ def open_browser():
 
 def open_in_browser(args):
     cache['args'] = args 
-    Timer(1, open_browser).start()
+    # Timer(1, open_browser).start()
+    open_browser()
     run_server(PORT)
 
 def run_server(port):
+    global PORT
     # disable flask logging
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
     os.environ['WERKZEUG_RUN_MAIN'] = 'true'
-    app.run(port=port)
+    for port in range(PORT, PORT + 10):
+        try:
+            PORT = port
+            print("Press Ctrl + C to kill the process.")
+            app.run(port=port)
+            exit(0)
+        except OSError as e:
+            print(f"Port {port} is currently in use, trying a different port...")

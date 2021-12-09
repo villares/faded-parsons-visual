@@ -19,9 +19,7 @@ def load_config_file(paths):
   for path in paths:
     try:
       with open(os.path.abspath(path), 'r') as file:
-        # investigate safe load later
         config = yaml.load(file, Loader=yaml.Loader)
-        # config = yaml.safe_load(file)
       if type(config) == dict:
         config = defaultdict(lambda: None, config)
       return config
