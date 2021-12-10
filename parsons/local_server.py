@@ -3,6 +3,7 @@ import sys
 old_client_path = '/Users/tommyjoseph/desktop/okpy-work/ok-client'
 show_cases_path = '/Users/tommyjoseph/desktop/okpy-work/show-all-cases/ok-client'
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
+# sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
 # in the future, ok-client modules will all be stored in single ok file 
 # should replace above line when production ready
 # sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath("ok")))
@@ -15,9 +16,7 @@ from client.utils.output import DisableStdout
 from load import load_config, get_prob_names, path_to_name
 from constants import *
 
-import time
 from multiprocessing import Semaphore
-from threading import Timer
 import webbrowser
 import logging
 from datetime import datetime
@@ -47,14 +46,14 @@ def index():
 def parsons(problem_name, code_skeleton=False):
     problem_config = load_config(names_to_paths[problem_name])
     language = problem_config.get('language', 'python')
-    with read_semaphore:
-        time.sleep(.4)
+    # with read_semaphore:
+        # time.sleep(.4)
 
     #   code_lines = problem_config['code_lines'] + \
     #         '\nprint(!BLANK)' * 2 + '\n# !BLANK' * 2
     # code_lines = problem_config['code_lines'] + '\nprint(!BLANK)'
-    # code_lines = problem_config['code_lines'] + '\ndebug(!BLANK)'
-    code_lines = problem_config['code_lines'] + '\nprint(!BLANK)'
+    code_lines = problem_config['code_lines'] + '\ndebug(!BLANK)'
+    # code_lines = problem_config['code_lines'] + '\nprint(!BLANK)'
     repr_fname = f'{FPP_FOLDER_PATH}/{names_to_paths[problem_name]}{FPP_REPR_SUFFIX}'
     if os.path.exists(repr_fname):
         with open(repr_fname, "r") as f:
@@ -193,6 +192,8 @@ def grade_and_backup(problem_name):
     args = cache['args']
     args.question = [problem_name]
     msgs = messages.Messages()
+    old_stdout = sys.stdout
+    sys.stdout = out = open(FPP_OUTFILE, 'w')
     # remove syntax errors so assignment can load
     num_retries = len(names_to_paths)
     reloaded = []
@@ -212,8 +213,6 @@ def grade_and_backup(problem_name):
             num_retries -= 1
     assert num_retries > 0, "Rewriting '' to fpp files failed"
 
-    old_stdout = sys.stdout
-    sys.stdout = out = open(FPP_OUTFILE, 'w')
     for name, proto in assign.protocol_map.items():
         log.info('Execute {}.run()'.format(name))
         proto.run(msgs)
@@ -228,7 +227,8 @@ def grade_and_backup(problem_name):
     with open(FPP_OUTFILE, "r") as f:
         all_lines = f.readlines()
         # still need to fix ok-client show all cases to not print extra ------
-        feedback['doctest_logs'] = "".join(all_lines[3:-10])
+        # feedback['doctest_logs'] = "".join(all_lines[3:-10])
+        feedback['doctest_logs'] = "".join(all_lines[9:-10])
     
     store_correctness(problem_name, feedback['passed'] > 1 and feedback['failed'] == 0)
     return feedback

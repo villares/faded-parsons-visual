@@ -57,12 +57,12 @@
         {% if config['DEBUG'] %}
             console.log('Attempting to log: ' ,log_data);
         {% endif %}
-        $.ajax({
-            type: 'post',
-            data: log_data,
-            url: '/log_event/',
-            dataType: 'html',
-        })
+        // $.ajax({
+        //     type: 'post',
+        //     data: log_data,
+        //     url: '/log_event/',
+        //     dataType: 'html',
+        // })
     };
     var sleep = function(time) {
         return new Promise((resolve) => setTimeout(resolve, time*1000));

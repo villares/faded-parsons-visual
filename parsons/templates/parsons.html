@@ -64,6 +64,39 @@
             <div class="row mb-4"></div>
         </div>
     </div>
+    <!--  taken from geeks for geeks -->
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Loader Demo</title>
+        <style>
+            #loader {
+                border: 12px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 12px solid #444444;
+                width: 70px;
+                height: 70px;
+                animation: spin 1s linear infinite;
+            }
+              
+            @keyframes spin {
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+              
+            .center {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+            }
+        </style>
+    </head>
 {% endblock %}
 
 {% block scripts %}
@@ -160,6 +193,8 @@
             if (submitCount >= 0 && moveOnTimeout) {
                 enableMoveOn();
             }
+            $("#errors").show();
+            $("#errors_body").html('<div id="loader"></div>');
             $.ajax({
                 type: 'post',
                 data: params,
@@ -333,7 +368,18 @@
             var lineNumber = line.index() + 1;
             line.append('<code class="line-number"> ' + lineNumber + '</code>')
         })
-    }
+    } 
+
+    window.addEventListener( "pageshow", function ( event ) {
+        var historyTraversal = event.persisted || 
+                                ( typeof window.performance != "undefined" && 
+                                    window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+            // Handle page restore.
+            window.location.reload();
+        }
+    });
+
 
     </script>
 
