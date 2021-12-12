@@ -383,6 +383,8 @@
    };
 
    ParsonsWidget.prototype.solutionCode = function() {
+     var indentConstant = "    ";
+     // var indentConstant = "  ";
      var solutionCode = "";
      var codeMetadata = "";
      var lines = this.normalizeIndents(this.getModifiedCode("#ul-" + this.options.sortableId));
@@ -404,7 +406,7 @@
        if (yamlConfigClone[0].innerText != codeClone[0].innerText) {
          originalLine = " #!ORIGINAL" + yamlConfigClone[0].innerText + blankText;
        }
-       solutionCode += "  ".repeat(lines[i].indent) + codeClone[0].innerText + "\n";
+       solutionCode += indentConstant.repeat(lines[i].indent) + codeClone[0].innerText + "\n";
        codeMetadata +=  originalLine + "\n";
      }
      return [solutionCode, codeMetadata];

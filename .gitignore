@@ -3,3 +3,6 @@ __pycache__/
 *.py[cod]
 # Fpp Files
 fpp/
+# config and other files used for original testing
+orig-config
+fpp-orig
