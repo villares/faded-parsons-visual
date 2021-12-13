@@ -2,6 +2,7 @@ import os
 import sys
 old_client_path = '/Users/tommyjoseph/desktop/okpy-work/ok-client'
 show_cases_path = '/Users/tommyjoseph/desktop/okpy-work/show-all-cases/ok-client'
+prod_path = 'ok'
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
 # sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
 # in the future, ok-client modules will all be stored in single ok file 
@@ -46,8 +47,6 @@ def index():
 def parsons(problem_name, code_skeleton=False):
     problem_config = load_config(names_to_paths[problem_name])
     language = problem_config.get('language', 'python')
-    # with read_semaphore:
-        # time.sleep(.4)
 
     #   code_lines = problem_config['code_lines'] + \
     #         '\nprint(!BLANK)' * 2 + '\n# !BLANK' * 2
@@ -94,15 +93,18 @@ def prev_problem(problem_name):
 # also runs problems so students can verify correctness
 @app.route('/get_problems/', methods=['GET'])
 def get_problems():
+    print("get problems")
     try:
         with open(FPP_CORRECTNESS, "r") as f:
             probs_correct = json.loads(f.read())
-    except OSError:
+    except FileNotFoundError:
         probs_correct = {pname : False for pname in names_to_paths}
         with open(FPP_CORRECTNESS, "w") as f:
             f.write(json.dumps(probs_correct))
     problem_paths = [f'/code_skeleton/{key}' for key in names_to_paths]
-    return { 'names': [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in names_to_paths], 'paths': problem_paths}
+    a= { 'names': [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in names_to_paths], 'paths': problem_paths}
+    print(a)
+    return a
 
 @app.route('/submit/', methods=['POST'])
 def submit():
@@ -238,6 +240,8 @@ def open_browser():
 
 def open_in_browser(args):
     cache['args'] = args 
+    # fpp folder must exist
+    assert os.path.isdir(FPP_FOLDER_PATH), "fpp folder does not exist"
     # Timer(1, open_browser).start()
     open_browser()
     run_server(PORT)

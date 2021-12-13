@@ -1,0 +1,40 @@
+problem_name: count_until_larger
+
+problem_description: |
+  Complete the function <code>count_until_larger</code>, a function that takes
+  in a positive integer <code>num</code>. <code>count_until_larger</code>
+  examines the rightmost digit and counts digits from right to left until it
+  encounters a digit larger than the rightmost digit, then returns that count.
+
+  For example, 8117 has a rightmost digit of 7 and returns a count of 3.
+  1118117 also returns a count of 3 because the count stops at the 8, which is larger than 7.
+  0 should be treated as having no digits and returns a count of 0.
+
+  Consult the doctests for specific examples of count_until_larger.<br>
+  <pre><code>
+  >>> count_until_larger(117)
+  3
+  >>> count_until_larger(8117)
+  3
+  >>> count_until_larger(1118117)
+  3
+  >>> count_until_larger(8777)  # 7 is not larger than 7
+  3
+  >>> count_until_larger(21)
+  1
+  >>> count_until_larger(0)
+  0
+  </code></pre>
+  
+code_lines: |
+  def count_until_larger(num):  #0given
+  rightmost = !BLANK
+  count = !BLANK
+  while !BLANK:
+  if !BLANK > rightmost:
+  return count
+  num = num !BLANK 10
+  count = count !BLANK !BLANK
+  return count 
+
+test_fn: count_until_larger

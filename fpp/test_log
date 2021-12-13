@@ -7,23 +7,54 @@ OK, version v1.18.1
 Running tests
 
 ---------------------------------------------------------------------
-Doctests for add_ind_if_odd
+Doctests for digit_pos_match
 
->>> add_if_odd(5)  # Case 1
-NameError: name 'add_if_odd' is not defined
+>>> digit_pos_match(980, 0) # .Case 1
+DEBUG: 10
 
 # Error: expected
-#     0
+#     True
 # but got
-#     Traceback (most recent call last):
-#       ...
-#     NameError: name 'add_if_odd' is not defined
+
+❌ Test Case 1 failed
+---------------------------------------------------------------------
+
+>>> digit_pos_match(980, 2) # .Case 2
+DEBUG: 10
+
+# Error: expected
+#     False
+# but got
+
+❌ Test Case 2 failed
+---------------------------------------------------------------------
+
+>>> digit_pos_match(98276, 2) # .Case 3
+DEBUG: 10
+
+# Error: expected
+#     True
+# but got
+
+❌ Test Case 3 failed
+---------------------------------------------------------------------
+
+>>> digit_pos_match(98276, 3) # .Case 4
+DEBUG: 10
+
+# Error: expected
+#     False
+# but got
+
+❌ Test Case 4 failed
+---------------------------------------------------------------------
+
 
 ---------------------------------------------------------------------
 Test summary
     0 test cases passed before encountering first failed test case
 
 Backup... 0.0% completeBackup... 100% complete
-[31mBackup past deadline by 1548 days, 17 hours, 11 minutes, and 14 seconds[0m
+[31mBackup past deadline by 1549 days, 23 hours, 25 minutes, and 22 seconds[0m
 [32mBackup successful for user: tommy11jo@berkeley.edu[0m
 
