@@ -54,7 +54,7 @@ def get_prob_names():
               cur_lines = f.readlines()
               for line in cur_lines:
                   cur_words = line.lstrip().split()
-                  if cur_words[0] == 'def':
+                  if cur_words and cur_words[0] == 'def':
                       func_sig = cur_words[1]
                       names_to_paths[func_sig[:func_sig.index('(')]] = name[4:-3]
                       break

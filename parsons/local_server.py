@@ -6,8 +6,6 @@ prod_path = 'ok'
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
 # sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
 # in the future, ok-client modules will all be stored in single ok file 
-# should replace above line when production ready
-# sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath("ok")))
 
 import client.exceptions as ex
 from client.api.assignment import load_assignment
@@ -48,6 +46,7 @@ def parsons(problem_name, code_skeleton=False):
     problem_config = load_config(names_to_paths[problem_name])
     language = problem_config.get('language', 'python')
 
+    # TODO: decide what "extra" boxes we want to include for students
     #   code_lines = problem_config['code_lines'] + \
     #         '\nprint(!BLANK)' * 2 + '\n# !BLANK' * 2
     # code_lines = problem_config['code_lines'] + '\nprint(!BLANK)'
@@ -211,7 +210,7 @@ def grade_and_backup(problem_name):
             prob_name = path_to_name(names_to_paths, rel_path[:-3])
             reloaded.append(prob_name)
             # replaces syntax-error code with error-free dummy code 
-            write_fpp_prob_locally(prob_name, "def dummy():\n  print('Syntax Error')\n", None, False)
+            write_fpp_prob_locally(prob_name, "def dummy():\n    print('Syntax Error')\n", None, False)
             num_retries -= 1
     assert num_retries > 0, "Rewriting '' to fpp files failed"
 
