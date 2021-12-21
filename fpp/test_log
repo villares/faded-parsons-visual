@@ -7,54 +7,26 @@ OK, version v1.18.1
 Running tests
 
 ---------------------------------------------------------------------
-Doctests for digit_pos_match
+Doctests for k_in_num
 
->>> digit_pos_match(980, 0) # .Case 1
-DEBUG: 10
-
-# Error: expected
-#     True
-# but got
-
-❌ Test Case 1 failed
+>>> k_in_num(3, 123)  # .Case 1
+True
+✅ Test Case 1 passed
 ---------------------------------------------------------------------
-
->>> digit_pos_match(980, 2) # .Case 2
-DEBUG: 10
-
-# Error: expected
-#     False
-# but got
-
-❌ Test Case 2 failed
+>>> k_in_num(5, 123)  # .Case 2
+False
+✅ Test Case 2 passed
 ---------------------------------------------------------------------
-
->>> digit_pos_match(98276, 2) # .Case 3
-DEBUG: 10
-
-# Error: expected
-#     True
-# but got
-
-❌ Test Case 3 failed
+>>> k_in_num(0, 0)  # .Case 3
+False
+✅ Test Case 3 passed
 ---------------------------------------------------------------------
-
->>> digit_pos_match(98276, 3) # .Case 4
-DEBUG: 10
-
-# Error: expected
-#     False
-# but got
-
-❌ Test Case 4 failed
----------------------------------------------------------------------
-
-
+-- OK! --
 ---------------------------------------------------------------------
 Test summary
-    0 test cases passed before encountering first failed test case
+    1 test cases passed! No cases failed.
 
 Backup... 0.0% completeBackup... 100% complete
-[31mBackup past deadline by 1549 days, 23 hours, 25 minutes, and 22 seconds[0m
+[31mBackup past deadline by 1558 days, 36 minutes, and 5 seconds[0m
 [32mBackup successful for user: tommy11jo@berkeley.edu[0m
 

@@ -1,1 +1,1 @@
-{"digit_pos_match": false, "add_ind_if_odd": false, "k_occurence": false, "add_in_range": false, "k_in_num": false, "kth_divides_k": false, "count_until_larger": false}
+{"digit_pos_match": true, "add_ind_if_odd": false, "k_occurence": false, "add_in_range": false, "k_in_num": true, "kth_divides_k": false, "count_until_larger": false}

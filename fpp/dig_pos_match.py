@@ -11,7 +11,9 @@ def digit_pos_match(n, k):
     False
     """
     index = 0
-    index = index + 1
-    debug(10)
+    while index < k:
+        n = n // 10
+        index = index + 1
+    return n % 10 == k
 
 
