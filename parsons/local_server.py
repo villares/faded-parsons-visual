@@ -92,7 +92,6 @@ def prev_problem(problem_name):
 # also runs problems so students can verify correctness
 @app.route('/get_problems/', methods=['GET'])
 def get_problems():
-    print("get problems")
     try:
         with open(FPP_CORRECTNESS, "r") as f:
             probs_correct = json.loads(f.read())
@@ -101,9 +100,7 @@ def get_problems():
         with open(FPP_CORRECTNESS, "w") as f:
             f.write(json.dumps(probs_correct))
     problem_paths = [f'/code_skeleton/{key}' for key in names_to_paths]
-    a= { 'names': [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in names_to_paths], 'paths': problem_paths}
-    print(a)
-    return a
+    return { 'names': [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in names_to_paths], 'paths': problem_paths}
 
 @app.route('/submit/', methods=['POST'])
 def submit():
