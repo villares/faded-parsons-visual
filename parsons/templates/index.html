@@ -5,8 +5,10 @@
 {% endblock %}
 hi! what?
 {% block base_content %}
-        <ul class="list-group" id="problem-list">
-        </ul>
+        <h2>Required Problems</h2>
+        <ul class="list-group" id="required-list"></ul>
+        <h2>Optional Problems</h2>
+        <ul class="list-group" id="optional-list"></ul>
 {% endblock %}
 
 {% block scripts %}
@@ -22,13 +24,21 @@ hi! what?
         });
         fetch('/get_problems')
             .then(response => response.json())
-            .then(({names, paths}) => {
-                names.map((name, index) => {
+            .then(({required, optional}) => {
+                console.log("required is", required)
+                required['names'].map((name, index) => {
                     const link = document.createElement("a");
                     link.appendChild(document.createTextNode(name));
-                    link.href = paths[index];
+                    link.href = required['paths'][index];
                     link.classList.add("list-group-item");
-                    document.getElementById('problem-list').appendChild(link);
+                    document.getElementById('required-list').appendChild(link);
+                });
+                optional['names'].map((name, index) => {
+                    const link = document.createElement("a");
+                    link.appendChild(document.createTextNode(name));
+                    link.href = optional['paths'][index];
+                    link.classList.add("list-group-item");
+                    document.getElementById('optional-list').appendChild(link);
                 })
             })
     </script>

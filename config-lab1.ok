@@ -27,7 +27,17 @@
         "scoring",
         "analytics",
         "backup"
-    ]
+    ],
+    "parsons": {
+        "prob group 1": {
+            "required": ["add_in_range"],
+            "optional": ["add_ind_if_odd", "count_until_larger"]
+        },
+        "prob group 2": {
+            "required": ["digit_pos_match"],
+            "optional": ["k_in_num"]
+        }
+    }
 }
 
 

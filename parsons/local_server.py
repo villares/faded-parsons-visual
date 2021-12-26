@@ -92,6 +92,10 @@ def prev_problem(problem_name):
 # also runs problems so students can verify correctness
 @app.route('/get_problems/', methods=['GET'])
 def get_problems():
+    args = cache['args']
+
+    with DisableStdout():
+        assign = load_assignment(args.config, args)
     try:
         with open(FPP_CORRECTNESS, "r") as f:
             probs_correct = json.loads(f.read())
@@ -99,8 +103,22 @@ def get_problems():
         probs_correct = {pname : False for pname in names_to_paths}
         with open(FPP_CORRECTNESS, "w") as f:
             f.write(json.dumps(probs_correct))
-    problem_paths = [f'/code_skeleton/{key}' for key in names_to_paths]
-    return { 'names': [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in names_to_paths], 'paths': problem_paths}
+    req_names, req_paths = [], []
+    opt_names, opt_paths = [], []
+    # can assume proper structure since okpy checks for it
+    for pgroup_name, v in assign.parsons.items():
+        for pname in v['required']:
+            req_names.append(f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}')
+            req_paths.append(f'/code_skeleton/{pname}') 
+        for pname in v['optional']:
+            opt_names.append(f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}')
+            opt_paths.append(f'/code_skeleton/{pname}') 
+
+    required = {'names': req_names, 'paths': req_paths} 
+    optional = {'names': opt_names, 'paths': opt_paths}
+    return {'required': required, 'optional': optional}
+    # problem_paths = [f'/code_skeleton/{key}' for key in names_to_paths]
+    # return { 'names': [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in names_to_paths], 'paths': problem_paths}
 
 @app.route('/submit/', methods=['POST'])
 def submit():
