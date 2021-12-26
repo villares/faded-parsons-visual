@@ -46,12 +46,8 @@ def parsons(problem_name, code_skeleton=False):
     problem_config = load_config(names_to_paths[problem_name])
     language = problem_config.get('language', 'python')
 
-    # TODO: decide what "extra" boxes we want to include for students
-    #   code_lines = problem_config['code_lines'] + \
-    #         '\nprint(!BLANK)' * 2 + '\n# !BLANK' * 2
-    # code_lines = problem_config['code_lines'] + '\nprint(!BLANK)'
-    code_lines = problem_config['code_lines'] + '\ndebug(!BLANK)'
-    # code_lines = problem_config['code_lines'] + '\nprint(!BLANK)'
+    code_lines = problem_config['code_lines'] + \
+             '\ndebug(!BLANK)' * 2 + '\n# !BLANK' * 2
     repr_fname = f'{FPP_FOLDER_PATH}/{names_to_paths[problem_name]}{FPP_REPR_SUFFIX}'
     if os.path.exists(repr_fname):
         with open(repr_fname, "r") as f:
