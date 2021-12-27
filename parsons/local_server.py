@@ -105,10 +105,12 @@ def get_problems():
     assert assign.parsons != core.NoValue, "parsons param not found in .ok file"
     
     for pgroup_name, v in assign.parsons.items():
-        for pname in v['required']:
+        req_lst = v.get('required', [])
+        opt_lst = v.get('optional', [])
+        for pname in req_lst: 
             req_names.append(f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}')
             req_paths.append(f'/code_skeleton/{pname}') 
-        for pname in v['optional']:
+        for pname in opt_lst: 
             opt_names.append(f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}')
             opt_paths.append(f'/code_skeleton/{pname}') 
 
