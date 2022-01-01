@@ -8,10 +8,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(
 # in the future, ok-client modules will all be stored in single ok file 
 
 import client.exceptions as ex
+from client.sources.common import core
 from client.api.assignment import load_assignment
 from client.cli.common import messages
 from client.utils.output import DisableStdout 
-
 from load import load_config, get_prob_names, path_to_name
 from constants import *
 
@@ -102,11 +102,15 @@ def get_problems():
     req_names, req_paths = [], []
     opt_names, opt_paths = [], []
     # can assume proper structure since okpy checks for it
+    assert assign.parsons != core.NoValue, "parsons param not found in .ok file"
+    
     for pgroup_name, v in assign.parsons.items():
-        for pname in v['required']:
+        req_lst = v.get('required', [])
+        opt_lst = v.get('optional', [])
+        for pname in req_lst: 
             req_names.append(f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}')
             req_paths.append(f'/code_skeleton/{pname}') 
-        for pname in v['optional']:
+        for pname in opt_lst: 
             opt_names.append(f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}')
             opt_paths.append(f'/code_skeleton/{pname}') 
 
