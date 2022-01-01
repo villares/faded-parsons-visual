@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 VERSION = 1.0
 
 setup(
-    name='okpy',
+    name='faded-parsons',
     version=VERSION,
     author='Tommy Joseph, Akshit Dewan',
     # author_email='',
@@ -46,7 +46,7 @@ setup(
         # 'colorama==0.4.3',
         # 'display-timedelta==1.1',
         # 'filelock==3.0.12',
-        'pyyaml-6.0',
-        'flask-2.0.2'
+        'pyyaml==6.0',
+        'flask==2.0.2'
     ],
 )
