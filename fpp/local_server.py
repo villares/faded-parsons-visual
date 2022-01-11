@@ -1,9 +1,9 @@
 import os
 import sys
 old_client_path = '/Users/tommyjoseph/desktop/okpy-work/ok-client'
-show_cases_path = '/Users/tommyjoseph/desktop/okpy-work/show-all-cases/ok-client'
+show_cases_path = '/Users/Akshit/ok-client-tommy'
 prod_path = 'ok'
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(prod_path)))
 # sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
 # in the future, ok-client modules will all be stored in single ok file 
 
