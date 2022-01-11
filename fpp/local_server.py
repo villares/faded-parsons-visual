@@ -1,5 +1,6 @@
 import os
 import sys
+from threading import Timer
 old_client_path = '/Users/tommyjoseph/desktop/okpy-work/ok-client'
 show_cases_path = '/Users/Akshit/ok-client-tommy'
 show_cases_path = '/Users/tommyjoseph/desktop/okpy-work/show-all-cases/ok-client'
@@ -257,8 +258,7 @@ def open_in_browser(args):
     cache['args'] = args 
     # fpp folder must exist
     assert os.path.isdir(FPP_FOLDER_PATH), "fpp folder does not exist"
-    # Timer(1, open_browser).start()
-    open_browser()
+    Timer(1, open_browser).start()
     run_server(PORT)
 
 def run_server(port):
