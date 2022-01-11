@@ -28,7 +28,7 @@
         "analytics",
         "backup"
     ],
-    "parsons": {
+    "fpp": {
         "prob group 1": {
             "required": ["add_in_range"],
             "optional": ["add_ind_if_odd", "count_until_larger"]
