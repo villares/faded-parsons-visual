@@ -1,10 +1,10 @@
-FPP_FOLDER_PATH = './fpp'
-FPP_GLOB = 'fpp/*.py'
+FPP_FOLDER_PATH = './fpp_probs'
+FPP_GLOB = 'fpp_probs/*.py'
 PROBLEM_PATHS = [FPP_FOLDER_PATH]
 FPP_OUTFILE = f"{FPP_FOLDER_PATH}/test_log"
 FPP_CORRECTNESS = f"{FPP_FOLDER_PATH}/correctness"
 FPP_REPR_SUFFIX = "_repr"
 PORT = 3000
-UTILITY_FILES = ["fpp/ucb.py"]
+UTILITY_FILES = ["fpp_probs/ucb.py"]
 CHECK_MARK = "✅"
 RED_X = "❌"

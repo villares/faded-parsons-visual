@@ -2,6 +2,7 @@ import os
 import sys
 old_client_path = '/Users/tommyjoseph/desktop/okpy-work/ok-client'
 show_cases_path = '/Users/Akshit/ok-client-tommy'
+show_cases_path = '/Users/tommyjoseph/desktop/okpy-work/show-all-cases/ok-client'
 prod_path = 'ok'
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(prod_path)))
 # sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.abspath(show_cases_path)))
@@ -102,9 +103,9 @@ def get_problems():
     req_names, req_paths = [], []
     opt_names, opt_paths = [], []
     # can assume proper structure since okpy checks for it
-    assert assign.parsons != core.NoValue, "parsons param not found in .ok file"
+    assert assign.fpp != core.NoValue, "parsons param not found in .ok file"
     
-    for pgroup_name, v in assign.parsons.items():
+    for pgroup_name, v in assign.fpp.items():
         req_lst = v.get('required', [])
         opt_lst = v.get('optional', [])
         for pname in req_lst: 

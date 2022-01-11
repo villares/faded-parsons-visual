@@ -2,23 +2,23 @@
     "name": "Homework 1",
     "endpoint": "ok/test/su16/ex",
     "src": [
-        "fpp/add_in_range.py",
-        "fpp/add_ind_if_odd.py",
-        "fpp/count_until_larger.py",
-        "fpp/dig_pos_match.py",
-        "fpp/k_in_num.py",
-        "fpp/k_occurrence.py",
-        "fpp/kth_divides_k.py"
+        "fpp_probs/add_in_range.py",
+        "fpp_probs/add_ind_if_odd.py",
+        "fpp_probs/count_until_larger.py",
+        "fpp_probs/dig_pos_match.py",
+        "fpp_probs/k_in_num.py",
+        "fpp_probs/k_occurrence.py",
+        "fpp_probs/kth_divides_k.py"
     ],
     "tests": {
         "tests/[!_]*.py": "ok_test",
-        "fpp/add_in_range.py:add_in_range": "doctest",
-        "fpp/add_ind_if_odd.py:add_ind_if_odd": "doctest",
-        "fpp/count_until_larger.py:count_until_larger": "doctest",
-        "fpp/dig_pos_match.py:digit_pos_match": "doctest",
-        "fpp/k_in_num.py:k_in_num": "doctest",
-        "fpp/k_occurrence.py:k_occurence": "doctest",
-        "fpp/kth_divides_k.py:kth_divides_k": "doctest"
+        "fpp_probs/add_in_range.py:add_in_range": "doctest",
+        "fpp_probs/add_ind_if_odd.py:add_ind_if_odd": "doctest",
+        "fpp_probs/count_until_larger.py:count_until_larger": "doctest",
+        "fpp_probs/dig_pos_match.py:digit_pos_match": "doctest",
+        "fpp_probs/k_in_num.py:k_in_num": "doctest",
+        "fpp_probs/k_occurrence.py:k_occurence": "doctest",
+        "fpp_probs/kth_divides_k.py:kth_divides_k": "doctest"
     },
     "protocols": [
         "file_contents",
