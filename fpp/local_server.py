@@ -13,7 +13,7 @@ import client.exceptions as ex
 from client.sources.common import core
 from client.api.assignment import load_assignment
 from client.cli.common import messages
-from client.utils.output import DisableStdout 
+from output import DisableStdout 
 from load import load_config, get_prob_names, path_to_name
 from constants import *
 
