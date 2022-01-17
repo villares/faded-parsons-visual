@@ -49,7 +49,7 @@ def parsons(problem_name, code_skeleton=False):
     language = problem_config.get('language', 'python')
 
     code_lines = problem_config['code_lines'] + \
-             '\ndebug(!BLANK)' * 2 + '\n# !BLANK' * 2
+             '\nprint(\'DEBUG:\', !BLANK)' * 2 + '\n# !BLANK' * 2
     repr_fname = f'{PARSONS_FOLDER_PATH}/{names_to_paths[problem_name]}{PARSONS_REPR_SUFFIX}'
     if os.path.exists(repr_fname):
         with open(repr_fname, "r") as f:
