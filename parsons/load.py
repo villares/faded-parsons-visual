@@ -1,4 +1,4 @@
-from constants import PROBLEM_PATHS, UTILITY_FILES, FPP_GLOB, FPP_FOLDER_PATH 
+from constants import PROBLEM_PATHS, UTILITY_FILES, PARSONS_GLOB, PARSONS_FOLDER_PATH 
 import yaml
 from collections import defaultdict, OrderedDict
 import glob
@@ -44,13 +44,13 @@ def load_config(file_name):
 
 def get_prob_names():
   """
-  Returns a map from problem name to problem path for each fpp problem,
-  assuming that the problem name is the function name in the fpp file.
+  Returns a map from problem name to problem path for each parsons problem,
+  assuming that the problem name is the function name in the parsons file.
   """
   names_to_paths = OrderedDict()
-  for name in glob.glob(FPP_GLOB):
+  for name in glob.glob(PARSONS_GLOB):
       if name not in UTILITY_FILES:
-          fname = name[len(FPP_FOLDER_PATH) - 1:-3]
+          fname = name[len(PARSONS_FOLDER_PATH) - 1:-3]
           with open(name, "r") as f:
               cur_lines = f.readlines()
               for line in cur_lines:

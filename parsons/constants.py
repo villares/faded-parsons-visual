@@ -1,0 +1,10 @@
+PARSONS_FOLDER_PATH = './parsons_probs'
+PARSONS_GLOB = 'parsons_probs/*.py'
+PROBLEM_PATHS = [PARSONS_FOLDER_PATH]
+PARSONS_OUTFILE = f"{PARSONS_FOLDER_PATH}/test_log"
+PARSONS_CORRECTNESS = f"{PARSONS_FOLDER_PATH}/correctness"
+PARSONS_REPR_SUFFIX = "_repr"
+PORT = 3000
+UTILITY_FILES = ["parsons_probs/ucb.py"]
+CHECK_MARK = "✅"
+RED_X = "❌"

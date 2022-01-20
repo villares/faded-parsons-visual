@@ -13,7 +13,7 @@ import client.exceptions as ex
 from client.sources.common import core
 from client.api.assignment import load_assignment
 from client.cli.common import messages
-from client.utils.output import DisableStdout 
+from output import DisableStdout 
 from load import load_config, get_prob_names, path_to_name
 from constants import *
 
@@ -49,8 +49,8 @@ def parsons(problem_name, code_skeleton=False):
     language = problem_config.get('language', 'python')
 
     code_lines = problem_config['code_lines'] + \
-             '\ndebug(!BLANK)' * 2 + '\n# !BLANK' * 2
-    repr_fname = f'{FPP_FOLDER_PATH}/{names_to_paths[problem_name]}{FPP_REPR_SUFFIX}'
+             '\nprint(\'DEBUG:\', !BLANK)' * 2 + '\n# !BLANK' * 2
+    repr_fname = f'{PARSONS_FOLDER_PATH}/{names_to_paths[problem_name]}{PARSONS_REPR_SUFFIX}'
     if os.path.exists(repr_fname):
         with open(repr_fname, "r") as f:
             code_lines = f.read()
@@ -95,18 +95,18 @@ def get_problems():
     with DisableStdout():
         assign = load_assignment(args.config, args)
     try:
-        with open(FPP_CORRECTNESS, "r") as f:
+        with open(PARSONS_CORRECTNESS, "r") as f:
             probs_correct = json.loads(f.read())
     except FileNotFoundError:
         probs_correct = {pname : False for pname in names_to_paths}
-        with open(FPP_CORRECTNESS, "w") as f:
+        with open(PARSONS_CORRECTNESS, "w") as f:
             f.write(json.dumps(probs_correct))
     req_names, req_paths = [], []
     opt_names, opt_paths = [], []
     # can assume proper structure since okpy checks for it
-    assert assign.fpp != core.NoValue, "parsons param not found in .ok file"
+    assert assign.parsons != core.NoValue, "parsons param not found in .ok file"
     
-    for pgroup_name, v in assign.fpp.items():
+    for pgroup_name, v in assign.parsons.items():
         req_lst = v.get('required', [])
         opt_lst = v.get('optional', [])
         for pname in req_lst: 
@@ -127,7 +127,7 @@ def submit():
     problem_name = request.form['problem_name']
     submitted_code = request.form['submitted_code']
     parsons_repr_code = request.form['parsons_repr_code']
-    write_fpp_prob_locally(problem_name, submitted_code, parsons_repr_code, True)
+    write_parsons_prob_locally(problem_name, submitted_code, parsons_repr_code, True)
     test_results = grade_and_backup(problem_name)
     return jsonify({'test_results': test_results})
 
@@ -139,7 +139,7 @@ def analytics_event():
         event: 'start' | 'stop'
     }
     Triggered when user starts interacting with the problem and when they stop (e.g. switch tabs). 
-    This data can be used to get compute analytics about time spent on fpp.
+    This data can be used to get compute analytics about time spent on parsons.
     """
     e, problem_name = request.json['event'], request.json['problem_name']
     msgs = messages.Messages()
@@ -163,10 +163,10 @@ def analytics_event():
 
     return jsonify({})
 
-def write_fpp_prob_locally(prob_name, code, parsons_repr_code, write_repr_code):
+def write_parsons_prob_locally(prob_name, code, parsons_repr_code, write_repr_code):
     cur_line = -1
     in_docstring = False
-    fname = f'{FPP_FOLDER_PATH}/{names_to_paths[prob_name]}.py'
+    fname = f'{PARSONS_FOLDER_PATH}/{names_to_paths[prob_name]}.py'
     lines_so_far = []
     with open(fname, "r") as f:
         for i, line in enumerate(f):
@@ -191,19 +191,19 @@ def write_fpp_prob_locally(prob_name, code, parsons_repr_code, write_repr_code):
     # write parsons repr code
     # used our own representation instead of Nate's most_recent_parsons()
     if write_repr_code:
-        repr_fname = f'{FPP_FOLDER_PATH}/{names_to_paths[prob_name]}{FPP_REPR_SUFFIX}'
+        repr_fname = f'{PARSONS_FOLDER_PATH}/{names_to_paths[prob_name]}{PARSONS_REPR_SUFFIX}'
         with open(repr_fname, "w") as f:
             f.write(parsons_repr_code)
 
 def store_correctness(prob_name, is_correct):
     try:
-        with open(FPP_CORRECTNESS, "r") as f:
+        with open(PARSONS_CORRECTNESS, "r") as f:
             probs_correct = json.loads(f.read())
     except OSError:
         probs_correct = {pname : False for pname in names_to_paths}
     probs_correct[prob_name] = is_correct
 
-    with open(FPP_CORRECTNESS, "w") as f:
+    with open(PARSONS_CORRECTNESS, "w") as f:
         f.write(json.dumps(probs_correct))
         
 def grade_and_backup(problem_name):
@@ -211,7 +211,7 @@ def grade_and_backup(problem_name):
     args.question = [problem_name]
     msgs = messages.Messages()
     old_stdout = sys.stdout
-    sys.stdout = out = open(FPP_OUTFILE, 'w')
+    sys.stdout = out = open(PARSONS_OUTFILE, 'w')
     # remove syntax errors so assignment can load
     num_retries = len(names_to_paths)
     reloaded = []
@@ -227,9 +227,9 @@ def grade_and_backup(problem_name):
             prob_name = path_to_name(names_to_paths, rel_path[:-3])
             reloaded.append(prob_name)
             # replaces syntax-error code with error-free dummy code 
-            write_fpp_prob_locally(prob_name, "def dummy():\n    print('Syntax Error')\n", None, False)
+            write_parsons_prob_locally(prob_name, "def dummy():\n    print('Syntax Error')\n", None, False)
             num_retries -= 1
-    assert num_retries > 0, "Rewriting '' to fpp files failed"
+    assert num_retries > 0, "Rewriting '' to parsons files failed"
 
     for name, proto in assign.protocol_map.items():
         log.info('Execute {}.run()'.format(name))
@@ -242,7 +242,7 @@ def grade_and_backup(problem_name):
     feedback['failed'] = assign.specified_tests[0].console.cases_total - feedback['passed']
 
     # get output from doctests
-    with open(FPP_OUTFILE, "r") as f:
+    with open(PARSONS_OUTFILE, "r") as f:
         all_lines = f.readlines()
         # still need to fix ok-client show all cases to not print extra ------
         # feedback['doctest_logs'] = "".join(all_lines[3:-10])
@@ -256,8 +256,8 @@ def open_browser():
 
 def open_in_browser(args):
     cache['args'] = args 
-    # fpp folder must exist
-    assert os.path.isdir(FPP_FOLDER_PATH), "fpp folder does not exist"
+    # parsons folder must exist
+    assert os.path.isdir(PARSONS_FOLDER_PATH), "parsons folder does not exist"
     Timer(1, open_browser).start()
     run_server(PORT)
 
