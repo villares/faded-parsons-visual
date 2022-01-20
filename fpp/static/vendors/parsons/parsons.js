@@ -810,8 +810,7 @@
       while (codeline.code.search(/!BLANK/) >= 0) {
         var replaceText = "";
         if (codeline.code.search(blankRegexp) >= 0) {
-          replaceText = codeline.code.match(blankRegexp)[1].trim()
-          codeline.code = codeline.code.replace(blankRegexp, "");
+          replaceText = codeline.code.match(blankRegexp)[1].trim().replace(/\"/g, "&quot;").replace(/\'/g, "&apos;");          codeline.code = codeline.code.replace(blankRegexp, "");
         }
         codeline.code = codeline.code.replace(/!BLANK/, function() {
           return "<input type='text' class='text-box' value=\"" + replaceText + "\" " +

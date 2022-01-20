@@ -114,7 +114,7 @@
     var ParsonsGlobal = {};
     var problemName = `{{ problem_name | safe }}`;
     var currText = '';
-    ParsonsGlobal.initial = `{{ code_lines }}`;
+    ParsonsGlobal.initial = `{{ code_lines | safe }}`;
     var submitCount = 0;
     var lastSubmit = '';
     var moveOnTimeout = false;
