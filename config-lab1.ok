@@ -17,7 +17,7 @@
         "parsons_probs/count_until_larger.py:count_until_larger": "doctest",
         "parsons_probs/dig_pos_match.py:digit_pos_match": "doctest",
         "parsons_probs/k_in_num.py:k_in_num": "doctest",
-        "parsons_probs/k_occurrence.py:k_occurence": "doctest",
+        "parsons_probs/k_occurrence.py:k_occurrence": "doctest",
         "parsons_probs/kth_divides_k.py:kth_divides_k": "doctest"
     },
     "protocols": [

@@ -1,12 +1,12 @@
-def k_occurence(k, num):
+def k_occurrence(k, num):
     """
-    >>> k_occurence(5, 10)  # .Case 1
+    >>> k_occurrence(5, 10)  # .Case 1
     0
-    >>> k_occurence(5, 5115)  # .Case 2
+    >>> k_occurrence(5, 5115)  # .Case 2
     2
-    >>> k_occurence(0, 100)  # .Case 3
+    >>> k_occurrence(0, 100)  # .Case 3
     2
-    >>> k_occurence(0, 0)  # .Case 4
+    >>> k_occurrence(0, 0)  # .Case 4
     0
     """
     occurrences = 0
