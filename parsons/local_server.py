@@ -247,8 +247,9 @@ def grade_and_backup(problem_name):
         # still need to fix ok-client show all cases to not print extra ------
         # feedback['doctest_logs'] = "".join(all_lines[3:-10])
         feedback['doctest_logs'] = "".join(all_lines[9:-10])
-    
-    store_correctness(problem_name, feedback['passed'] > 1 and feedback['failed'] == 0)
+
+    # passed == 0 and failed == 0 can be a result of SyntaxError so we check passed >= 1 instead
+    store_correctness(problem_name, feedback['passed'] >= 1 and feedback['failed'] == 0)
     return feedback
 
 def open_browser():
