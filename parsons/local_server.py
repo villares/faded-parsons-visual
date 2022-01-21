@@ -1,3 +1,4 @@
+from distutils.log import error
 import os
 import sys
 from threading import Timer
@@ -93,7 +94,7 @@ def get_problems():
     args = cache['args']
 
     with DisableStdout():
-        assign = load_assignment(args.config, args)
+        assign = safe_load_assignment(args)
     try:
         with open(PARSONS_CORRECTNESS, "r") as f:
             probs_correct = json.loads(f.read())
@@ -177,7 +178,7 @@ def write_parsons_prob_locally(prob_name, code, parsons_repr_code, write_repr_co
                     break
                 in_docstring = True
 
-    assert cur_line >= 0, "Problem not found in file"
+    assert cur_line >= 0, f"Problem {prob_name} not found in file {fname}"
 
     code_lines = code.split("\n")
     code_lines.pop(0) # remove function def statement, is relied on elsewhere
@@ -205,13 +206,8 @@ def store_correctness(prob_name, is_correct):
 
     with open(PARSONS_CORRECTNESS, "w") as f:
         f.write(json.dumps(probs_correct))
-        
-def grade_and_backup(problem_name):
-    args = cache['args']
-    args.question = [problem_name]
-    msgs = messages.Messages()
-    old_stdout = sys.stdout
-    sys.stdout = out = open(PARSONS_OUTFILE, 'w')
+
+def safe_load_assignment(args):
     # remove syntax errors so assignment can load
     num_retries = len(names_to_paths)
     reloaded = []
@@ -230,6 +226,15 @@ def grade_and_backup(problem_name):
             write_parsons_prob_locally(prob_name, "def dummy():\n    print('Syntax Error')\n", None, False)
             num_retries -= 1
     assert num_retries > 0, "Rewriting '' to parsons files failed"
+    return assign
+
+def grade_and_backup(problem_name):
+    args = cache['args']
+    args.question = [problem_name]
+    msgs = messages.Messages()
+    old_stdout = sys.stdout
+    sys.stdout = out = open(PARSONS_OUTFILE, 'w')
+    assign = safe_load_assignment(args)
 
     for name, proto in assign.protocol_map.items():
         log.info('Execute {}.run()'.format(name))
