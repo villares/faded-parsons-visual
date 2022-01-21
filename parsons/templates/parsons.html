@@ -65,12 +65,6 @@
         </div>
     </div>
     <!--  taken from geeks for geeks -->
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport"
-              content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Loader Demo</title>
         <style>
             #loader {
                 border: 12px solid #f3f3f3;
@@ -96,7 +90,6 @@
                 margin: auto;
             }
         </style>
-    </head>
 {% endblock %}
 
 {% block scripts %}
@@ -114,7 +107,7 @@
     var ParsonsGlobal = {};
     var problemName = `{{ problem_name | safe }}`;
     var currText = '';
-    ParsonsGlobal.initial = `{{ code_lines | safe }}`;
+    ParsonsGlobal.initial = `{{ code_lines }}`;
     var submitCount = 0;
     var lastSubmit = '';
     var moveOnTimeout = false;
@@ -217,7 +210,7 @@
                         // storeQuestionStatus(3);	
                     } else {	
                         test_results = '<div class="testcase fail"> Passing ' + success_count.toString() + ' of ' + (success_count + error_count).toString() + ' total cases' + ' </div>';	
-                        test_results += '<span style="white-space: pre-line"><pre><code>' + doctest_logs +  '  <pre></code></span></div>';	
+                        test_results += '<span style="white-space: pre-line"><pre><code>' + doctest_logs.replace(":D Test Case", "✅ Test Case").replace(":( Test Case", "❌ Test Case") +  '  <pre></code></span></div>';	
                     }
                     $("#errors_body").html(test_results);
                 }
