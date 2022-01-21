@@ -28,8 +28,9 @@ from flask import request, Flask, render_template, jsonify, redirect, url_for
 
 log = logging.getLogger('client') # Get top-level logger
 
-# done in Nate's init
-read_semaphore = Semaphore(12)
+# serialize grading and analytics to avoid undesired logs in stdout due to 
+# interleaving of multiple analytics events or grading and analytics
+sema = Semaphore(1)
 
 # app = Flask(__name__, template_folder=f'templates', static_folder=f'static')
 app = Flask(__name__)
@@ -125,11 +126,13 @@ def get_problems():
 
 @app.route('/submit/', methods=['POST'])
 def submit():
+    sema.acquire()
     problem_name = request.form['problem_name']
     submitted_code = request.form['submitted_code']
     parsons_repr_code = request.form['parsons_repr_code']
     write_parsons_prob_locally(problem_name, submitted_code, parsons_repr_code, True)
     test_results = grade_and_backup(problem_name)
+    sema.release()
     return jsonify({'test_results': test_results})
 
 @app.route('/analytics_event', methods=['POST'])
@@ -142,6 +145,7 @@ def analytics_event():
     Triggered when user starts interacting with the problem and when they stop (e.g. switch tabs). 
     This data can be used to get compute analytics about time spent on parsons.
     """
+    sema.acquire()
     e, problem_name = request.json['event'], request.json['problem_name']
     msgs = messages.Messages()
     args = cache['args']
@@ -161,7 +165,7 @@ def analytics_event():
         backup_protocol.run(msgs)
 
     msgs['timestamp'] = str(datetime.now())
-
+    sema.release()
     return jsonify({})
 
 def write_parsons_prob_locally(prob_name, code, parsons_repr_code, write_repr_code):
