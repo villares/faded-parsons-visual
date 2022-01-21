@@ -8,3 +8,7 @@ PORT = 3000
 UTILITY_FILES = ["parsons_probs/ucb.py"]
 CHECK_MARK = "✅"
 RED_X = "❌"
+REQUIRED_PROBLEMS = "required_problem_names"
+OPTIONAL_PROBLEMS = "optional_problem_names"
+NAMES_TO_PATHS = "names_to_paths"
+MAX_NUM_RETRIES = 20

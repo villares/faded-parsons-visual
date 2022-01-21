@@ -25,6 +25,9 @@
                 <div class="card">
                     <div class="card-header">
                         <h3> Problem Statement </h3>
+                        {% if not is_required %}
+                        <h4> [Optional] </h4>
+                        {% endif %}
                     </div>
                     <div class="card-body">
                         {{ problem_description | safe }}
