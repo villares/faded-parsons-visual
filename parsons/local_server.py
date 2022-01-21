@@ -151,7 +151,7 @@ def analytics_event():
     args = cache['args']
     args.question = [problem_name]
     with DisableStdout():
-        assign = safe_load_assignment(args.config, args)
+        assign = safe_load_assignment(args)
     if e == 'start':
         msgs['action'] = 'start'
     elif e == 'stop':
