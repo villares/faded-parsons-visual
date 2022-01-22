@@ -60,7 +60,7 @@ def get_prob_names_to_paths(problem_names):
   return ordered_problem_names_to_paths
 
 def problem_name_from_file(filename):
-  with open(filename, "r") as f:
+  with open(filename, "r", encoding="utf8") as f:
     cur_lines = f.readlines()
     for line in cur_lines:
         cur_words = line.lstrip().split()

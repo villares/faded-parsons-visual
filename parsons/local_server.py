@@ -53,7 +53,7 @@ def parsons(problem_name, code_skeleton=False):
              '\nprint(\'DEBUG:\', !BLANK)' * 2 + '\n# !BLANK' * 2
     repr_fname = f'{PARSONS_FOLDER_PATH}/{cache[NAMES_TO_PATHS][problem_name]}{PARSONS_REPR_SUFFIX}'
     if os.path.exists(repr_fname):
-        with open(repr_fname, "r") as f:
+        with open(repr_fname, "r", encoding="utf8") as f:
             code_lines = f.read()
 
     cur_prob_index = list(cache[NAMES_TO_PATHS].keys()).index(problem_name)
@@ -94,11 +94,11 @@ def prev_problem(problem_name):
 @app.route('/get_problems/', methods=['GET'])
 def get_problems():
     try:
-        with open(PARSONS_CORRECTNESS, "r") as f:
+        with open(PARSONS_CORRECTNESS, "r", encoding="utf8") as f:
             probs_correct = json.loads(f.read())
     except FileNotFoundError:
         probs_correct = {pname : False for pname in cache[NAMES_TO_PATHS]}
-        with open(PARSONS_CORRECTNESS, "w") as f:
+        with open(PARSONS_CORRECTNESS, "w", encoding="utf8") as f:
             f.write(json.dumps(probs_correct))
 
     req_names = [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in cache[REQUIRED_PROBLEMS]]
@@ -162,7 +162,7 @@ def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
     in_docstring = False
     # fname = f'{PARSONS_FOLDER_PATH}/{cache[NAMES_TO_PATHS][prob_name]}.py'
     lines_so_far = []
-    with open(path, "r") as f:
+    with open(path, "r", encoding="utf8") as f:
         for i, line in enumerate(f):
             lines_so_far.append(line)
             if '"""' in line.strip():
@@ -176,7 +176,7 @@ def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
     code_lines = code.split("\n")
     code_lines.pop(0) # remove function def statement, is relied on elsewhere
 
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf8") as f:
         for line in lines_so_far:
             f.write(line)
         for line in code_lines:
@@ -186,18 +186,18 @@ def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
     # used our own representation instead of Nate's most_recent_parsons()
     if write_repr_code:
         repr_fname = f'{path[:-3]}{PARSONS_REPR_SUFFIX}'
-        with open(repr_fname, "w") as f:
+        with open(repr_fname, "w", encoding="utf8") as f:
             f.write(parsons_repr_code)
 
 def store_correctness(prob_name, is_correct):
     try:
-        with open(PARSONS_CORRECTNESS, "r") as f:
+        with open(PARSONS_CORRECTNESS, "r", encoding="utf8") as f:
             probs_correct = json.loads(f.read())
     except OSError:
         probs_correct = {pname : False for pname in cache[NAMES_TO_PATHS]}
     probs_correct[prob_name] = is_correct
 
-    with open(PARSONS_CORRECTNESS, "w") as f:
+    with open(PARSONS_CORRECTNESS, "w", encoding="utf8") as f:
         f.write(json.dumps(probs_correct))
 
 def safe_load_assignment(args):
@@ -242,7 +242,7 @@ def grade_and_backup(problem_name):
     feedback['failed'] = assign.specified_tests[0].console.cases_total - feedback['passed']
 
     # get output from doctests
-    with open(PARSONS_OUTFILE, "r") as f:
+    with open(PARSONS_OUTFILE, "r", encoding="utf8") as f:
         all_lines = f.readlines()
         # still need to fix ok-client show all cases to not print extra ------
         # feedback['doctest_logs'] = "".join(all_lines[3:-10])
