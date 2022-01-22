@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% block css %}
     <link rel="stylesheet" href="/static/vendors/parsons/parsons.css"/>
-    <link rel="stylesheet" href="/static/css/prettify.css"/>
 {% endblock %}
-hi! what?
 {% block base_content %}
         <h2>Required Problems</h2>
         <ul class="list-group" id="required-list"></ul>
@@ -26,7 +24,6 @@ hi! what?
         fetch('/get_problems')
             .then(response => response.json())
             .then(({required, optional}) => {
-                console.log("required is", required)
                 required['names'].map((name, index) => {
                     const link = document.createElement("a");
                     link.appendChild(document.createTextNode(name));
