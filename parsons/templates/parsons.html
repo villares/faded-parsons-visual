@@ -88,9 +88,8 @@
 {% endblock %}
 
 {% block scripts %}
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <!--jQuery is included on every page-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
     <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
     <script src="/static/js/underscore-min.js"></script>
     <script src="/static/js/lis.js"></script>
@@ -166,7 +165,6 @@
             $("#test_description").hide();
             $("#errors").hide();
             var submittedCode = JSON.parse(getSolutionCode())['code'] + '\n'
-            console.log(getSolutionCode()['code_metadata']);
             var params = {
                 "problem_name": problemName,
                 "submitted_code": submittedCode,
@@ -254,7 +252,6 @@
     var start = new Date().getTime();
     var millis_so_far = 0;
     $(window).on("blur", function () {
-        console.log("blur")
         var end = new Date().getTime();
         millis_so_far += (start - end);
         const data = {
@@ -270,7 +267,6 @@
         });
     })
     $(window).on("focus", function () {
-        console.log("focus")
         start = new Date().getTime();
         const data = {
             'problem_name': problemName,
