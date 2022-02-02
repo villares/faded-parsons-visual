@@ -1,3 +1,4 @@
+PARSONS_FOLDER_NAME = 'parsons_probs'
 PARSONS_FOLDER_PATH = './parsons_probs'
 PARSONS_GLOB = 'parsons_probs/*.py'
 PROBLEM_PATHS = [PARSONS_FOLDER_PATH]

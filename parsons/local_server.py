@@ -23,7 +23,7 @@ import logging
 from datetime import datetime
 import logging
 import json
-from flask import request, Flask, render_template, jsonify, redirect, url_for
+from flask import Response, request, Flask, render_template, jsonify, redirect, url_for
 
 log = logging.getLogger('client') # Get top-level logger
 
@@ -111,19 +111,36 @@ def get_problems():
     # problem_paths = [f'/code_skeleton/{key}' for key in cache[NAMES_TO_PATHS]]
     # return { 'names': [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in cache[NAMES_TO_PATHS]], 'paths': problem_paths}
 
+def error_handling_and_synch(f):
+    def decorated():
+        sema.acquire()
+        try:
+            result = f()
+        except ex.LoadingException as e:
+            sema.release()
+            return Response(f"Error while loading assignment: {str(e)}", status=400)
+        except AssertionError as e:
+            sema.release()
+            return Response(f"{str(e)}", status=400)
+        sema.release()
+        return result
+    decorated.__name__ = f.__name__
+    return decorated
+
+
 @app.route('/submit/', methods=['POST'])
+@error_handling_and_synch
 def submit():
-    sema.acquire()
     problem_name = request.form['problem_name']
     submitted_code = request.form['submitted_code']
     parsons_repr_code = request.form['parsons_repr_code']
     fname = f'{PARSONS_FOLDER_PATH}/{cache[NAMES_TO_PATHS][problem_name]}.py'
     write_parsons_prob_locally(fname, submitted_code, parsons_repr_code, True)
     test_results = grade_and_backup(problem_name)
-    sema.release()
     return jsonify({'test_results': test_results})
 
 @app.route('/analytics_event', methods=['POST'])
+@error_handling_and_synch
 def analytics_event():
     """
     {
@@ -133,13 +150,12 @@ def analytics_event():
     Triggered when user starts interacting with the problem and when they stop (e.g. switch tabs). 
     This data can be used to get compute analytics about time spent on parsons.
     """
-    sema.acquire()
     e, problem_name = request.json['event'], request.json['problem_name']
     msgs = messages.Messages()
     args = cache['args']
     args.question = [problem_name]
     with DisableStdout():
-        assign = safe_load_assignment(args)
+        assign = load_assignment(args.config, args)
     if e == 'start':
         msgs['action'] = 'start'
     elif e == 'stop':
@@ -153,7 +169,6 @@ def analytics_event():
         backup_protocol.run(msgs)
 
     msgs['timestamp'] = str(datetime.now())
-    sema.release()
     return jsonify({})
 
 def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
@@ -170,7 +185,7 @@ def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
                     break
                 in_docstring = True
 
-    assert cur_line >= 0, f"Problem not found in file {path}"
+    assert cur_line >= 0, f"Problem not found in file {path}. This can be due to missing doctests."
 
     code_lines = code.split("\n")
     code_lines.pop(0) # remove function def statement, is relied on elsewhere
@@ -199,7 +214,14 @@ def store_correctness(prob_name, is_correct):
     with open(PARSONS_CORRECTNESS, "w", encoding="utf8") as f:
         f.write(json.dumps(probs_correct))
 
-def safe_load_assignment(args):
+def load_assignment_if_possible(args):
+    """
+    A syntax error in a source file leads to ok not being able to load an assignment.
+    For parsons files, we can get around this by replacing a parsons program with dummy
+    code. This function will do that if necessary and return the assignment, or raise
+    the relevant LoadingException if a different error occurs (such as a syntax error 
+    in the main python file).
+    """
     # remove syntax errors so assignment can load
     num_retries = MAX_NUM_RETRIES
     reloaded = []
@@ -210,6 +232,8 @@ def safe_load_assignment(args):
             break
         except ex.LoadingException as e:
             # TODO: LoadingException unique with syntax error (vs missing .ok, for example)
+            if PARSONS_FOLDER_NAME not in str(e):
+                raise
             fname = str(e).split(" ")[-1]
             rel_path = fname.split("/")[1]
             if NAMES_TO_PATHS in cache:
@@ -228,7 +252,7 @@ def grade_and_backup(problem_name):
     msgs = messages.Messages()
     old_stdout = sys.stdout
     sys.stdout = out = open(PARSONS_OUTFILE, 'w')
-    assign = safe_load_assignment(args)
+    assign = load_assignment(args.config, args)
 
     for name, proto in assign.protocol_map.items():
         log.info('Execute {}.run()'.format(name))
@@ -264,9 +288,13 @@ def open_in_browser(args):
 def setup():
     args = cache['args']
 
-    with DisableStdout():
-        assign = safe_load_assignment(args)
-    
+    try:
+        with DisableStdout():
+            assign = load_assignment_if_possible(args)
+    except ex.LoadingException as e:
+        print(f"Error while loading assignment: {str(e)}. This is likely due to a syntax error in the mentioned file.")
+        exit(1)
+
     # can assume proper structure since okpy checks for it
     assert assign.parsons != core.NoValue, "parsons param not found in .ok file"
     cache[REQUIRED_PROBLEMS] = []
