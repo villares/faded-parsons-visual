@@ -188,6 +188,8 @@ def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
     assert cur_line >= 0, f"Problem not found in file {path}. This can be due to missing doctests."
 
     code_lines = code.split("\n")
+    assert "def" in code_lines[0], "First code block must be the `def` statement."
+
     code_lines.pop(0) # remove function def statement, is relied on elsewhere
 
     with open(path, "w", encoding="utf8") as f:
