@@ -207,7 +207,7 @@
                     else if (jqXHR.status == 0) {
                         error_html += '<a> Your parsons command may not be running anymore. Close this window and run `python3 parsons`.';
                     } else if (jqXHR.status >= 400 && jqXHR.status < 500) {
-                        error_html += `<a> Error returned from Parsons server: ${errorThrown}`;
+                        error_html += `<a> Error returned from Parsons server: ${jqXHR.responseText}`;
                     } else {
                         error_html += "<a> Encountered an unexpected error on the parsons server. Please close this window, kill all running parsons processes (if any), and run `python3 parsons` again! If you see a parsons terminal with an error message, we'd appreciate if you could share it on Piazza so we can fix it. </a>"
                     }
