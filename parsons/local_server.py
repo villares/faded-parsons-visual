@@ -23,6 +23,7 @@ import logging
 from datetime import datetime
 import logging
 import json
+import re
 from flask import Response, request, Flask, render_template, jsonify, redirect, url_for
 
 log = logging.getLogger('client') # Get top-level logger
@@ -271,11 +272,58 @@ def grade_and_backup(problem_name):
         all_lines = f.readlines()
         # still need to fix ok-client show all cases to not print extra ------
         # feedback['doctest_logs'] = "".join(all_lines[3:-10])
-        feedback['doctest_logs'] = "".join(all_lines[9:-10])
+        log_lines  = all_lines[9:-10]
 
+    if is_syntax_error(feedback):
+        log_lines = get_useful_syntax_error_logs(log_lines, problem_name)
+
+    feedback['doctest_logs'] = "".join(log_lines)
     # passed == 0 and failed == 0 can be a result of SyntaxError so we check passed >= 1 instead
     store_correctness(problem_name, feedback['passed'] >= 1 and feedback['failed'] == 0)
     return feedback
+
+def get_useful_syntax_error_logs(logs, problem_name):
+    file_index = -1
+    traceback_index = -1
+    for i in range(len(logs) - 1, -1, -1):
+        if "File" in logs[i]:
+            file_index = i
+            break
+    for i in range(len(logs)):
+        if "Traceback" in logs[i]:
+            traceback_index = i
+            break
+    if file_index == -1 or traceback_index == -1:
+        return logs
+    
+    docstring_lines = count_docstring_lines(problem_name)
+    logs[file_index]
+    match = re.search(r"line ([0-9]+)", logs[file_index])
+    if not match:
+        return logs
+
+    original_line_num = int(match.group(1))
+    logs[file_index] = re.sub(r"line ([0-9]+)", f"line {original_line_num - docstring_lines}", logs[file_index])
+
+    return logs[:traceback_index + 1] + logs[file_index:]
+
+def count_docstring_lines(problem_name):
+    fname = f'{PARSONS_FOLDER_PATH}/{cache[NAMES_TO_PATHS][problem_name]}.py'
+    num_lines = 0
+    with open(fname, "r", encoding="utf8") as f:
+        for i, line in enumerate(f):
+            if '"""' in line:
+                i += 1
+                break
+        num_lines = 2
+        for _, line in enumerate(f, start=i):
+            if '"""' in line:
+                break
+            num_lines += 1
+    return num_lines
+
+def is_syntax_error(feedback):
+    return feedback['passed'] == 0 and feedback['failed'] == 0
 
 def open_browser():
     webbrowser.open_new(f'http://127.0.0.1:{PORT}/')
