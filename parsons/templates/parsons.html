@@ -108,15 +108,6 @@
         language = 'lang-rb'
     {% endif %}
 
-    // function storeQuestionStatus(status) {
-    //     $.ajax({
-    //         type: 'post',
-    //         data: {'question_name': problemName, 'status': status},
-    //         url: '/update_user_question_history/',
-    //         dataType: 'html',
-    //     })
-    // }
-
     $(document).ready(function(){
         ParsonsGlobal.widget = new ParsonsWidget({
             'sortableId': 'parsons-solution',
@@ -207,11 +198,22 @@
                     $("#errors_body").html(test_results);
 
                 },
-                error: function(textStatus, errorThrown) {
-                    // initial alert
-                    alert("FPP server has been killed, please launch Parsons again with python3 parsons on terminal");
-                    $("#errorThrown").show();
-                }
+                error: function(jqXHR, textStatus, errorThrown) {
+                    error_html = '<div class="testcase red_error"> Server Error </div>'
+                    if (textStatus === 'timeout') {
+                        error_html += "<a> Timed out while waiting for the parsons server. Please close this window, kill all running parsons processes (if any), and run `python3 parsons` again! If you see a parsons terminal with an error message, we'd appreciate if you could share it on Piazza so we can fix it."
+                    } 
+                    // unable to reach server
+                    else if (jqXHR.status == 0) {
+                        error_html += '<a> Your parsons command may not be running anymore. Close this window and run `python3 parsons`.';
+                    } else if (jqXHR.status >= 400 && jqXHR.status < 500) {
+                        error_html += `<a> Error returned from Parsons server: ${errorThrown}`;
+                    } else {
+                        error_html += "<a> Encountered an unexpected error on the parsons server. Please close this window, kill all running parsons processes (if any), and run `python3 parsons` again! If you see a parsons terminal with an error message, we'd appreciate if you could share it on Piazza so we can fix it. </a>"
+                    }
+                    $("#errors_body").html(error_html);
+                },
+                timeout: 20000
              })
         }
         function nextProblem() {
