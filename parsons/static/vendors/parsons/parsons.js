@@ -759,7 +759,7 @@
 
        // TODO: Move somewhere else or remove after better UI PR.
        codeLines.forEach(function(codeLine) {
-         if (codeLine.code.startsWith('# <input') || codeLine.code.startsWith('print(') || codeLine.code.startsWith('p <input')) {
+         if (codeLine.code.startsWith('# <input') || codeLine.code.includes('DEBUG') || codeLine.code.startsWith('p <input')) {
            $('#' + codeLine.id).css('background-color', 'lightblue');
          }
        });
