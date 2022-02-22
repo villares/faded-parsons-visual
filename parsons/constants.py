@@ -11,5 +11,5 @@ CHECK_MARK = "✅"
 RED_X = "❌"
 REQUIRED_PROBLEMS = "required_problem_names"
 OPTIONAL_PROBLEMS = "optional_problem_names"
-NAMES_TO_PATHS = "names_to_paths"
+PROBLEM_NAMES = "problem_names"
 MAX_NUM_RETRIES = 20
