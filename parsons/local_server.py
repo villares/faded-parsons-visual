@@ -14,7 +14,7 @@ from client.sources.common import core
 from client.api.assignment import load_assignment
 from client.cli.common import messages
 from output import DisableStdout 
-from load import load_config, get_prob_names_to_paths, path_to_name, problem_name_from_file
+from load import load_config, path_to_name, problem_name_from_file
 from constants import *
 
 from multiprocessing import Semaphore
@@ -46,19 +46,19 @@ def index():
 
 @app.route('/code_arrangement/<path:problem_name>')
 def parsons(problem_name, code_skeleton=False):
-    problem_config = load_config(cache[NAMES_TO_PATHS][problem_name])
+    problem_config = load_config(problem_name)
     language = problem_config.get('language', 'python')
 
     code_lines = problem_config['code_lines'] + \
              '\nprint(\'DEBUG:\', !BLANK)' * 2 + '\n# !BLANK' * 2
-    repr_fname = f'{PARSONS_FOLDER_PATH}/{cache[NAMES_TO_PATHS][problem_name]}{PARSONS_REPR_SUFFIX}'
+    repr_fname = f'{PARSONS_FOLDER_PATH}/{problem_name}{PARSONS_REPR_SUFFIX}'
     if os.path.exists(repr_fname):
         with open(repr_fname, "r", encoding="utf8") as f:
             code_lines = f.read()
 
-    cur_prob_index = list(cache[NAMES_TO_PATHS].keys()).index(problem_name)
+    cur_prob_index = cache[PROBLEM_NAMES].index(problem_name)
 
-    not_last_prob = cur_prob_index < len(cache[NAMES_TO_PATHS]) - 1
+    not_last_prob = cur_prob_index < len(cache[PROBLEM_NAMES]) - 1
     not_first_prob = cur_prob_index > 0
     is_required = problem_name in cache[REQUIRED_PROBLEMS]
     return render_template('parsons.html',
@@ -82,13 +82,13 @@ def parsons(problem_name, code_skeleton=False):
 
 @app.route('/next_problem/<path:problem_name>', methods=['GET'])
 def next_problem(problem_name):
-    new_prob_name = list(cache[NAMES_TO_PATHS].keys())[list(cache[NAMES_TO_PATHS].keys()).index(problem_name) + 1]
+    new_prob_name = cache[PROBLEM_NAMES][cache[PROBLEM_NAMES].index(problem_name) + 1]
     return redirect(url_for('code_skeleton', problem_name=new_prob_name))
 
 
 @app.route('/prev_problem/<path:problem_name>', methods=['GET'])
 def prev_problem(problem_name):
-    new_prob_name = list(cache[NAMES_TO_PATHS].keys())[list(cache[NAMES_TO_PATHS].keys()).index(problem_name) - 1]
+    new_prob_name = cache[PROBLEM_NAMES][cache[PROBLEM_NAMES].index(problem_name) - 1]
     return redirect(url_for('code_skeleton', problem_name=new_prob_name))
 
 @app.route('/get_problems/', methods=['GET'])
@@ -97,7 +97,8 @@ def get_problems():
         with open(PARSONS_CORRECTNESS, "r", encoding="utf8") as f:
             probs_correct = json.loads(f.read())
     except FileNotFoundError:
-        probs_correct = {pname : False for pname in cache[NAMES_TO_PATHS]}
+        probs_correct = {pname : False for pname in cache[PROBLEM_NAMES]}
+        print(f"probs_correct is {probs_correct}")
         with open(PARSONS_CORRECTNESS, "w", encoding="utf8") as f:
             f.write(json.dumps(probs_correct))
 
@@ -109,8 +110,6 @@ def get_problems():
     required = {'names': req_names, 'paths': req_paths} 
     optional = {'names': opt_names, 'paths': opt_paths}
     return {'required': required, 'optional': optional}
-    # problem_paths = [f'/code_skeleton/{key}' for key in cache[NAMES_TO_PATHS]]
-    # return { 'names': [f'{pname} {CHECK_MARK if probs_correct[pname] else RED_X}' for pname in cache[NAMES_TO_PATHS]], 'paths': problem_paths}
 
 def error_handling_and_synch(f):
     def decorated():
@@ -135,7 +134,7 @@ def submit():
     problem_name = request.form['problem_name']
     submitted_code = request.form['submitted_code']
     parsons_repr_code = request.form['parsons_repr_code']
-    fname = f'{PARSONS_FOLDER_PATH}/{cache[NAMES_TO_PATHS][problem_name]}.py'
+    fname = f'{PARSONS_FOLDER_PATH}/{problem_name}.py'
     write_parsons_prob_locally(fname, submitted_code, parsons_repr_code, True)
     test_results = grade_and_backup(problem_name)
     return jsonify({'test_results': test_results})
@@ -175,7 +174,6 @@ def analytics_event():
 def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
     cur_line = -1
     in_docstring = False
-    # fname = f'{PARSONS_FOLDER_PATH}/{cache[NAMES_TO_PATHS][prob_name]}.py'
     lines_so_far = []
     with open(path, "r", encoding="utf8") as f:
         for i, line in enumerate(f):
@@ -189,7 +187,7 @@ def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
     assert cur_line >= 0, f"Problem not found in file {path}. This can be due to missing doctests."
 
     code_lines = code.split("\n")
-    assert "def" in code_lines[0], "First code block must be the `def` statement."
+    assert "def" in code_lines[0] or "class" in code_lines[0], "First code block must be the `def` statement or `class` declaration"
 
     code_lines.pop(0) # remove function def statement, is relied on elsewhere
 
@@ -211,7 +209,7 @@ def store_correctness(prob_name, is_correct):
         with open(PARSONS_CORRECTNESS, "r", encoding="utf8") as f:
             probs_correct = json.loads(f.read())
     except OSError:
-        probs_correct = {pname : False for pname in cache[NAMES_TO_PATHS]}
+        probs_correct = {pname : False for pname in cache[PROBLEM_NAMES]}
     probs_correct[prob_name] = is_correct
 
     with open(PARSONS_CORRECTNESS, "w", encoding="utf8") as f:
@@ -239,11 +237,8 @@ def load_assignment_if_possible(args):
                 raise
             fname = str(e).split(" ")[-1]
             rel_path = fname.split("/")[1]
-            if NAMES_TO_PATHS in cache:
-                prob_name = path_to_name(cache[NAMES_TO_PATHS], rel_path[:-3])
-            else:
-                prob_name = problem_name_from_file(fname)
-            reloaded.append(prob_name)
+            problem_name = rel_path[:-3]
+            reloaded.append(problem_name)
             # replaces syntax-error code with error-free dummy code 
             write_parsons_prob_locally(fname, "def dummy():\n    print('Syntax Error')\n", None, False)
             num_retries -= 1
@@ -308,7 +303,7 @@ def get_useful_syntax_error_logs(logs, problem_name):
     return logs[:traceback_index + 1] + logs[file_index:]
 
 def count_docstring_lines(problem_name):
-    fname = f'{PARSONS_FOLDER_PATH}/{cache[NAMES_TO_PATHS][problem_name]}.py'
+    fname = f'{PARSONS_FOLDER_PATH}/{problem_name}.py'
     num_lines = 0
     with open(fname, "r", encoding="utf8") as f:
         for i, line in enumerate(f):
@@ -356,7 +351,7 @@ def setup():
         cache[REQUIRED_PROBLEMS].extend(req_lst)
         cache[OPTIONAL_PROBLEMS].extend(opt_lst)
 
-    cache[NAMES_TO_PATHS] = get_prob_names_to_paths(cache[REQUIRED_PROBLEMS] + cache[OPTIONAL_PROBLEMS])
+    cache[PROBLEM_NAMES] = cache[REQUIRED_PROBLEMS] + cache[OPTIONAL_PROBLEMS]
 
 def run_server(port):
     global PORT
