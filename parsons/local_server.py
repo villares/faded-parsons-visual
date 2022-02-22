@@ -98,7 +98,6 @@ def get_problems():
             probs_correct = json.loads(f.read())
     except FileNotFoundError:
         probs_correct = {pname : False for pname in cache[PROBLEM_NAMES]}
-        print(f"probs_correct is {probs_correct}")
         with open(PARSONS_CORRECTNESS, "w", encoding="utf8") as f:
             f.write(json.dumps(probs_correct))
 
