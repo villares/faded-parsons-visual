@@ -3,7 +3,7 @@ import unittest.mock
 
 import load
 
-class TestStringMethods(unittest.TestCase):
+class TestLoad(unittest.TestCase):
 
     def test_load_config_lowercased(self):
         with self.assertRaises(Exception) as context:
