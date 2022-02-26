@@ -133,7 +133,7 @@ def submit():
     problem_name = request.form['problem_name']
     submitted_code = request.form['submitted_code']
     parsons_repr_code = request.form['parsons_repr_code']
-    fname = f'{PARSONS_FOLDER_PATH}/{problem_name}.py'
+    fname = f'{PARSONS_FOLDER_PATH}/{problem_name.lower()}.py'
     write_parsons_prob_locally(fname, submitted_code, parsons_repr_code, True)
     test_results = grade_and_backup(problem_name)
     return jsonify({'test_results': test_results})
