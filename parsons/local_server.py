@@ -302,7 +302,7 @@ def get_useful_syntax_error_logs(logs, problem_name):
     return logs[:traceback_index + 1] + logs[file_index:]
 
 def count_docstring_lines(problem_name):
-    fname = f'{PARSONS_FOLDER_PATH}/{problem_name}.py'
+    fname = f'{PARSONS_FOLDER_PATH}/{problem_name.lower()}.py'
     num_lines = 0
     with open(fname, "r", encoding="utf8") as f:
         for i, line in enumerate(f):
