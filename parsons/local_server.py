@@ -1,6 +1,7 @@
 import os
 import sys
 from threading import Timer
+from typing import List
 old_client_path = '/Users/tommyjoseph/desktop/okpy-work/ok-client'
 show_cases_path = '/Users/Akshit/ok-client-tommy'
 show_cases_path = '/Users/tommyjoseph/desktop/okpy-work/show-all-cases/ok-client'
@@ -170,31 +171,47 @@ def analytics_event():
     msgs['timestamp'] = str(datetime.now())
     return jsonify({})
 
-def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
-    cur_line = -1
-    in_docstring = False
-    lines_so_far = []
-    with open(path, "r", encoding="utf8") as f:
-        for i, line in enumerate(f):
-            lines_so_far.append(line)
-            if '"""' in line.strip():
-                if in_docstring:
-                    cur_line = i
-                    break
-                in_docstring = True
+def find_next_unindented_line(lines: List[str], start: int):
+    """
+    Finds the next piece of unindented code in the file. Ignores emtpy lines and lines
+    that start with a space or tab.
+    """
+    j = start
+    while j < len(lines) and lines[j].startswith((' ', '\t', '\n')):
+        j += 1
+    return j
 
-    assert cur_line >= 0, f"Problem not found in file {path}. This can be due to missing doctests."
+def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
+    start_line = -1
+    in_docstring = False
+    lines: List[str]= []
+    with open(path, "r", encoding="utf8") as f:
+        lines = [line for line in f]
+    for i, line in enumerate(lines):
+        if '"""' in line.strip():
+            if in_docstring:
+                start_line = i + 1
+                break
+            in_docstring = True
+
+    assert start_line >= 0, f"Problem not found in file {path}. This can be due to missing doctests."
+
+    problem_lines_to_preserve = lines[:start_line]
+    end_of_replace_lines = find_next_unindented_line(lines, start_line)
+    extra_lines_to_preserve = lines[end_of_replace_lines:]
 
     code_lines = code.split("\n")
     assert "def" in code_lines[0] or "class" in code_lines[0], "First code block must be the `def` statement or `class` declaration"
 
-    code_lines.pop(0) # remove function def statement, is relied on elsewhere
+    code_lines.pop(0) # remove function def or class declaration statement, is relied on elsewhere
 
     with open(path, "w", encoding="utf8") as f:
-        for line in lines_so_far:
+        for line in problem_lines_to_preserve:
             f.write(line)
         for line in code_lines:
             f.write(line + "\n")
+        for line in extra_lines_to_preserve:
+            f.write(line)
 
     # write parsons repr code
     # used our own representation instead of Nate's most_recent_parsons()
