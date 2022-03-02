@@ -52,7 +52,7 @@ def parsons(problem_name, code_skeleton=False):
 
     code_lines = problem_config['code_lines'] + \
              '\nprint(\'DEBUG:\', !BLANK)' * 2 + '\n# !BLANK' * 2
-    repr_fname = f'{PARSONS_FOLDER_PATH}/{problem_name}{PARSONS_REPR_SUFFIX}'
+    repr_fname = f'{PARSONS_FOLDER_PATH}/{problem_name.lower()}{PARSONS_REPR_SUFFIX}'
     if os.path.exists(repr_fname):
         with open(repr_fname, "r", encoding="utf8") as f:
             code_lines = f.read()
