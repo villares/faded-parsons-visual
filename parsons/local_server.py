@@ -25,7 +25,7 @@ from datetime import datetime
 import logging
 import json
 import re
-from flask import Response, request, Flask, render_template, jsonify, redirect, url_for
+from flask import Response, request, Flask, render_template, jsonify, redirect, url_for, send_file
 
 log = logging.getLogger('client') # Get top-level logger
 
@@ -110,6 +110,17 @@ def get_problems():
     required = {'names': req_names, 'paths': req_paths} 
     optional = {'names': opt_names, 'paths': opt_paths}
     return {'required': required, 'optional': optional}
+
+@app.route('/', defaults={'u_path': ''})
+@app.route('/<path:u_path>')
+def catch_all(u_path):
+    print(f"upath: {u_path}")
+    print(os.path.join('..', u_path))
+    if os.path.exists(u_path):
+        combined = os.path.join('..', u_path)
+        return send_file(combined)
+    return f'Sorry, nothing at {u_path}'
+
 
 def error_handling_and_synch(f):
     def decorated():
