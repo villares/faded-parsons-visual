@@ -114,8 +114,6 @@ def get_problems():
 @app.route('/', defaults={'u_path': ''})
 @app.route('/<path:u_path>')
 def catch_all(u_path):
-    print(f"upath: {u_path}")
-    print(os.path.join('..', u_path))
     if os.path.exists(u_path):
         combined = os.path.join('..', u_path)
         return send_file(combined)
@@ -185,10 +183,10 @@ def analytics_event():
 def find_next_unindented_line(lines: List[str], start: int):
     """
     Finds the next piece of unindented code in the file. Ignores emtpy lines and lines
-    that start with a space or tab.
+    that start with a space or tab. Returns len(lines) if no unindented line found.
     """
     j = start
-    while j < len(lines) and lines[j].startswith((' ', '\t', '\n')):
+    while j < len(lines) and (lines[j] == '' or lines[j].startswith((' ', '\t', '\n'))):
         j += 1
     return j
 
@@ -207,14 +205,17 @@ def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
 
     assert start_line >= 0, f"Problem not found in file {path}. This can be due to missing doctests."
 
-    problem_lines_to_preserve = lines[:start_line]
-    end_of_replace_lines = find_next_unindented_line(lines, start_line)
-    extra_lines_to_preserve = lines[end_of_replace_lines:]
-
     code_lines = code.split("\n")
     assert "def" in code_lines[0] or "class" in code_lines[0], "First code block must be the `def` statement or `class` declaration"
 
     code_lines.pop(0) # remove function def or class declaration statement, is relied on elsewhere
+    line = find_next_unindented_line(code_lines, 0)
+    indent_in_code = line != len(code_lines)
+    assert not indent_in_code, "All lines in a function or class definition should be indented at least once. It looks like you have a line that has no indentation." 
+
+    problem_lines_to_preserve = lines[:start_line]
+    end_of_replace_lines = find_next_unindented_line(lines, start_line)
+    extra_lines_to_preserve = lines[end_of_replace_lines:]
 
     with open(path, "w", encoding="utf8") as f:
         for line in problem_lines_to_preserve:
