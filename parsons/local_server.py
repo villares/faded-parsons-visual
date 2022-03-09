@@ -211,7 +211,7 @@ def write_parsons_prob_locally(path, code, parsons_repr_code, write_repr_code):
     code_lines.pop(0) # remove function def or class declaration statement, is relied on elsewhere
     line = find_next_unindented_line(code_lines, 0)
     indent_in_code = line != len(code_lines)
-    assert not indent_in_code, "There should be no indented lines in your function or class definition." 
+    assert not indent_in_code, "All lines in a function or class definition should be indented at least once. It looks like you have a line that has no indentation." 
 
     problem_lines_to_preserve = lines[:start_line]
     end_of_replace_lines = find_next_unindented_line(lines, start_line)
