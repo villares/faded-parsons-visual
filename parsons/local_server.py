@@ -386,7 +386,6 @@ def run_server(port):
     # disable flask logging
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
-    os.environ['WERKZEUG_RUN_MAIN'] = 'true'
     for port in range(PORT, PORT + 10):
         try:
             PORT = port
