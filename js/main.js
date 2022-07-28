@@ -117,6 +117,8 @@ function setLineNumbers() {
 
 var LS_CODE = '-code';
 var LS_REPR = '-repr';
+let PROBLEM_NAME;
+let PYTHON_FUNC;
 var parsonsWidget;
 var pyodide;
 let outputLines = [];
@@ -130,13 +132,15 @@ async function initPyodide() {
 };
 
 function initWidget() {
-    const fetchConf = fetch(`../../parsons_probs/${PROBLEM_NAME}.yaml`).then((res) => res.text());
-    const fetchFunc = fetch(`../../parsons_probs/${PROBLEM_NAME}.py`).then((res) => res.text());
+    let params = (new URL(document.location)).searchParams;
+    PROBLEM_NAME = params.get("name");
+
+    const fetchConf = fetch(`parsons_probs/${PROBLEM_NAME}.yaml`).then((res) => res.text());
+    const fetchFunc = fetch(`parsons_probs/${PROBLEM_NAME}.py`).then((res) => res.text());
     const allData = Promise.all([fetchConf, fetchFunc]);
 
     allData.then((res) => {
         const [config, func] = res;
-        console.log(config);
         const configYaml = jsyaml.load(config);
         const probDescription = configYaml['problem_description'];
         let codeLines = configYaml['code_lines'] +
