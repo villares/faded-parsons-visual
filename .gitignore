@@ -1,11 +1,3 @@
- # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-# Fpp Files
-# fpp/
-# config and other files used for original testing
-orig-config
-fpp-orig
-.ok_messages
-.ok_storage.db
-.ok_history
+.venv
