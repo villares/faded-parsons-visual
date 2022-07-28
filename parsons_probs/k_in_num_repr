@@ -1,7 +1,0 @@
-def k_in_num(k, num): #0given
-while !BLANK:  #1given #blanknum != 0
-if !BLANK == num !BLANK 10:  #2given #blankk #blank% 
-return True #3given
-num = num !BLANK 10  #2given #blank//
-return False #1given
-debug(!BLANK)

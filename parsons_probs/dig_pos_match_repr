@@ -1,7 +1,0 @@
-def digit_pos_match(n, k): #0given
-index = 0 #1given
-while index < k: #1given
-n = n // 10 #2given
-index = index + 1 #2given
-return n % 10 == k #1given
-debug(!BLANK)

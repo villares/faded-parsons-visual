@@ -1,0 +1,22 @@
+problem_name: calculate_dog_age
+
+problem_description: |
+  <code>calculate_dog_age</code>
+    returns a dog's age based on a conversion rate of
+    1 human year to 7 dog years.
+
+  <pre><code>
+  >>> calculate_dog_age(1)   # 1 * 7
+  7
+  >>> calculate_dog_age(0.5) # 0.5 * 7
+  3.5
+  >>> calculate_dog_age(12)  # 12 * 7
+  84
+  </code></pre>
+
+code_lines: |
+  def calculate_dog_age(human_age): #0given
+  dog_age = !BLANK * !BLANK
+  return !BLANK
+
+test_fn: calculate_dog_age
