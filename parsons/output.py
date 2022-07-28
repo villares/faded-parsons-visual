@@ -1,8 +1,10 @@
 import sys
 import os
+
 class DisableStdout:
     stdout_ref = None
     null_file = None
+
     def __init__(self):
         if DisableStdout.stdout_ref is None:
             DisableStdout.stdout_ref = sys.stdout

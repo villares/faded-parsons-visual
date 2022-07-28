@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Practice Problems</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/vendors/parsons/parsons.css"/>
+    <style type="text/css">
+    .line-number {
+        float: right !important;
+        font-size: 80%;
+    }
+    </style>
+    <!--  taken from geeks for geeks -->
+    <style>
+        #loader {
+            border: 12px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 12px solid #444444;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .center {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark mb-4">
+        <div class="navbar-brand"><a href="/" style="color:inherit; text-decoration: none;">Faded Parsons Problems </a></div>
+    </nav>
+
+    <div class="container">
+
+        <div id = "problem-statement" class="row mt-3">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3> Problem Statement </h3>
+                    </div>
+                    <div class="card-body" id="problem-description">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="starter-code" class="sortable-code"></div>
+                        <div id="parsons-solution" class="sortable-code"></div>
+                        <div style="clear:both"></div>
+                        <div class="row float-right">
+                            <div class="col-sm-12">
+                                <button id="submit" type="button" class="btn btn-primary" disabled>Run Tests</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4> Test Cases </h4>
+                    </div>
+                    <div id ="test_description">
+                        <div class="card-body">
+                            Test results will appear here after clicking 'Run Tests' above.
+                        </div>
+                    </div>
+                    <div id="errors" style="display: none">
+                        <div id="errors_body" class="card-body card-padding bgm-amber"></div>
+                    </div>
+                </div>
+                <div class="row mb-4"></div>
+            </div>
+        </div>
+
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.19.0/full/pyodide.js"></script>
+<script src="static/js/jquery.ui.touch-punch.min.js"></script>
+<script src="static/js/underscore-min.js"></script>
+<script src="static/js/lis.js"></script>
+<script src="static/vendors/parsons/parsons.js"></script>
+<script src="static/js/user-storage.js"></script>
+<script src="static/js/main.js"></script>
+<script>
+const PROBLEM_NAME = 'add_in_range';
+initWidget();
+initPyodide();
+</script>
+</body>
+</html>

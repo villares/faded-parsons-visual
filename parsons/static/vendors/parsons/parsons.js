@@ -1,4 +1,4 @@
-(function($, _) { // wrap in anonymous function to not show some helper variables
+(function($) { // wrap in anonymous function to not show some helper variables
 
    // regexp used for trimming
    var trimRegexp = /^\s*(.*?)\s*$/;
@@ -65,7 +65,7 @@
                                          {},
                                          parson.getLineById(student_code[i].id)));
     }
-    
+
     // This maps codeline strings to the index, at which starting from 0, we have last
     // found this codeline. This is used to find the best indices for each
     // codeline in the student's code for the LIS computation and, for example,
@@ -243,7 +243,7 @@
                               'incorrectIndent' : 'incorrectIndent'};
 
     // use grader passed as an option if defined and is a function
-    if (this.options.grader && _.isFunction(this.options.grader)) {
+    if (this.options.grader &&  typeof this.options.grader === "function") {
       this.grader = new this.options.grader(this);
     } else {
       this.grader = new LineBasedGrader(this);
@@ -411,58 +411,58 @@
      }
      return [solutionCode, codeMetadata];
    };
-   
-   	
-   ParsonsWidget.prototype.parsonsReprCode = function() {	
-    var solutionCode = "";	
-    var reprCodeSoln = "";	
-    var reprCodeNonSoln = "";	
-    var lines = this.normalizeIndents(this.getModifiedCode("#ul-" + this.options.sortableId));	
-    var lines_in_soln = [];	
-    // find lines in solution	
-    for (let i = 0; i < lines.length; i++) {	
-      lines_in_soln.push(lines[i].id);	
-      var blankText = "";	
-      let yamlConfigClone = $("#" + lines[i].id).clone();	
-      yamlConfigClone.find("input").each(function (_, inp) {	
-          inp.replaceWith('!BLANK');	
-          blankText += " #blank" + inp.value	
-      });	
-      let codeClone = $("#" + lines[i].id).clone();	
-      codeClone.find("input").each(function (_, inp) {	
-          inp.replaceWith(inp.value);	
-      });	
-      yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();	
-      codeClone[0].innerText = codeClone[0].innerText.trimRight();	
-      	
-      // remove line numbers at the end of each line	
-      // is not a problem in solutionCode(), worth investigating	
-      var line = yamlConfigClone[0].innerText;	
-      var tokensLst = line.split(" ");	
-      tokensLst.pop(); 	
-      line = tokensLst.join(" ");	
-      line = line + ` #${lines[i].indent}given` + blankText;	
-      reprCodeSoln +=  line + "\n";	
-    }	
-    for (let i = 0; i < this.modified_lines.length; i++) {	
-      if (!lines_in_soln.includes(this.modified_lines[i].id)) {	
-        var blankText = "";	
-        let yamlConfigClone = $("#" + this.modified_lines[i].id).clone();	
-        yamlConfigClone.find("input").each(function (_, inp) {	
-            inp.replaceWith('!BLANK');	
-            blankText += " #blank" + inp.value	
-        });	
-        let codeClone = $("#" + this.modified_lines[i].id).clone();	
-        codeClone.find("input").each(function (_, inp) {	
-            inp.replaceWith(inp.value);	
-        });	
-        yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();	
-        codeClone[0].innerText = codeClone[0].innerText.trimRight();	
-        var line = yamlConfigClone[0].innerText;	
-        reprCodeNonSoln += line + "\n";	
-      }	
-    }	
-    return reprCodeSoln + reprCodeNonSoln;	
+
+
+   ParsonsWidget.prototype.parsonsReprCode = function() {
+    var solutionCode = "";
+    var reprCodeSoln = "";
+    var reprCodeNonSoln = "";
+    var lines = this.normalizeIndents(this.getModifiedCode("#ul-" + this.options.sortableId));
+    var lines_in_soln = [];
+    // find lines in solution
+    for (let i = 0; i < lines.length; i++) {
+      lines_in_soln.push(lines[i].id);
+      var blankText = "";
+      let yamlConfigClone = $("#" + lines[i].id).clone();
+      yamlConfigClone.find("input").each(function (_, inp) {
+          inp.replaceWith('!BLANK');
+          blankText += " #blank" + inp.value
+      });
+      let codeClone = $("#" + lines[i].id).clone();
+      codeClone.find("input").each(function (_, inp) {
+          inp.replaceWith(inp.value);
+      });
+      yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();
+      codeClone[0].innerText = codeClone[0].innerText.trimRight();
+
+      // remove line numbers at the end of each line
+      // is not a problem in solutionCode(), worth investigating
+      var line = yamlConfigClone[0].innerText;
+      var tokensLst = line.split(" ");
+      tokensLst.pop();
+      line = tokensLst.join(" ");
+      line = line + ` #${lines[i].indent}given` + blankText;
+      reprCodeSoln +=  line + "\n";
+    }
+    for (let i = 0; i < this.modified_lines.length; i++) {
+      if (!lines_in_soln.includes(this.modified_lines[i].id)) {
+        var blankText = "";
+        let yamlConfigClone = $("#" + this.modified_lines[i].id).clone();
+        yamlConfigClone.find("input").each(function (_, inp) {
+            inp.replaceWith('!BLANK');
+            blankText += " #blank" + inp.value
+        });
+        let codeClone = $("#" + this.modified_lines[i].id).clone();
+        codeClone.find("input").each(function (_, inp) {
+            inp.replaceWith(inp.value);
+        });
+        yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();
+        codeClone[0].innerText = codeClone[0].innerText.trimRight();
+        var line = yamlConfigClone[0].innerText;
+        reprCodeNonSoln += line + "\n";
+      }
+    }
+    return reprCodeSoln + reprCodeNonSoln;
    };
 
    ParsonsWidget.prototype.addLogEntry = function(entry) {
@@ -911,4 +911,4 @@
  }
 // allows _ and $ to be modified with noconflict without changing the globals
 // that parsons uses
-)($,_);
+)($);
