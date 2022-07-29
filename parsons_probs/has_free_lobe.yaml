@@ -17,6 +17,6 @@ problem_description: |
 
 code_lines: |
   def has_free_lobe(f_allele, m_allele): #0given
-    return f_allele !BLANK and m_allele !BLANK
+  return f_allele !BLANK and m_allele !BLANK
 
 test_fn: has_free_lobe
