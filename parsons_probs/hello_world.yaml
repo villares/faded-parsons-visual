@@ -1,0 +1,27 @@
+problem_name: hello_world
+
+problem_description: |
+  <code>hello_world</code>
+    returns the translation of "Hello, World" into the language
+    specified by the language code (e.g. "es", "pt", "en"),
+    defaulting to English if an unknown language code is specified.
+
+  <pre><code>
+  >>> hello_world("en")
+  'Hello, World'
+  >>> hello_world("es")
+  'Hola, Mundo'
+  >>> hello_world("pt")
+  'Olá, Mundo'
+  </code></pre>
+
+code_lines: |
+  def hello_world(language_code): #0given
+  if language_code == !BLANK:
+  return !BLANK
+  elif language_code == !BLANK:
+  return !BLANK
+  else:
+  return !BLANK
+
+test_fn: hello_world
