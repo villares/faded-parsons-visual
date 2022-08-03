@@ -221,7 +221,6 @@ function submitParsons() {
             $("#errors_body").html(testResults);
         }
     }
-    set(PROBLEM_NAME + LS_CODE, submittedCode);
     set(PROBLEM_NAME + LS_REPR, parsonsWidget.parsonsReprCode());
 }
 

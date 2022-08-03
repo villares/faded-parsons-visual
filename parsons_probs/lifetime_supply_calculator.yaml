@@ -17,7 +17,6 @@ problem_description: |
 
 code_lines: |
   def calculate_lifetime_supply(age, num_per_day): #0given
-  total = (100 - !BLANK) * (!BLANK)
-  return !BLANK
+  return (100 - !BLANK) * (!BLANK) #1given
 
 test_fn: calculate_lifetime_supply
