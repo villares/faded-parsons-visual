@@ -130,21 +130,20 @@
      // than should be shown at a time
      var permutation = this.getRandomPermutation(distractors.length);
      var selected_distractors = [];
-     for (var i = 0; i < max_distractors; i++) {
+     for (var i = 0; i < Math.min(max_distractors, distractors.length); i++) {
        selected_distractors.push(distractors[permutation[i]]);
        widgetData.push(distractors[permutation[i]]);
      }
-
      return {
        // an array of line objects specifying  the solution
-       solution:  $.extend(true, [], normalized),
+       solution:  normalized,
        // an array of line objects specifying the requested number
        // of distractors (not all possible alternatives)
-       distractors: $.extend(true, [], selected_distractors),
-       given: $.extend(true, [], given),
+       distractors: selected_distractors,
+       given: given,
        // an array of line objects specifying the initial code arrangement
        // given to the user to use in constructing the solution
-       widgetInitial: $.extend(true, [], widgetData),
+       widgetInitial: widgetData,
        errors: errors};
    };
 
@@ -158,9 +157,8 @@
      var id_prefix = this.id_prefix;
 
      // Add ids to the line objects in the user-draggable lines
-     $.each(this.modified_lines, function(index, item) {
+     this.modified_lines.forEach(function(item, index) {
        item.id = id_prefix + index;
-       // item.indent = 0;
      });
    };
 
@@ -198,21 +196,21 @@
        var blankText = "";
        //Original line from the YAML File
        var originalLine = "";
-       let yamlConfigClone = $("#" + lines[i].id).clone();
-       yamlConfigClone.find("input").each(function (_, inp) {
+       let yamlConfigClone = document.getElementById(lines[i].id).cloneNode(true);
+       yamlConfigClone.querySelectorAll("input").forEach(function (inp) {
            inp.replaceWith('!BLANK');
            blankText += " #blank" + inp.value
        });
-       let codeClone = $("#" + lines[i].id).clone();
-       codeClone.find("input").each(function (_, inp) {
+       let codeClone = document.getElementById(lines[i].id).cloneNode(true);
+       codeClone.querySelectorAll("input").forEach(function (inp) {
            inp.replaceWith(inp.value);
        });
-       yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();
-       codeClone[0].innerText = codeClone[0].innerText.trimRight();
-       if (yamlConfigClone[0].innerText != codeClone[0].innerText) {
-         originalLine = " #!ORIGINAL" + yamlConfigClone[0].innerText + blankText;
+       yamlConfigClone.innerText = yamlConfigClone.innerText.trimRight();
+       codeClone.innerText = codeClone.innerText.trimRight();
+       if (yamlConfigClone.innerText != codeClone.innerText) {
+         originalLine = " #!ORIGINAL" + yamlConfigClone.innerText + blankText;
        }
-       solutionCode += indentConstant.repeat(lines[i].indent) + codeClone[0].innerText + "\n";
+       solutionCode += indentConstant.repeat(lines[i].indent) + codeClone.innerText + "\n";
        codeMetadata +=  originalLine + "\n";
      }
      return [solutionCode, codeMetadata];
@@ -229,21 +227,21 @@
     for (let i = 0; i < lines.length; i++) {
       lines_in_soln.push(lines[i].id);
       var blankText = "";
-      let yamlConfigClone = $("#" + lines[i].id).clone();
-      yamlConfigClone.find("input").each(function (_, inp) {
+      let yamlConfigClone = document.getElementById(lines[i].id).cloneNode(true);
+      yamlConfigClone.querySelectorAll("input").forEach(function (inp) {
           inp.replaceWith('!BLANK');
           blankText += " #blank" + inp.value
       });
-      let codeClone = $("#" + lines[i].id).clone();
-      codeClone.find("input").each(function (_, inp) {
+      let codeClone = document.getElementById(lines[i].id).cloneNode(true);
+      codeClone.querySelectorAll("input").forEach(function (inp) {
           inp.replaceWith(inp.value);
       });
-      yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();
-      codeClone[0].innerText = codeClone[0].innerText.trimRight();
+      yamlConfigClone.innerText = yamlConfigClone.innerText.trimRight();
+      codeClone.innerText = codeClone.innerText.trimRight();
 
       // remove line numbers at the end of each line
       // is not a problem in solutionCode(), worth investigating
-      var line = yamlConfigClone[0].innerText;
+      var line = yamlConfigClone.innerText;
       var tokensLst = line.split(" ");
       tokensLst.pop();
       line = tokensLst.join(" ");
@@ -253,18 +251,18 @@
     for (let i = 0; i < this.modified_lines.length; i++) {
       if (!lines_in_soln.includes(this.modified_lines[i].id)) {
         var blankText = "";
-        let yamlConfigClone = $("#" + this.modified_lines[i].id).clone();
-        yamlConfigClone.find("input").each(function (_, inp) {
+        let yamlConfigClone = document.getElementById(this.modified_lines[i].id).cloneNode(true);
+        yamlConfigClone.querySelectorAll("input").forEach(function (inp) {
             inp.replaceWith('!BLANK');
             blankText += " #blank" + inp.value
         });
-        let codeClone = $("#" + this.modified_lines[i].id).clone();
-        codeClone.find("input").each(function (_, inp) {
+        let codeClone = document.getElementById(this.modified_lines[i].id).cloneNode(true);
+        codeClone.querySelectorAll("input").forEach(function (inp) {
             inp.replaceWith(inp.value);
         });
-        yamlConfigClone[0].innerText = yamlConfigClone[0].innerText.trimRight();
-        codeClone[0].innerText = codeClone[0].innerText.trimRight();
-        var line = yamlConfigClone[0].innerText;
+        yamlConfigClone.innerText = yamlConfigClone.innerText.trimRight();
+        codeClone.innerText = codeClone.innerText.trimRight();
+        var line = yamlConfigClone.innerText;
         reprCodeNonSoln += line + "\n";
       }
     }
@@ -345,8 +343,6 @@
 
    /**
     * Retrieve the code lines based on what is in the DOM
-    *
-    * TODO(petri) refactor to UI
     * */
    ParsonsWidget.prototype.getModifiedCode = function(search_string) {
      //ids of the the modified code
@@ -355,7 +351,7 @@
           i, item;
      for (i = 0; i < solution_ids.length; i++) {
        item = this.getLineById(solution_ids[i]);
-       lines_to_return.push($.extend(new ParsonsCodeline(), item));
+       lines_to_return.push(Object.assign(new ParsonsCodeline(), item));
      }
      return lines_to_return;
    };
@@ -491,13 +487,13 @@
      if (this.options.trashId) {
        html = (this.options.trash_label?'<p>'+this.options.trash_label+'</p>':'') +
          this.codeLinesToHTML(trashIDs, this.options.trashId);
-       $("#" + this.options.trashId).html(html);
+       document.getElementById(this.options.trashId).innerHTML = html;
        html = (this.options.solution_label?'<p>'+this.options.solution_label+'</p>':'') +
          this.codeLinesToHTML(solutionIDs, this.options.sortableId);
-       $("#" + this.options.sortableId).html(html);
+        document.getElementById(this.options.sortableId).innerHTML = html;
      } else {
        html = this.codeLinesToHTML(solutionIDs, this.options.sortableId);
-       $("#" + this.options.sortableId).html(html);
+       document.getElementById(this.options.sortableId).innerHTML = html;
      }
 
      if (window.prettyPrint && (typeof(this.options.prettyPrint) === "undefined" || this.options.prettyPrint)) {
@@ -541,7 +537,7 @@
          });
        sortable.sortable('option', 'connectWith', trash);
      }
-     $.each(solutionIDs, function(index, id) {
+     solutionIDs.forEach(function(id) {
        that.updateHTMLIndent(id);
      });
    };

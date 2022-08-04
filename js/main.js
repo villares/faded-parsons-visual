@@ -158,7 +158,7 @@ function initWidget() {
                 setLineNumbers();
             },
             'trashId': 'starter-code',
-            'max_wrong_lines': 1,
+            'max_wrong_lines': 0,
             'syntax_language': 'lang-py',
         });
         parsonsWidget.init(codeLines);
