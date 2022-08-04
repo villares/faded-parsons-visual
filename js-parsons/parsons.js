@@ -162,30 +162,6 @@
      });
    };
 
-   ParsonsWidget.prototype.getHash = function(searchString) {
-     var hash = [],
-         ids = $(searchString).sortable('toArray'),
-         line;
-     for (var i = 0; i < ids.length; i++) {
-       line = this.getLineById(ids[i]);
-       hash.push(line.orig + "_" + line.indent);
-     }
-     //prefix with something to handle empty output situations
-     if (hash.length === 0) {
-       return "-";
-     } else {
-       return hash.join("-");
-     }
-   };
-
-   ParsonsWidget.prototype.solutionHash = function() {
-       return this.getHash("#ul-" + this.options.sortableId);
-   };
-
-   ParsonsWidget.prototype.trashHash = function() {
-       return this.getHash("#ul-" + this.options.trashId);
-   };
-
    ParsonsWidget.prototype.solutionCode = function() {
      var indentConstant = "    ";
      // var indentConstant = "  ";
