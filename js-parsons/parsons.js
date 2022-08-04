@@ -418,14 +418,14 @@
        // TODO: Move somewhere else or remove after better UI PR.
        codeLines.forEach(function(codeLine) {
          if (codeLine.code.startsWith('# <input') || codeLine.code.includes('DEBUG') || codeLine.code.startsWith('p <input')) {
-           $('#' + codeLine.id).css('background-color', 'lightblue');
+           document.getElementById(codeLine.id).style.backgroundColor = 'lightblue';
          }
        });
    };
 
     ParsonsWidget.prototype.updateHTMLIndent = function(codelineID) {
         var line = this.getLineById(codelineID);
-        $('#' + codelineID).css("margin-left", this.options.x_indent * line.indent + "px");
+        document.getElementById(codelineID).style.marginLeft = this.options.x_indent * line.indent + "px";
         this.updateVertLines();
     };
 
@@ -441,20 +441,18 @@
         }
       });
       // Get current indents
-      var element = $('#ul-' + this.options.sortableId);
-      var backgroundColor = element.css('background-color')
+      var element = document.getElementById( 'ul-' + this.options.sortableId);
+      var backgroundColor = element.style.backgroundColor;
       var backgroundPosition = '';
       for (var i = 1; i <= maxIndent + 1; i++ ) {
         backgroundPosition += i*this.options.x_indent + 'px 0, ';
       }
-      element.css({
-        'background': 'linear-gradient(#ee0, #ee0) no-repeat border-box, '.repeat(maxIndent).slice(0) +
-        'repeating-linear-gradient(0,#ee0,#ee0 10px,'+backgroundColor+' 10px, ' + backgroundColor + ' 20px) no-repeat border-box',
-        'background-size': '1px 100%, '.repeat(maxIndent + 1).slice(0, -2),
-        'background-position': backgroundPosition.slice(0, -2),
-        'background-origin': 'padding-box, '.repeat(maxIndent + 1).slice(0, -2),
-        'background-color': backgroundColor,
-      });
+      element.style.background = 'linear-gradient(#ee0, #ee0) no-repeat border-box, '.repeat(maxIndent).slice(0) +
+        'repeating-linear-gradient(0,#ee0,#ee0 10px,'+backgroundColor+' 10px, ' + backgroundColor + ' 20px) no-repeat border-box';
+      element.style.backgroundSize = '1px 100%, '.repeat(maxIndent + 1).slice(0, -2);
+      element.style.backgroundPosition = backgroundPosition.slice(0, -2);
+      element.style.backgroundOrigin = 'padding-box, '.repeat(maxIndent + 1).slice(0, -2);
+      element.style.backgroundColor = backgroundColor;
     }
 
     ParsonsWidget.prototype.codeLineToHTML = function(codeline) {
