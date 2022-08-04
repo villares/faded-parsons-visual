@@ -7,164 +7,9 @@
    var userStrings = {
      trash_label: 'Drag from here',
      solution_label: 'Construct your solution here, including indents',
-     order: function() {
-       return "Code fragments in your program are wrong, or in wrong order. This can be fixed by moving, removing, or replacing highlighted fragments.";},
-     lines_missing: function() {
-       return "Your program has too few code fragments.";},
-     lines_too_many: function() {
-       return "Your program has too many code fragments.";},
      no_matching: function(lineNro) {
        return "Based on language syntax, the highlighted fragment (" + lineNro + ") is not correctly indented."; },
-     no_matching_open: function(lineNro, block) {
-       return "The " + block + " ended on line " + lineNro + " never started."; },
-     no_matching_close: function(lineNro, block) {
-       return "Block " + block + " defined on line " + lineNro + " not ended properly";
-     },
-     block_close_mismatch: function(closeLine, closeBlock, openLine, inBlock) {
-       return "Cannot end block " + closeBlock + " on line " + closeLine + " when still inside block " + inBlock + " started on line " + openLine;
-     },
-     block_structure: function(lineNro) { return "The highlighted fragment " + lineNro + " belongs to a wrong block (i.e. indentation)."; },
-     unittest_error: function(errormsg) {
-       return "<span class='msg'>Error in parsing/executing your program</span><br/> <span class='errormsg'>" + errormsg + "</span>";
-     },
-     unittest_output_assertion: function(expected, actual) {
-      return "Expected output: <span class='expected output'>" + expected + "</span>" +
-            "Output of your program: <span class='actual output'>" + actual + "</span>";
-     },
-     unittest_assertion: function(expected, actual) {
-      return "Expected value: <span class='expected'>" + expected + "</span><br>" +
-            "Actual value: <span class='actual'>" + actual + "</span>";
-     },
-     variabletest_assertion: function(varname, expected, actual) {
-      return "Expected value of variable " + varname + ": <span class='expected'>" + expected + "</span><br>" +
-            "Actual value: <span class='actual'>" + actual + "</span>";
-     }
    };
-
-  // Different graders
-
-  var graders = {};
-  // The "original" grader for giving line based feedback.
-  var LineBasedGrader = function(parson) {
-    this.parson = parson;
-  };
-  graders.LineBasedGrader = LineBasedGrader;
-  LineBasedGrader.prototype.grade = function(elementId) {
-    var parson = this.parson;
-    var elemId = elementId || parson.options.sortableId;
-    var student_code = parson.normalizeIndents(parson.getModifiedCode("#ul-" + elemId));
-    var lines_to_check = Math.min(student_code.length, parson.model_solution.length);
-    var errors = [], log_errors = [];
-    var incorrectLines = [], studentCodeLineObjects = [];
-    var i;
-    var wrong_order = false;
-
-    // Find the line objects for the student's code
-    for (i = 0; i < student_code.length; i++) {
-      studentCodeLineObjects.push($.extend(true,
-                                         {},
-                                         parson.getLineById(student_code[i].id)));
-    }
-
-    // This maps codeline strings to the index, at which starting from 0, we have last
-    // found this codeline. This is used to find the best indices for each
-    // codeline in the student's code for the LIS computation and, for example,
-    // assigns appropriate indices for duplicate lines.
-    var lastFoundCodeIndex = {};
-    $.each(studentCodeLineObjects, function(index, lineObject) {
-      // find the first matching line in the model solution
-      // starting from where we have searched previously
-      for (var i = (typeof(lastFoundCodeIndex[lineObject.code]) !== 'undefined') ? lastFoundCodeIndex[lineObject.code]+1 : 0;
-           i < parson.model_solution.length;
-           i++) {
-        if (parson.model_solution[i].code === lineObject.code) {
-          // found a line in the model solution that matches the student's line
-          lastFoundCodeIndex[lineObject.code] = i;
-              lineObject.lisIgnore = false;
-              // This will be used in LIS computation
-            lineObject.position = i;
-            break;
-        }
-      }
-      if (i === parson.model_solution.length) {
-        if (typeof(lastFoundCodeIndex[lineObject.code]) === 'undefined') {
-        // Could not find the line in the model solution at all,
-        // it must be a distractor
-        // => add to feedback, log, and ignore in LIS computation
-          wrong_order = true;
-          lineObject.markIncorrectPosition();
-        incorrectLines.push(lineObject.orig);
-          lineObject.lisIgnore = true;
-        } else {
-          // The line is part of the solution but there are now
-        // too many instances of the same line in the student's code
-          // => Let's just have their correct position to be the same
-        // as the last one actually found in the solution.
-          // LIS computation will handle such duplicates properly and
-        // choose only one of the equivalent positions to the LIS and
-          // extra duplicates are left in the inverse and highlighted as
-        // errors.
-          // TODO This method will not always give the most intuitive
-        // highlights for lines to supposed to be moved when there are
-          // several extra duplicates in the student's code.
-            lineObject.lisIgnore = false;
-            lineObject.position = lastFoundCodeIndex[lineObject.code];
-        }
-
-      }
-    });
-
-    var lisStudentCodeLineObjects =
-      studentCodeLineObjects.filter(function (lineObject) { return !lineObject.lisIgnore; });
-    var inv =
-      LIS.best_lise_inverse_indices(lisStudentCodeLineObjects
-                      .map(function (lineObject) { return lineObject.position; }));
-    $.each(inv, function(_index, lineObjectIndex) {
-      // Highlight the lines that could be moved to fix code as defined by the LIS computation
-        lisStudentCodeLineObjects[lineObjectIndex].markIncorrectPosition();
-        incorrectLines.push(lisStudentCodeLineObjects[lineObjectIndex].orig);
-      });
-    if (inv.length > 0 || incorrectLines.length > 0) {
-      wrong_order = true;
-      log_errors.push({type: "incorrectPosition", lines: incorrectLines});
-    }
-
-    if (wrong_order) {
-      errors.push(parson.translations.order());
-    }
-
-    // Check the number of lines in student's code
-    if (parson.model_solution.length < student_code.length) {
-      $("#ul-" + elemId).addClass("incorrect");
-      errors.push(parson.translations.lines_too_many());
-      log_errors.push({type: "tooManyLines", lines: student_code.length});
-    } else if (parson.model_solution.length > student_code.length){
-      $("#ul-" + elemId).addClass("incorrect");
-      errors.push(parson.translations.lines_missing());
-      log_errors.push({type: "tooFewLines", lines: student_code.length});
-    }
-
-    // Finally, check indent if no other errors
-    if (errors.length === 0) {
-      for (i = 0; i < lines_to_check; i++) {
-        var code_line = student_code[i];
-        var model_line = parson.model_solution[i];
-        if (code_line.indent !== model_line.indent &&
-             ((!parson.options.first_error_only) || errors.length === 0)) {
-          code_line.markIncorrectIndent();
-          errors.push(parson.translations.block_structure(i+1));
-          log_errors.push({type: "incorrectIndent", line: (i+1)});
-        }
-        if (code_line.code == model_line.code &&
-             code_line.indent == model_line.indent &&
-             errors.length === 0) {
-          code_line.markCorrect();
-        }
-      }
-    }
-
-    return {errors: errors, log_errors: log_errors, success: (errors.length === 0)};
-  };
 
   // Create a line object skeleton with only code and indentation from
   // a code string of an assignment definition string (see parseCode)
@@ -180,21 +25,6 @@
       this.indent = codestring.length - codestring.replace(/^\s+/, "").length;
     }
   };
-  ParsonsCodeline.prototype.elem = function() {
-    // the element will change on shuffle, so we should re-fetch it every time
-    return $("#" + this.id);
-  };
-  ParsonsCodeline.prototype.markCorrect = function() {
-    this.elem().addClass(this.widget.FEEDBACK_STYLES.correctPosition);
-  };
-  ParsonsCodeline.prototype.markIncorrectPosition = function() {
-    this.elem().addClass(this.widget.FEEDBACK_STYLES.incorrectPosition);
-  };
-  ParsonsCodeline.prototype.markIncorrectIndent = function() {
-    this.elem().addClass(this.widget.FEEDBACK_STYLES.incorrectIndent);
-  };
-  // expose the type for testing, extending etc
-  window.ParsonsCodeline = ParsonsCodeline;
 
   // Creates a parsons widget. Init must be called after creating an object.
    var ParsonsWidget = function(options) {
@@ -208,26 +38,14 @@
      // contains line objects (see parseCode for line object description)
      this.model_solution = [];
 
-     //To collect statistics, feedback should not be based on this
-     this.user_actions = [];
-
-     //State history for feedback purposes
-     this.state_path = [];
-     this.states = {};
-
      var defaults = {
-       'incorrectSound': false,
        'x_indent': 50,
        'can_indent': true,
-       'feedback_cb': false,
-       'first_error_only': true,
        'max_wrong_lines': 10,
-       'lang': 'en',
        'onSortableUpdate': (event, ui) => {}
      };
 
      this.options = jQuery.extend({}, defaults, options);
-     this.feedback_exists = false;
      this.id_prefix = options['sortableId'] + 'codeline';
 
      // translate trash_label and solution_label
@@ -237,19 +55,7 @@
      if (!this.options.hasOwnProperty("solution_label")) {
          this.options.solution_label = userStrings.solution_label;
      }
-     this.FEEDBACK_STYLES = { 'correctPosition' : 'correctPosition',
-                              'incorrectPosition' : 'incorrectPosition',
-                              'correctIndent' : 'correctIndent',
-                              'incorrectIndent' : 'incorrectIndent'};
-
-    // use grader passed as an option if defined and is a function
-    if (this.options.grader &&  typeof this.options.grader === "function") {
-      this.grader = new this.options.grader(this);
-    } else {
-      this.grader = new LineBasedGrader(this);
-    }
    };
-  ParsonsWidget._graders = graders;
 
    ////Public methods
 
@@ -278,7 +84,7 @@
      //   orig: the original index of the line in the assignment definition string,
      //     for distractors this is not meaningful but for lines belonging to the
      //     solution, this is their expected position
-     $.each(lines, function(index, item) {
+     lines.forEach(function(item, index) {
        lineObject = new ParsonsCodeline(item, that);
        lineObject.orig = index;
         if (item.search(/#distractor\s*$/) >= 0) {
@@ -308,15 +114,15 @@
 
      var normalized = this.normalizeIndents(indented);
 
-     $.each(normalized, function(index, item) {
-              if (item.indent < 0) {
-                // Indentation error
-                errors.push(userStrings.no_matching(normalized.orig));
-              }
-              widgetData.push(item);
-            });
+     normalized.forEach(function(item) {
+        if (item.indent < 0) {
+          // Indentation error
+          errors.push(userStrings.no_matching(normalized.orig));
+        }
+        widgetData.push(item);
+      });
 
-     $.each(given, function(index, item) {
+     given.forEach(function(item) {
         widgetData.push(item);
       });
 
@@ -465,43 +271,6 @@
     return reprCodeSoln + reprCodeNonSoln;
    };
 
-   ParsonsWidget.prototype.addLogEntry = function(entry) {
-     var state, previousState;
-     var logData = {
-       time: new Date(),
-       output: this.solutionHash(),
-       type: "action"
-     };
-
-     if (this.options.trashId) {
-       logData.input = this.trashHash();
-     }
-
-     if (entry.target) {
-       entry.target = entry.target.replace(this.id_prefix, "");
-     }
-
-     state = logData.output;
-
-     jQuery.extend(logData, entry);
-     this.user_actions.push(logData);
-
-     //Updating the state history
-     if(this.state_path.length > 0) {
-       previousState = this.state_path[this.state_path.length - 1];
-       this.states[previousState] = logData;
-     }
-
-     //Add new item to the state path only if new and previous states are not equal
-     if (this.state_path[this.state_path.length - 1] !== state) {
-       this.state_path.push(state);
-     }
-     // callback for reacting to actions
-     if ($.isFunction(this.options.action_cb)) {
-       this.options.action_cb.call(this, logData);
-     }
-   };
-
    /**
     * Update indentation of a line based on new coordinates
     * leftDiff horizontal difference from (before and after drag) in px
@@ -591,99 +360,6 @@
      return lines_to_return;
    };
 
-   ParsonsWidget.prototype.hashToIDList = function(hash) {
-     var lines = [];
-     var lineValues;
-     var lineObject;
-     var h;
-
-     if (hash === "-" || hash === "" || hash === null) {
-       h = [];
-     } else {
-       h = hash.split("-");
-     }
-
-     var ids = [];
-     for (var i = 0; i < h.length; i++) {
-       lineValues = h[i].split("_");
-       ids.push(this.modified_lines[lineValues[0]].id);
-     }
-     return ids;
-   };
-
-   ParsonsWidget.prototype.updateIndentsFromHash = function(hash) {
-     var lineValues;
-     var h;
-
-     if (hash === "-" || hash === "" || hash === null) {
-       h = [];
-     } else {
-       h = hash.split("-");
-     }
-
-     var ids = [];
-     for (var i = 0; i < h.length; i++) {
-         lineValues = h[i].split("_");
-         this.modified_lines[lineValues[0]].indent = Number(lineValues[1]);
-         this.updateHTMLIndent(this.modified_lines[lineValues[0]].id);
-     }
-     return ids;
-   };
-
-
-   /**
-    * TODO(petri) refoctor to UI
-    */
-   ParsonsWidget.prototype.displayError = function(message) {
-     if (this.options.incorrectSound && $.sound) {
-       $.sound.play(this.options.incorrectSound);
-     }
-     alert(message);
-   };
-
-   ParsonsWidget.prototype.colorFeedback = function(elemId) {
-     return new LineBasedGrader(this).grade(elemId);
-   };
-
-
-
-
-   /**
-    * @return
-    * TODO(petri): Separate UI from here
-    */
-   ParsonsWidget.prototype.getFeedback = function() {
-     this.feedback_exists = true;
-     var fb = this.grader.grade();
-     if (this.options.feedback_cb) {
-       this.options.feedback_cb(fb); //TODO(petri): what is needed?
-     }
-     // if answer is correct, mark it in the UI
-     if (fb.success) {
-       $("#ul-" + this.options.sortableId).addClass("correct");
-     }
-     // log the feedback and return; based on the type of grader
-     if ('html' in fb) { // unittest/vartests type feedback
-       this.addLogEntry({type: "feedback", tests: fb.tests, success: fb.success});
-       return { feedback: fb.html, success: fb.success };
-     } else {
-       this.addLogEntry({type: "feedback", errors: fb.log_errors, success: fb.success});
-       return fb.errors;
-     }
-   };
-
-   ParsonsWidget.prototype.clearFeedback = function() {
-     if (this.feedback_exists) {
-       $("#ul-" + this.options.sortableId).removeClass("incorrect correct");
-       var li_elements = $("#ul-" + this.options.sortableId + " li");
-       $.each(this.FEEDBACK_STYLES, function(index, value) {
-                li_elements.removeClass(value);
-              });
-     }
-     this.feedback_exists = false;
-   };
-
-
    ParsonsWidget.prototype.getRandomPermutation = function(n) {
      var permutation = [];
      var i;
@@ -699,20 +375,6 @@
        permutation[swap2] = tmp;
      }
      return permutation;
-   };
-
-
-   ParsonsWidget.prototype.shuffleLines = function() {
-       var permutation = (this.options.permutation?this.options.permutation:this.getRandomPermutation)(this.modified_lines.length);
-       var idlist = [];
-       for(var i in permutation) {
-           idlist.push(this.modified_lines[permutation[i]].id);
-       }
-       if (this.options.trashId) {
-           this.createHTMLFromLists([],idlist);
-       } else {
-           this.createHTMLFromLists(idlist,[]);
-       }
    };
 
    ParsonsWidget.prototype.alphabetize = function() {
@@ -763,13 +425,6 @@
            $('#' + codeLine.id).css('background-color', 'lightblue');
          }
        });
-   };
-
-   ParsonsWidget.prototype.createHTMLFromHashes = function(solutionHash, trashHash) {
-       var solution = this.hashToIDList(solutionHash);
-       var trash = this.hashToIDList(trashHash);
-       this.createHTMLFromLists(solution, trash);
-       this.updateIndentsFromHash(solutionHash);
    };
 
     ParsonsWidget.prototype.updateHTMLIndent = function(codelineID) {
@@ -852,7 +507,6 @@
      var that = this;
      var sortable = $("#ul-" + this.options.sortableId).sortable(
        {
-         start : function() { that.clearFeedback(); },
          stop : function(event, ui) {
            if ($(event.target)[0] != ui.item.parent()[0]) {
              return;
@@ -860,13 +514,11 @@
            that.updateIndent(ui.position.left - ui.item.parent().position().left,
                                        ui.item[0].id);
            that.updateHTMLIndent(ui.item[0].id);
-           that.addLogEntry({type: "moveOutput", target: ui.item[0].id}, true);
          },
          receive : function(event, ui) {
            var ind = that.updateIndent(ui.position.left - ui.item.parent().position().left,
                                        ui.item[0].id);
            that.updateHTMLIndent(ui.item[0].id);
-           that.addLogEntry({type: "addOutput", target: ui.item[0].id}, true);
          },
          update: that.options.onSortableUpdate,
          grid : that.options.can_indent ? [that.options.x_indent, 1 ] : false
@@ -876,34 +528,22 @@
        var trash = $("#ul-" + this.options.trashId).sortable(
          {
            connectWith: sortable,
-           start: function() { that.clearFeedback(); },
            receive: function(event, ui) {
              that.getLineById(ui.item[0].id).indent = 0;
              that.updateHTMLIndent(ui.item[0].id);
-             that.addLogEntry({type: "removeOutput", target: ui.item[0].id}, true);
            },
            stop: function(event, ui) {
              if ($(event.target)[0] != ui.item.parent()[0]) {
                // line moved to output and logged there
                return;
              }
-             that.addLogEntry({type: "moveInput", target: ui.item[0].id}, true);
            }
          });
        sortable.sortable('option', 'connectWith', trash);
      }
      $.each(solutionIDs, function(index, id) {
        that.updateHTMLIndent(id);
-     })
-     // Log the original codelines in the exercise in order to be able to
-     // match the input/output hashes to the code later on. We need only a
-     // few properties of the codeline objects
-     var bindings = [];
-     for (var i = 0; i < this.modified_lines.length; i++) {
-       var line = this.modified_lines[i];
-       bindings.push({code: line.code, distractor: line.distractor})
-     }
-     this.addLogEntry({type: 'init', time: new Date(), bindings: bindings});
+     });
    };
 
 
