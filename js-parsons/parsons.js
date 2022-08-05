@@ -418,11 +418,12 @@
       });
       // Get current indents
       var element = document.getElementById( 'ul-' + this.options.sortableId);
-      var backgroundColor = element.style.backgroundColor;
+      var backgroundColor = 'rgb(255, 255, 170)';
       var backgroundPosition = '';
       for (var i = 1; i <= maxIndent + 1; i++ ) {
         backgroundPosition += i*this.options.x_indent + 'px 0, ';
       }
+
       element.style.background = 'linear-gradient(#ee0, #ee0) no-repeat border-box, '.repeat(maxIndent).slice(0) +
         'repeating-linear-gradient(0,#ee0,#ee0 10px,'+backgroundColor+' 10px, ' + backgroundColor + ' 20px) no-repeat border-box';
       element.style.backgroundSize = '1px 100%, '.repeat(maxIndent + 1).slice(0, -2);
@@ -475,6 +476,7 @@
      }
 
      var that = this;
+
      var sortable = $("#ul-" + this.options.sortableId).sortable(
        {
          stop : function(event, ui) {
