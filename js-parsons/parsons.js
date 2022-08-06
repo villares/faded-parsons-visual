@@ -1,3 +1,5 @@
+/* global $ */
+
 (function($) { // wrap in anonymous function to not show some helper variables
 
    // regexp used for trimming
@@ -42,17 +44,17 @@
        'x_indent': 50,
        'can_indent': true,
        'max_wrong_lines': 10,
-       'onSortableUpdate': (event, ui) => {}
+       'onSortableUpdate': () => {}
      };
 
-     this.options = jQuery.extend({}, defaults, options);
+     this.options = $.extend({}, defaults, options);
      this.id_prefix = options['sortableId'] + 'codeline';
 
      // translate trash_label and solution_label
-     if (!this.options.hasOwnProperty("trash_label")) {
+     if (!this.options["trash_label"]) {
          this.options.trash_label = userStrings.trash_label;
      }
-     if (!this.options.hasOwnProperty("solution_label")) {
+     if (!this.options["solution_label"]) {
          this.options.solution_label = userStrings.solution_label;
      }
    };
@@ -112,12 +114,10 @@
         }
      });
 
-     var normalized = this.normalizeIndents(indented);
-
-     normalized.forEach(function(item) {
+     indented.forEach(function(item) {
         if (item.indent < 0) {
           // Indentation error
-          errors.push(userStrings.no_matching(normalized.orig));
+          errors.push(userStrings.no_matching(indented.orig));
         }
         widgetData.push(item);
       });
@@ -136,7 +136,7 @@
      }
      return {
        // an array of line objects specifying  the solution
-       solution:  normalized,
+       solution:  indented,
        // an array of line objects specifying the requested number
        // of distractors (not all possible alternatives)
        distractors: selected_distractors,
@@ -167,7 +167,7 @@
      // var indentConstant = "  ";
      var solutionCode = "";
      var codeMetadata = "";
-     var lines = this.normalizeIndents(this.getModifiedCode("#ul-" + this.options.sortableId));
+     var lines = this.getModifiedCode("#ul-" + this.options.sortableId);
      for (let i = 0; i < lines.length; i++) {
        var blankText = "";
        //Original line from the YAML File
@@ -194,15 +194,14 @@
 
 
    ParsonsWidget.prototype.parsonsReprCode = function() {
-    var solutionCode = "";
     var reprCodeSoln = "";
     var reprCodeNonSoln = "";
-    var lines = this.normalizeIndents(this.getModifiedCode("#ul-" + this.options.sortableId));
+    var lines = this.getModifiedCode("#ul-" + this.options.sortableId);
     var lines_in_soln = [];
     // find lines in solution
     for (let i = 0; i < lines.length; i++) {
       lines_in_soln.push(lines[i].id);
-      var blankText = "";
+      let blankText = "";
       let yamlConfigClone = document.getElementById(lines[i].id).cloneNode(true);
       yamlConfigClone.querySelectorAll("input").forEach(function (inp) {
           inp.replaceWith('!BLANK');
@@ -217,7 +216,7 @@
 
       // remove line numbers at the end of each line
       // is not a problem in solutionCode(), worth investigating
-      var line = yamlConfigClone.innerText;
+      let line = yamlConfigClone.innerText;
       var tokensLst = line.split(" ");
       tokensLst.pop();
       line = tokensLst.join(" ");
@@ -226,11 +225,9 @@
     }
     for (let i = 0; i < this.modified_lines.length; i++) {
       if (!lines_in_soln.includes(this.modified_lines[i].id)) {
-        var blankText = "";
         let yamlConfigClone = document.getElementById(this.modified_lines[i].id).cloneNode(true);
         yamlConfigClone.querySelectorAll("input").forEach(function (inp) {
             inp.replaceWith('!BLANK');
-            blankText += " #blank" + inp.value
         });
         let codeClone = document.getElementById(this.modified_lines[i].id).cloneNode(true);
         codeClone.querySelectorAll("input").forEach(function (inp) {
@@ -238,7 +235,7 @@
         });
         yamlConfigClone.innerText = yamlConfigClone.innerText.trimRight();
         codeClone.innerText = codeClone.innerText.trimRight();
-        var line = yamlConfigClone.innerText;
+        let line = yamlConfigClone.innerText;
         reprCodeNonSoln += line + "\n";
       }
     }
@@ -270,51 +267,6 @@
        }
      }
      return this.modified_lines[index];
-   };
-
-   // Check and normalize code indentation.
-   // Does not use the current object (this) ro make changes to
-   // the parameter.
-   // Returns a new array of line objects whose indent fields' values
-   // may be different from the argument. If indentation does not match,
-   // i.e. code is malformed, value of indent may be -1.
-   // For example, the first line may not be indented.
-   ParsonsWidget.prototype.normalizeIndents = function(lines) {
-     // Our code doesn't require indents to be normalized. However, this code
-     // breaks when a line has an unindent that does not match outer indentation
-     // level.
-     return lines;
-
-     var normalized = [];
-     var new_line;
-     var match_indent = function(index) {
-       //return line index from the previous lines with matching indentation
-       for (var i = index-1; i >= 0; i--) {
-         if (lines[i].indent == lines[index].indent) {
-           return normalized[i].indent;
-         }
-       }
-       return -1;
-     };
-     for ( var i = 0; i < lines.length; i++ ) {
-       //create shallow copy from the line object
-       new_line = jQuery.extend({}, lines[i]);
-       if (i === 0) {
-         new_line.indent = 0;
-         if (lines[i].indent !== 0) {
-           new_line.indent = -1;
-         }
-       } else if (lines[i].indent == lines[i-1].indent) {
-         new_line.indent = normalized[i-1].indent;
-       } else if (lines[i].indent > lines[i-1].indent) {
-         new_line.indent = normalized[i-1].indent + 1;
-       } else {
-         // indentation can be -1 if no matching indentation exists, i.e. IndentationError in Python
-         new_line.indent = match_indent(i);
-       }
-       normalized[i] = new_line;
-     }
-     return normalized;
    };
 
    /**
@@ -375,14 +327,14 @@
        var codeLines = this.modified_lines.slice();
        codeLines.sort(compare);
        var idlist = [];
-       for (i = 0; i < codeLines.length; i += 1) {
+       for (let i = 0; i < codeLines.length; i += 1) {
            if (this.given.slice().indexOf(codeLines[i]) < 0) {
              idlist.push(codeLines[i].id);
            }
        }
        var givenCodeLines = this.given.slice();
        var givenIdlist = [];
-       for (i = 0; i < givenCodeLines.length; i += 1) {
+       for (let i = 0; i < givenCodeLines.length; i += 1) {
            givenIdlist.push(givenCodeLines[i].id);
        }
        if (this.options.trashId) {
@@ -436,7 +388,8 @@
       while (codeline.code.search(/!BLANK/) >= 0) {
         var replaceText = "";
         if (codeline.code.search(blankRegexp) >= 0) {
-          replaceText = codeline.code.match(blankRegexp)[1].trim().replace(/\"/g, "&quot;").replace(/\'/g, "&apos;");          codeline.code = codeline.code.replace(blankRegexp, "");
+          replaceText = codeline.code.match(blankRegexp)[1].trim().replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+          codeline.code = codeline.code.replace(blankRegexp, "");
         }
         codeline.code = codeline.code.replace(/!BLANK/, function() {
           return "<input type='text' class='text-box' value=\"" + replaceText + "\" " +
@@ -444,7 +397,7 @@
               "onkeypress=\"this.style.width = ((this.value.length + 3) * 8) + 'px';\"'/>"
         });
       }
-      return '<li id="' + codeline.id + '" class="prettyprint ' + this.options['syntax_language'] + ' ">' + codeline.code + '<\/li>';
+      return '<li id="' + codeline.id + '">' + codeline.code + '</li>';
     };
 
     ParsonsWidget.prototype.codeLinesToHTML = function(codelineIDs, destinationID) {
@@ -471,10 +424,6 @@
        document.getElementById(this.options.sortableId).innerHTML = html;
      }
 
-     if (window.prettyPrint && (typeof(this.options.prettyPrint) === "undefined" || this.options.prettyPrint)) {
-       prettyPrint();
-     }
-
      var that = this;
 
      var sortable = $("#ul-" + this.options.sortableId).sortable(
@@ -488,7 +437,7 @@
            that.updateHTMLIndent(ui.item[0].id);
          },
          receive : function(event, ui) {
-           var ind = that.updateIndent(ui.position.left - ui.item.parent().position().left,
+          that.updateIndent(ui.position.left - ui.item.parent().position().left,
                                        ui.item[0].id);
            that.updateHTMLIndent(ui.item[0].id);
          },

@@ -1,3 +1,6 @@
+/* global $, loadPyodide, jsyaml, ParsonsWidget */
+
+import { get, set } from "./user-storage.js";
 
 // Credit to https://stackoverflow.com/questions/1248849/converting-sanitised-html-back-to-displayable-html
 function replaceEntities(str) {
@@ -7,7 +10,7 @@ function replaceEntities(str) {
     ret = ret.replace(/&apos;/g, "'");
     ret = ret.replace(/&amp;/g, '&');
     return ret;
-};
+}
 
 function decodeHtmlEntity(x) {
     return x.replace(/&#(\d+);/g, function(match, dec) {
@@ -115,7 +118,6 @@ function setLineNumbers() {
     })
 }
 
-var LS_CODE = '-code';
 var LS_REPR = '-repr';
 let PROBLEM_NAME;
 let PYTHON_FUNC;
@@ -123,15 +125,15 @@ var parsonsWidget;
 var pyodide;
 let outputLines = [];
 
-async function initPyodide() {
+export async function initPyodide() {
     pyodide = await loadPyodide({
         indexURL : "https://cdn.jsdelivr.net/pyodide/v0.19.0/full/",
         stdout: handlePyodideResults,
     });
     document.getElementById("submit").removeAttribute("disabled");
-};
+}
 
-function initWidget() {
+export function initWidget() {
     let params = (new URL(document.location)).searchParams;
     PROBLEM_NAME = params.get("name");
 
@@ -154,7 +156,7 @@ function initWidget() {
 
         parsonsWidget = new ParsonsWidget({
             'sortableId': 'parsons-solution',
-            'onSortableUpdate': (event, ui) => {
+            'onSortableUpdate': () => {
                 setLineNumbers();
             },
             'trashId': 'starter-code',

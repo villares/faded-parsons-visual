@@ -8,7 +8,7 @@ function supportsStorage() {
   }
 }
 
-function get(key, defaultValue) {
+export function get(key, defaultValue) {
   let value;
   if (!supportsStorage()) {
     value = veryLocalStorage[key];
@@ -18,7 +18,7 @@ function get(key, defaultValue) {
   return value === null || typeof value === "undefined" ? defaultValue : value;
 }
 
-function set(key, value) {
+export function set(key, value) {
   if (!supportsStorage()) {
     veryLocalStorage[key] = value;
   } else {
