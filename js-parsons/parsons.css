@@ -8,8 +8,8 @@
 }
 #sortableTrash { width: 38%; }
 #sortable { width: 56%; }
-#starter-code { width: 40%; }
-#parsons-solution {
+.starter { width: 40%; }
+.solution {
     width: 58%;
     margin-left: 2%;}
 .sortable-code ul {

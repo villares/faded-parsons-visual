@@ -12,32 +12,6 @@
         font-size: 80%;
     }
     </style>
-    <!--  taken from geeks for geeks -->
-    <style>
-        #loader {
-            border: 12px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 12px solid #444444;
-            width: 70px;
-            height: 70px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .center {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
-    </style>
 </head>
 
 <body>
@@ -47,55 +21,7 @@
     </nav>
 
     <div class="container">
-
-        <div id = "problem-statement" class="row mt-3">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Problem Statement</h3>
-                    </div>
-                    <div class="card-body" id="problem-description">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="starter-code" class="sortable-code"></div>
-                        <div id="parsons-solution" class="sortable-code"></div>
-                        <div style="clear:both"></div>
-                        <div class="row float-right">
-                            <div class="col-sm-12">
-                                <button id="submit" type="button" class="btn btn-primary" disabled>Run Tests</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Test Cases</h4>
-                    </div>
-                    <div id ="test_description">
-                        <div class="card-body">
-                            Test results will appear here after clicking 'Run Tests' above.
-                        </div>
-                    </div>
-                    <div id="errors" style="display: none">
-                        <div id="errors_body" class="card-body card-padding bgm-amber"></div>
-                    </div>
-                </div>
-                <div class="row mb-4"></div>
-            </div>
-        </div>
-
+        <div id="problem-wrapper"></div>
     </div>
 <!-- jQuery, jQueryUI, and Pyodide are all loaded via CDN. Other dependencies are bundled. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>

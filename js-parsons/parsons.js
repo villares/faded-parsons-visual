@@ -65,7 +65,7 @@
      };
 
      this.options = $.extend({}, defaults, options);
-     this.id_prefix = options['sortableId'] + 'codeline';
+     this.id_prefix ='sortable-codeline';
 
      // translate trash_label and solution_label
      if (!this.options["trash_label"]) {
@@ -171,11 +171,9 @@
      this.given = initial_structures.given;
      this.extra_lines = initial_structures.distractors;
      this.modified_lines = initial_structures.widgetInitial;
-     var id_prefix = this.id_prefix;
 
-     // Add ids to the line objects in the user-draggable lines
-     this.modified_lines.forEach(function(item, index) {
-       item.id = id_prefix + index;
+     this.modified_lines.forEach((item, index) => {
+      item.id = this.id_prefix + index;
      });
    };
 
@@ -193,7 +191,7 @@
    ParsonsWidget.prototype.solutionCode = function() {
      const indentConstant = "    ";
      let solutionCode = "";
-     const lines = this.getModifiedCode("#ul-" + this.options.sortableId);
+     const lines = this.getModifiedCode(this.options.sortableId.querySelector('ul'));
      for (let i = 0; i < lines.length; i++) {
        let codeClone = document.getElementById(lines[i].id).cloneNode(true);
        codeClone.querySelectorAll("input").forEach(function (inp) {
@@ -209,10 +207,10 @@
    };
 
 
-   ParsonsWidget.prototype.parsonsReprCode = function() {
+   ParsonsWidget.prototype.reprCode = function() {
     var reprCodeSoln = "";
     var reprCodeNonSoln = "";
-    var lines = this.getModifiedCode("#ul-" + this.options.sortableId);
+    var lines = this.getModifiedCode(this.options.sortableId.querySelector('ul'));
     var lines_in_soln = [];
     // find lines in solution
     for (let i = 0; i < lines.length; i++) {
@@ -223,19 +221,8 @@
           inp.replaceWith('!BLANK');
           blankText += " #blank" + inp.value
       });
-      let codeClone = document.getElementById(lines[i].id).cloneNode(true);
-      codeClone.querySelectorAll("input").forEach(function (inp) {
-          inp.replaceWith(inp.value);
-      });
       yamlConfigClone.innerText = yamlConfigClone.innerText.trimRight();
-      codeClone.innerText = codeClone.innerText.trimRight();
-
-      // remove line numbers at the end of each line
-      // is not a problem in solutionCode(), worth investigating
       let line = yamlConfigClone.innerText;
-      var tokensLst = line.split(" ");
-      tokensLst.pop();
-      line = tokensLst.join(" ");
       line = line + ` #${lines[i].indent}given` + blankText;
       reprCodeSoln +=  line + "\n";
     }
@@ -245,12 +232,7 @@
         yamlConfigClone.querySelectorAll("input").forEach(function (inp) {
             inp.replaceWith('!BLANK');
         });
-        let codeClone = document.getElementById(this.modified_lines[i].id).cloneNode(true);
-        codeClone.querySelectorAll("input").forEach(function (inp) {
-            inp.replaceWith(inp.value);
-        });
         yamlConfigClone.innerText = yamlConfigClone.innerText.trimRight();
-        codeClone.innerText = codeClone.innerText.trimRight();
         let line = yamlConfigClone.innerText;
         reprCodeNonSoln += line + "\n";
       }
@@ -288,10 +270,10 @@
    /**
     * Retrieve the code lines based on what is in the DOM
     * */
-   ParsonsWidget.prototype.getModifiedCode = function(search_string) {
+   ParsonsWidget.prototype.getModifiedCode = function(sortableCodeUL) {
      //ids of the the modified code
      var lines_to_return = [],
-          solution_ids = $(search_string).sortable('toArray'),
+          solution_ids = $(sortableCodeUL).sortable('toArray'),
           i, item;
      for (i = 0; i < solution_ids.length; i++) {
        item = this.getLineById(solution_ids[i]);
@@ -354,9 +336,9 @@
            givenIdlist.push(givenCodeLines[i].id);
        }
        if (this.options.trashId) {
-           this.createHTMLFromLists(givenIdlist,idlist);
+           this.createHTMLFromLists(givenIdlist, idlist);
        } else {
-           this.createHTMLFromLists(idlist,[]);
+           this.createHTMLFromLists(idlist, []);
        }
 
        // TODO: Move somewhere else or remove after better UI PR.
@@ -385,7 +367,7 @@
         }
       });
       // Get current indents
-      var element = document.getElementById( 'ul-' + this.options.sortableId);
+      var element = this.options.sortableId.querySelector('ul');
       var backgroundColor = 'rgb(255, 255, 170)';
       var backgroundPosition = '';
       for (var i = 1; i <= maxIndent + 1; i++ ) {
@@ -416,13 +398,13 @@
       return '<li id="' + codeline.id + '">' + codeline.code + '</li>';
     };
 
-    ParsonsWidget.prototype.codeLinesToHTML = function(codelineIDs, destinationID) {
+    ParsonsWidget.prototype.codeLinesToHTML = function(codelineIDs) {
         var lineHTML = [];
         for(var id in codelineIDs) {
             var line = this.getLineById(codelineIDs[id]);
             lineHTML.push(this.codeLineToHTML(line));
         }
-        return '<ul id="ul-' + destinationID + '">'+lineHTML.join('')+'</ul>';
+        return '<ul>'+lineHTML.join('')+'</ul>';
     };
 
    /** modifies the DOM by inserting exercise elements into it */
@@ -430,19 +412,20 @@
      var html;
      if (this.options.trashId) {
        html = (this.options.trash_label?'<p>'+this.options.trash_label+'</p>':'') +
-         this.codeLinesToHTML(trashIDs, this.options.trashId);
-       document.getElementById(this.options.trashId).innerHTML = html;
+         this.codeLinesToHTML(trashIDs);
+       this.options.trashId.innerHTML = html;
        html = (this.options.solution_label?'<p>'+this.options.solution_label+'</p>':'') +
-         this.codeLinesToHTML(solutionIDs, this.options.sortableId);
-        document.getElementById(this.options.sortableId).innerHTML = html;
+         this.codeLinesToHTML(solutionIDs);
+        this.options.sortableId.innerHTML = html;
      } else {
-       html = this.codeLinesToHTML(solutionIDs, this.options.sortableId);
-       document.getElementById(this.options.sortableId).innerHTML = html;
+       html = this.codeLinesToHTML(solutionIDs);
+       this.options.sortableId.innerHTML = html;
      }
 
      var that = this;
 
-     var sortable = $("#ul-" + this.options.sortableId).sortable(
+
+     var sortable = $(this.options.sortableId.querySelector('ul')).sortable(
        {
          stop : function(event, ui) {
            if ($(event.target)[0] != ui.item.parent()[0]) {
@@ -465,7 +448,7 @@
        });
      sortable.addClass("output");
      if (this.options.trashId) {
-       var trash = $("#ul-" + this.options.trashId).sortable(
+       var trash = $(this.options.trashId.querySelector('ul')).sortable(
          {
            connectWith: sortable,
            receive: function(event, ui) {

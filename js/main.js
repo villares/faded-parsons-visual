@@ -1,8 +1,8 @@
-/* global loadPyodide, ParsonsWidget, jQuery */
+/* global loadPyodide */
 import yaml from 'js-yaml'
 
 import { get, set } from "./user-storage.js";
-
+import './problem-element.js';
 
 function findNextUnindentedLine(lines, start) {
     /*
@@ -80,24 +80,22 @@ function cleanupDoctestResults(resultsStr) {
 
 
 var LS_REPR = '-repr';
-let PROBLEM_NAME;
-let PYTHON_FUNC;
-var parsonsWidget;
+let probEl;
 var pyodide;
 
 export async function initPyodide() {
     pyodide = await loadPyodide({
         indexURL : "https://cdn.jsdelivr.net/pyodide/v0.19.0/full/"
     });
-    document.getElementById("submit").removeAttribute("disabled");
+    probEl.setAttribute("enableRun", "enableRun");
 }
 
 export function initWidget() {
     let params = (new URL(document.location)).searchParams;
-    PROBLEM_NAME = params.get("name");
+    let problemName = params.get("name");
 
-    const fetchConf = fetch(`parsons_probs/${PROBLEM_NAME}.yaml`).then((res) => res.text());
-    const fetchFunc = fetch(`parsons_probs/${PROBLEM_NAME}.py`).then((res) => res.text());
+    const fetchConf = fetch(`parsons_probs/${problemName}.yaml`).then((res) => res.text());
+    const fetchFunc = fetch(`parsons_probs/${problemName}.py`).then((res) => res.text());
     const allData = Promise.all([fetchConf, fetchFunc]);
 
     allData.then((res) => {
@@ -107,37 +105,30 @@ export function initWidget() {
         let codeLines = configYaml['code_lines'] +
             '\nprint(\'DEBUG:\', !BLANK)' + '\nprint(\'DEBUG:\', !BLANK)' +
             '\n# !BLANK' + '\n# !BLANK';
-        const localRepr = get(PROBLEM_NAME + LS_REPR);
+        const localRepr = get(problemName + LS_REPR);
         if (localRepr) {
             codeLines = localRepr;
         }
-        PYTHON_FUNC = func;
-
-        parsonsWidget = new ParsonsWidget({
-            'sortableId': 'parsons-solution',
-            'trashId': 'starter-code',
-            'max_wrong_lines': 0,
-            'syntax_language': 'lang-py',
+        probEl = document.createElement('problem-element');
+        probEl.setAttribute('name', problemName);
+        probEl.setAttribute('description', probDescription);
+        probEl.setAttribute('codeLines', codeLines);
+        probEl.setAttribute('codeHeader', func);
+        probEl.addEventListener('run', (e) => {
+            handleSubmit(e.detail.code, e.detail.repr, func);
         });
-        parsonsWidget.init(codeLines);
-        parsonsWidget.alphabetize();
-        document.getElementById("submit").addEventListener("click", submitParsons);
-        document.getElementById("problem-description").innerHTML = probDescription;
+        document.getElementById('problem-wrapper').appendChild(probEl);
     });
 }
 
 
-function submitParsons() {
-    document.getElementById("test_description").style.display = "none";
-    document.getElementById("errors").style.display = "block";
-    document.getElementById("errors_body").innerHTML = '<div id="loader"></div>';
-
-    var submittedCode = parsonsWidget.solutionCode() + "\n";
-    let lines = PYTHON_FUNC.split('\n');
+function handleSubmit(submittedCode, reprCode, codeHeader) {
+    submittedCode += "\n";
+    let lines = codeHeader.split('\n');
     const startLine = countDocstringLines(lines);
     const codeLines = submittedCode.split("\n");
     if (!(codeLines[0].includes("def") || codeLines[0].includes("class"))) {
-        alert("First code line must be `def` or `class` declaration");
+        probEl.setAttribute("results", "First code line must be `def` or `class` declaration");
         return;
     }
     // Remove function def or class declaration statement, is relied on elsewhere
@@ -145,7 +136,7 @@ function submitParsons() {
 
     let line = findNextUnindentedLine(codeLines, 0);
     if (line != codeLines.length) {
-        alert("All lines in a function or class definition should be indented at least once. It looks like you have a line that has no indentation.");
+        probEl.setAttribute("results", "All lines in a function or class definition should be indented at least once. It looks like you have a line that has no indentation.");
         return;
     }
     const linesToPreserve = lines.slice(0, startLine);
@@ -179,11 +170,11 @@ function submitParsons() {
             const errorMsg = extractError(error.message, startLine);
             let testResults = '<div class="testcase fail"><span class="msg">Syntax error</span></div>';
             testResults += '<span style="white-space: pre-line"><pre><code>' + errorMsg +  '  <pre></code></span></div>';
-            document.getElementById("errors").style.display = "block";
-            document.getElementById("errors_body").innerHTML = testResults;
+            probEl.setAttribute("results", testResults);
+
         }
     }
-    set(PROBLEM_NAME + LS_REPR, parsonsWidget.parsonsReprCode());
+    set(probEl.getAttribute('name') + LS_REPR, reprCode);
 }
 
 
@@ -191,7 +182,7 @@ function handlePyodideOutput(outputStr) {
     let testResults;
 
     if (outputStr.endsWith('Test passed.')) {
-        testResults = '<div class="testcase pass"><span class="msg">All tests passed</span></div>';
+        probEl.setAttribute("results", "All lines in a function or class definition should be indented at least once. It looks like you have a line that has no indentation.");
     } else {
         const summaryRe = /(\d+)\spassed\sand\s(\d+)\sfailed./;
         const summaryMatches = outputStr.match(summaryRe);
@@ -202,11 +193,8 @@ function handlePyodideOutput(outputStr) {
             const doctestResults = cleanupDoctestResults(outputStr);
             testResults = `<div class="testcase fail"> Passing ${successCount} of ${totalCount} total cases</div>`;
             testResults += '<span style="white-space: pre-line"><pre><code>' + doctestResults + '<pre></code></span></div>';
+            probEl.setAttribute("results", testResults);
         }
-    }
-    if (testResults) {
-        document.getElementById("errors").style.display = "block";
-        document.getElementById("errors_body").innerHTML = testResults;
     }
 }
 
