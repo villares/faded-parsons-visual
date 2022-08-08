@@ -13,6 +13,23 @@
        return "Based on language syntax, the highlighted fragment (" + lineNro + ") is not correctly indented."; },
    };
 
+   // Credit to https://stackoverflow.com/questions/1248849/converting-sanitised-html-back-to-displayable-html
+	function replaceEntities(str) {
+		var ret = str.replace(/&gt;/g, '>');
+		ret = ret.replace(/&lt;/g, '<');
+		ret = ret.replace(/&quot;/g, '"');
+		ret = ret.replace(/&apos;/g, "'");
+		ret = ret.replace(/&amp;/g, '&');
+		return ret;
+	}
+
+	function decodeHtmlEntity(x) {
+		return x.replace(/&#(\d+);/g, function(match, dec) {
+			return String.fromCharCode(dec);
+		});
+	}
+
+
   // Create a line object skeleton with only code and indentation from
   // a code string of an assignment definition string (see parseCode)
   var ParsonsCodeline = function(codestring, widget) {
@@ -162,34 +179,33 @@
      });
    };
 
+   ParsonsWidget.prototype.setLineNumbers = function() {
+		// Removes all line numbers
+		$(".line-number").remove();
+		var lines = $("#ul-parsons-solution").children('li');
+		lines.each(function() {
+			var line = $(this);
+			var lineNumber = line.index() + 1;
+			line.append('<code class="line-number"> ' + lineNumber + '</code>')
+		})
+	};
+
    ParsonsWidget.prototype.solutionCode = function() {
-     var indentConstant = "    ";
-     // var indentConstant = "  ";
-     var solutionCode = "";
-     var codeMetadata = "";
-     var lines = this.getModifiedCode("#ul-" + this.options.sortableId);
+     const indentConstant = "    ";
+     let solutionCode = "";
+     const lines = this.getModifiedCode("#ul-" + this.options.sortableId);
      for (let i = 0; i < lines.length; i++) {
-       var blankText = "";
-       //Original line from the YAML File
-       var originalLine = "";
-       let yamlConfigClone = document.getElementById(lines[i].id).cloneNode(true);
-       yamlConfigClone.querySelectorAll("input").forEach(function (inp) {
-           inp.replaceWith('!BLANK');
-           blankText += " #blank" + inp.value
-       });
        let codeClone = document.getElementById(lines[i].id).cloneNode(true);
        codeClone.querySelectorAll("input").forEach(function (inp) {
            inp.replaceWith(inp.value);
        });
-       yamlConfigClone.innerText = yamlConfigClone.innerText.trimRight();
+	   codeClone.querySelectorAll(".line-number").forEach(function (elem) {
+		elem.remove();
+	   });
        codeClone.innerText = codeClone.innerText.trimRight();
-       if (yamlConfigClone.innerText != codeClone.innerText) {
-         originalLine = " #!ORIGINAL" + yamlConfigClone.innerText + blankText;
-       }
        solutionCode += indentConstant.repeat(lines[i].indent) + codeClone.innerText + "\n";
-       codeMetadata +=  originalLine + "\n";
      }
-     return [solutionCode, codeMetadata];
+     return solutionCode;
    };
 
 
@@ -441,7 +457,10 @@
                                        ui.item[0].id);
            that.updateHTMLIndent(ui.item[0].id);
          },
-         update: that.options.onSortableUpdate,
+         update: (e) => {
+			this.setLineNumbers();
+			this.options.onSortableUpdate(e);
+		 },
          grid : that.options.can_indent ? [that.options.x_indent, 1 ] : false
        });
      sortable.addClass("output");

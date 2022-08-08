@@ -1,22 +1,8 @@
-/* global $, loadPyodide, jsyaml, ParsonsWidget */
+/* global loadPyodide, ParsonsWidget, jQuery */
+import yaml from 'js-yaml'
 
 import { get, set } from "./user-storage.js";
 
-// Credit to https://stackoverflow.com/questions/1248849/converting-sanitised-html-back-to-displayable-html
-function replaceEntities(str) {
-    var ret = str.replace(/&gt;/g, '>');
-    ret = ret.replace(/&lt;/g, '<');
-    ret = ret.replace(/&quot;/g, '"');
-    ret = ret.replace(/&apos;/g, "'");
-    ret = ret.replace(/&amp;/g, '&');
-    return ret;
-}
-
-function decodeHtmlEntity(x) {
-    return x.replace(/&#(\d+);/g, function(match, dec) {
-        return String.fromCharCode(dec);
-    });
-}
 
 function findNextUnindentedLine(lines, start) {
     /*
@@ -73,10 +59,11 @@ function extractError(error, numDocstringLines) {
     }
 }
 
-function cleanupDoctestResults(lines) {
+function cleanupDoctestResults(resultsStr) {
+
     let keptLines = [];
     let inKeepRange = false;
-    lines.forEach((line) => {
+    resultsStr.split('\n').forEach((line) => {
         if (line.startsWith('File "__main__"')) {
             inKeepRange = true;
             return;
@@ -91,44 +78,16 @@ function cleanupDoctestResults(lines) {
     return keptLines.join("\n");
 }
 
-function getSolutionCode() {
-    // Removes line numbers so they don't pollute solutionCode
-    $(".line-number").remove();
-
-    var [solutionCode, codeMetadata] = parsonsWidget.solutionCode();
-    solutionCode = decodeHtmlEntity(replaceEntities(solutionCode));
-    codeMetadata = decodeHtmlEntity(replaceEntities(codeMetadata));
-
-    setLineNumbers();
-
-    return JSON.stringify({
-        'code': solutionCode,
-        'code_metadata': codeMetadata,
-    })
-}
-
-function setLineNumbers() {
-    // Removes all line numbers
-    $(".line-number").remove();
-    var lines = $("#ul-parsons-solution").children('li');
-    lines.each(function() {
-        var line = $(this);
-        var lineNumber = line.index() + 1;
-        line.append('<code class="line-number"> ' + lineNumber + '</code>')
-    })
-}
 
 var LS_REPR = '-repr';
 let PROBLEM_NAME;
 let PYTHON_FUNC;
 var parsonsWidget;
 var pyodide;
-let outputLines = [];
 
 export async function initPyodide() {
     pyodide = await loadPyodide({
-        indexURL : "https://cdn.jsdelivr.net/pyodide/v0.19.0/full/",
-        stdout: handlePyodideResults,
+        indexURL : "https://cdn.jsdelivr.net/pyodide/v0.19.0/full/"
     });
     document.getElementById("submit").removeAttribute("disabled");
 }
@@ -143,7 +102,7 @@ export function initWidget() {
 
     allData.then((res) => {
         const [config, func] = res;
-        const configYaml = jsyaml.load(config);
+        const configYaml = yaml.load(config);
         const probDescription = configYaml['problem_description'];
         let codeLines = configYaml['code_lines'] +
             '\nprint(\'DEBUG:\', !BLANK)' + '\nprint(\'DEBUG:\', !BLANK)' +
@@ -156,9 +115,6 @@ export function initWidget() {
 
         parsonsWidget = new ParsonsWidget({
             'sortableId': 'parsons-solution',
-            'onSortableUpdate': () => {
-                setLineNumbers();
-            },
             'trashId': 'starter-code',
             'max_wrong_lines': 0,
             'syntax_language': 'lang-py',
@@ -172,11 +128,11 @@ export function initWidget() {
 
 
 function submitParsons() {
-    $("#test_description").hide();
-    $("#errors").show();
-    $("#errors_body").html('<div id="loader"></div>');
+    document.getElementById("test_description").style.display = "none";
+    document.getElementById("errors").style.display = "block";
+    document.getElementById("errors_body").innerHTML = '<div id="loader"></div>';
 
-    var submittedCode = JSON.parse(getSolutionCode())['code'] + '\n'
+    var submittedCode = parsonsWidget.solutionCode() + "\n";
     let lines = PYTHON_FUNC.split('\n');
     const startLine = countDocstringLines(lines);
     const codeLines = submittedCode.split("\n");
@@ -205,46 +161,52 @@ function submitParsons() {
     extraLinesToPreserve.forEach((line) => {
         finalCode.push(line);
     });
-    finalCode.push('');
+    // Redirects stdout so we can return it
+    finalCode.push('import sys');
+    finalCode.push('import io');
+    finalCode.push('sys.stdout = io.StringIO()');
+    // Runs the doctests
     finalCode.push('import doctest');
     finalCode.push('doctest.testmod(verbose=True)');
     finalCode = finalCode.join('\n');
 
-    outputLines = [];
     try {
         pyodide.runPython(finalCode);
+        handlePyodideOutput(pyodide.runPython('sys.stdout.getvalue()'));
     } catch(error) {
         // Handle syntax errors
         if (error.message.startsWith('Traceback')) {
             const errorMsg = extractError(error.message, startLine);
             let testResults = '<div class="testcase fail"><span class="msg">Syntax error</span></div>';
             testResults += '<span style="white-space: pre-line"><pre><code>' + errorMsg +  '  <pre></code></span></div>';
-            $("#errors").show();
-            $("#errors_body").html(testResults);
+            document.getElementById("errors").style.display = "block";
+            document.getElementById("errors_body").innerHTML = testResults;
         }
     }
     set(PROBLEM_NAME + LS_REPR, parsonsWidget.parsonsReprCode());
 }
 
 
-function handlePyodideResults(outputLine) {
+function handlePyodideOutput(outputStr) {
     let testResults;
-    outputLines.push(outputLine);
-    if (outputLine == 'Test passed.') {
+
+    if (outputStr.endsWith('Test passed.')) {
         testResults = '<div class="testcase pass"><span class="msg">All tests passed</span></div>';
     } else {
         const summaryRe = /(\d+)\spassed\sand\s(\d+)\sfailed./;
-        const summaryMatches = outputLine.match(summaryRe);
+        const summaryMatches = outputStr.match(summaryRe);
         if (summaryMatches) {
             const successCount = parseInt(summaryMatches[1], 10);
             const failCount = parseInt(summaryMatches[2], 10);
             const totalCount = successCount + failCount;
-            const doctestResults = cleanupDoctestResults(outputLines);
+            const doctestResults = cleanupDoctestResults(outputStr);
             testResults = `<div class="testcase fail"> Passing ${successCount} of ${totalCount} total cases</div>`;
             testResults += '<span style="white-space: pre-line"><pre><code>' + doctestResults + '<pre></code></span></div>';
         }
     }
-    $("#errors").show();
-    $("#errors_body").html(testResults);
+    if (testResults) {
+        document.getElementById("errors").style.display = "block";
+        document.getElementById("errors_body").innerHTML = testResults;
+    }
 }
 
