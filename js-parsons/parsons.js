@@ -13,23 +13,6 @@
        return "Based on language syntax, the highlighted fragment (" + lineNro + ") is not correctly indented."; },
    };
 
-   // Credit to https://stackoverflow.com/questions/1248849/converting-sanitised-html-back-to-displayable-html
-	function replaceEntities(str) {
-		var ret = str.replace(/&gt;/g, '>');
-		ret = ret.replace(/&lt;/g, '<');
-		ret = ret.replace(/&quot;/g, '"');
-		ret = ret.replace(/&apos;/g, "'");
-		ret = ret.replace(/&amp;/g, '&');
-		return ret;
-	}
-
-	function decodeHtmlEntity(x) {
-		return x.replace(/&#(\d+);/g, function(match, dec) {
-			return String.fromCharCode(dec);
-		});
-	}
-
-
   // Create a line object skeleton with only code and indentation from
   // a code string of an assignment definition string (see parseCode)
   var ParsonsCodeline = function(codestring, widget) {
