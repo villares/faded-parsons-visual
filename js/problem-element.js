@@ -18,11 +18,14 @@ export class ProblemElement extends LitElement {
 	};
 
 	static styles = css`
-	.starter { width: 40%; }
-	.solution {
-		width: 58%;
-		margin-left: 2%;}
-  `;
+		.starter {
+			width: 40%;
+		}
+		.solution {
+			width: 58%;
+			margin-left: 2%;
+		}
+	`;
 
 	starterRef = createRef();
 	solutionRef = createRef();
@@ -32,8 +35,11 @@ export class ProblemElement extends LitElement {
 	}
 
 	render() {
-		const testTxt = 'Test results will appear here after clicking "Run Tests" above.';
-		const results = this.clickedRun ? (this.results || html`<loader-element></loader-element>`) : testTxt;
+		const testTxt =
+			'Test results will appear here after clicking "Run Tests" above.';
+		const results = this.clickedRun
+			? this.results || html`<loader-element></loader-element>`
+			: testTxt;
 		return html`
 			<div class="row mt-3">
 				<div class="col-sm-12">
@@ -51,7 +57,10 @@ export class ProblemElement extends LitElement {
 					<div class="card">
 						<div class="card-body">
 							<div ${ref(this.starterRef)} class="sortable-code starter"></div>
-							<div ${ref(this.solutionRef)} class="sortable-code solution"></div>
+							<div
+								${ref(this.solutionRef)}
+								class="sortable-code solution"
+							></div>
 							<div style="clear:both"></div>
 							<div class="row float-right">
 								<div class="col-sm-12">
@@ -88,20 +97,22 @@ export class ProblemElement extends LitElement {
 
 	firstUpdated() {
 		this.parsonsWidget = new ParsonsWidget({
-            'sortableId': this.solutionRef.value,
-            'trashId': this.starterRef.value
-        });
-        this.parsonsWidget.init(this.codeLines);
-        this.parsonsWidget.alphabetize();
+			sortableId: this.solutionRef.value,
+			trashId: this.starterRef.value,
+		});
+		this.parsonsWidget.init(this.codeLines);
+		this.parsonsWidget.alphabetize();
 	}
 
 	onRun() {
 		this.clickedRun = true;
 		this.dispatchEvent(
-			new CustomEvent('run', {detail: {
-				code: this.parsonsWidget.solutionCode(),
-				repr: this.parsonsWidget.reprCode()
-			}})
+			new CustomEvent('run', {
+				detail: {
+					code: this.parsonsWidget.solutionCode(),
+					repr: this.parsonsWidget.reprCode(),
+				},
+			})
 		);
 	}
 }

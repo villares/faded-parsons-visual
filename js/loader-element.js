@@ -2,21 +2,21 @@ import {LitElement, html, css} from 'lit';
 
 export class LoaderElement extends LitElement {
 	static styles = css`
-	.loader {
-		border: 12px solid #f3f3f3;
-		border-radius: 50%;
-		border-top: 12px solid #444444;
-		width: 70px;
-		height: 70px;
-		animation: spin 1s linear infinite;
-	}
-
-	@keyframes spin {
-		100% {
-			transform: rotate(360deg);
+		.loader {
+			border: 12px solid #f3f3f3;
+			border-radius: 50%;
+			border-top: 12px solid #444444;
+			width: 70px;
+			height: 70px;
+			animation: spin 1s linear infinite;
 		}
-	}
-  `;
+
+		@keyframes spin {
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	`;
 
 	render() {
 		return html`<div class="loader"></div>`;

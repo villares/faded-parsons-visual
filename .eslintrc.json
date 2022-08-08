@@ -1,24 +1,24 @@
 {
-    "root": true,
-    "extends": ["eslint:recommended"],
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "requireConfigFile": false,
-      "sourceType": "module"
-    },
-    "env": {
-      "browser": true,
-      "es6": true
-    },
-    "rules": {
-      "no-unexpected-multiline": "off"
-    },
-    "overrides": [
-      {
-        "files": ["rollup.config.js", "web-test-runner.config.js"],
-        "env": {
-          "node": true
-        }
-      }
-    ]
-  }
+	"root": true,
+	"extends": ["eslint:recommended"],
+	"parser": "@babel/eslint-parser",
+	"parserOptions": {
+		"requireConfigFile": false,
+		"sourceType": "module"
+	},
+	"env": {
+		"browser": true,
+		"es6": true
+	},
+	"rules": {
+		"no-unexpected-multiline": "off"
+	},
+	"overrides": [
+		{
+			"files": ["rollup.config.js", "web-test-runner.config.js"],
+			"env": {
+				"node": true
+			}
+		}
+	]
+}
