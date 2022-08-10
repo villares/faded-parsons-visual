@@ -444,10 +444,7 @@
 	};
 
 	/** modifies the DOM by inserting exercise elements into it */
-	ParsonsWidget.prototype.createHTMLFromLists = function (
-		solutionIDs,
-		trashIDs
-	) {
+	ParsonsWidget.prototype.createHTMLFromLists = function (solutionIDs, trashIDs) {
 		var html;
 		if (this.options.trashId) {
 			html =

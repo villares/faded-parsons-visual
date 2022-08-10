@@ -5,6 +5,7 @@ import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import {ref, createRef} from 'lit/directives/ref.js';
 
 import './loader-element.js';
+import './test-results-element.js';
 
 export class ProblemElement extends LitElement {
 	static properties = {
@@ -12,9 +13,11 @@ export class ProblemElement extends LitElement {
 		description: {type: String},
 		codeLines: {type: String},
 		codeHeader: {type: String},
-		results: {type: String},
 		isLoading: {type: Boolean},
 		enableRun: {type: Boolean, default: false},
+		resultsStatus: {type: String},
+		resultsHeader: {type: String},
+		resultsDetails: {type: String},
 	};
 
 	static styles = css`
@@ -35,11 +38,20 @@ export class ProblemElement extends LitElement {
 	}
 
 	render() {
-		const testTxt =
+		let results =
 			'Test results will appear here after clicking "Run Tests" above.';
-		const results = this.clickedRun
-			? this.results || html`<loader-element></loader-element>`
-			: testTxt;
+		if (this.clickedRun) {
+			if (this.resultsStatus) {
+				results = html`<test-results-element
+					status=${this.resultsStatus}
+					header=${this.resultsHeader}
+					details=${this.resultsDetails}
+				></test-results-element>`;
+			} else {
+				results = html`<loader-element></loader-element>`;
+			}
+		}
+
 		return html`
 			<div class="row mt-3">
 				<div class="col-sm-12">
@@ -56,7 +68,10 @@ export class ProblemElement extends LitElement {
 				<div class="col-sm-12">
 					<div class="card">
 						<div class="card-body">
-							<div ${ref(this.starterRef)} class="sortable-code starter"></div>
+							<div
+								${ref(this.starterRef)}
+								class="sortable-code starter"
+							></div>
 							<div
 								${ref(this.solutionRef)}
 								class="sortable-code solution"
@@ -86,10 +101,9 @@ export class ProblemElement extends LitElement {
 							<h4>Test Cases</h4>
 						</div>
 						<div id="test_description">
-							<div class="card-body">${unsafeHTML(results)}</div>
+							<div class="card-body">${results}</div>
 						</div>
 					</div>
-					<div class="row mb-4"></div>
 				</div>
 			</div>
 		`;
