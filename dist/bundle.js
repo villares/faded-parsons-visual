@@ -3964,7 +3964,7 @@ function prepareCode(submittedCode, codeHeader) {
 			details: 'First code line must be `def` or `class` declaration',
 		};
 	}
-	// Remove function def or class declaration statement, is relied on elsewhere
+	// Remove function def or class declaration statement, its relied on elsewhere
 	codeLines.shift();
 
 	let line = findNextUnindentedLine(codeLines, 0);
@@ -4016,7 +4016,7 @@ function processTestResults(outputStr) {
 		const totalCount = successCount + failCount;
 		const doctestResults = cleanupDoctestResults(outputStr);
 		return {
-			status: (successCount == totalCount) ? 'pass' : 'fail',
+			status: successCount == totalCount ? 'pass' : 'fail',
 			header: `${successCount} of ${totalCount} tests passed`,
 			details: doctestResults,
 		};
@@ -4174,19 +4174,19 @@ class ProblemElement extends s {
 	}
 
 	render() {
-		let results = 'Test results will appear here after clicking "Run Tests" above.';
+		let results =
+			'Test results will appear here after clicking "Run Tests" above.';
 		if (this.clickedRun) {
 			if (this.resultsStatus) {
 				results = $`<test-results-element
-				status=${this.resultsStatus}
-				header=${this.resultsHeader}
-				details=${this.resultsDetails}
-		  ></test-results-element>`;
+					status=${this.resultsStatus}
+					header=${this.resultsHeader}
+					details=${this.resultsDetails}
+				></test-results-element>`;
 			} else {
 				results = $`<loader-element></loader-element>`;
 			}
 		}
-
 
 		return $`
 			<div class="row mt-3">
@@ -4237,9 +4237,8 @@ class ProblemElement extends s {
 							<h4>Test Cases</h4>
 						</div>
 						<div id="test_description">
-						<div class="card-body">
-						${results}
-						</div></div>
+							<div class="card-body">${results}</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -4334,10 +4333,10 @@ function handleSubmit(submittedCode, reprCode, codeHeader) {
 			testResults = processTestError(error, testResults.startLine);
 		}
 	}
-    console.log(testResults);
+	console.log(testResults);
 	probEl.setAttribute('resultsStatus', testResults.status);
-    probEl.setAttribute('resultsHeader', testResults.header);
-    probEl.setAttribute('resultsDetails', testResults.details);
+	probEl.setAttribute('resultsHeader', testResults.header);
+	probEl.setAttribute('resultsDetails', testResults.details);
 
 	set(probEl.getAttribute('name') + LS_REPR, reprCode);
 }

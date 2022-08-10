@@ -1,5 +1,8 @@
 /** Stylesheet for the puzzles */
-
+.line-number {
+    float: right !important;
+    font-size: 80%;
+}
 .sortable-code {
     position: static;
     padding-left: 0px;
