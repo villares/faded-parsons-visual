@@ -35,12 +35,9 @@
 		"start": "serve",
 		"prepare": "husky install"
 	},
-	"pre-commit": [
-		"lint",
-		"format"
-	],
 	"lint-staged": {
+    "js/*-element.js": "lit-analyzer",
 		"*.js": "eslint --cache --fix",
-		"*.--write": "prettier --write"
+		"*.--write": "prettier \"**/*.{js,json}\" --ignore-path ./.eslintignore --write"
 	}
 }

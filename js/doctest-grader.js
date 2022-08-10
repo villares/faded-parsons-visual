@@ -88,7 +88,7 @@ export function prepareCode(submittedCode, codeHeader) {
 			details: 'First code line must be `def` or `class` declaration',
 		};
 	}
-	// Remove function def or class declaration statement, is relied on elsewhere
+	// Remove function def or class declaration statement, its relied on elsewhere
 	codeLines.shift();
 
 	let line = findNextUnindentedLine(codeLines, 0);
