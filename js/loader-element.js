@@ -3,12 +3,13 @@ import {LitElement, html, css} from 'lit';
 export class LoaderElement extends LitElement {
 	static styles = css`
 		.loader {
-			border: 12px solid #f3f3f3;
+			border: 4px solid #f3f3f3;
 			border-radius: 50%;
-			border-top: 12px solid #444444;
-			width: 70px;
-			height: 70px;
+			border-top: 4px solid #444444;
+			width: 6px;
+			height: 6px;
 			animation: spin 1s linear infinite;
+			display: inline-block;
 		}
 
 		@keyframes spin {

@@ -18,6 +18,7 @@ export async function initPyodide() {
 		indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.19.0/full/',
 	});
 	probEl.setAttribute('enableRun', 'enableRun');
+    probEl.setAttribute('runStatus', '');
 }
 
 export function initWidget() {
@@ -51,6 +52,7 @@ export function initWidget() {
 		probEl.setAttribute('description', probDescription);
 		probEl.setAttribute('codeLines', codeLines);
 		probEl.setAttribute('codeHeader', func);
+        probEl.setAttribute('runStatus', 'Loading Pyodide...');
 		probEl.addEventListener('run', (e) => {
 			handleSubmit(e.detail.code, e.detail.repr, func);
 		});
@@ -71,7 +73,8 @@ function handleSubmit(submittedCode, reprCode, codeHeader) {
 			testResults = processTestError(error, testResults.startLine);
 		}
 	}
-	console.log(testResults);
+
+    probEl.setAttribute('runStatus', '');
 	probEl.setAttribute('resultsStatus', testResults.status);
 	probEl.setAttribute('resultsHeader', testResults.header);
 	probEl.setAttribute('resultsDetails', testResults.details);

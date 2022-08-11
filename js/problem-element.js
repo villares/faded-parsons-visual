@@ -15,6 +15,7 @@ export class ProblemElement extends LitElement {
 		codeHeader: {type: String},
 		isLoading: {type: Boolean},
 		enableRun: {type: Boolean, default: false},
+		runStatus: {type: String},
 		resultsStatus: {type: String},
 		resultsHeader: {type: String},
 		resultsDetails: {type: String},
@@ -40,16 +41,12 @@ export class ProblemElement extends LitElement {
 	render() {
 		let results =
 			'Test results will appear here after clicking "Run Tests" above.';
-		if (this.clickedRun) {
-			if (this.resultsStatus) {
-				results = html`<test-results-element
-					status=${this.resultsStatus}
-					header=${this.resultsHeader}
-					details=${this.resultsDetails}
-				></test-results-element>`;
-			} else {
-				results = html`<loader-element></loader-element>`;
-			}
+		if (this.resultsStatus) {
+			results = html`<test-results-element
+				status=${this.resultsStatus}
+				header=${this.resultsHeader}
+				details=${this.resultsDetails}
+			></test-results-element>`;
 		}
 
 		return html`
@@ -79,6 +76,10 @@ export class ProblemElement extends LitElement {
 							<div style="clear:both"></div>
 							<div class="row float-right">
 								<div class="col-sm-12">
+									<span style="margin-right: 8px">
+									${this.runStatus && html`<loader-element></loader-element>`}
+									${this.runStatus}
+									</span>
 									<button
 										@click=${this.onRun}
 										type="button"
@@ -119,7 +120,7 @@ export class ProblemElement extends LitElement {
 	}
 
 	onRun() {
-		this.clickedRun = true;
+		this.runStatus = "Running code..."
 		this.dispatchEvent(
 			new CustomEvent('run', {
 				detail: {

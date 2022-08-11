@@ -4097,12 +4097,13 @@ const t={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},e
 class LoaderElement extends s {
 	static styles = r$3`
 		.loader {
-			border: 12px solid #f3f3f3;
+			border: 4px solid #f3f3f3;
 			border-radius: 50%;
-			border-top: 12px solid #444444;
-			width: 70px;
-			height: 70px;
+			border-top: 4px solid #444444;
+			width: 6px;
+			height: 6px;
 			animation: spin 1s linear infinite;
+			display: inline-block;
 		}
 
 		@keyframes spin {
@@ -4151,6 +4152,7 @@ class ProblemElement extends s {
 		codeHeader: {type: String},
 		isLoading: {type: Boolean},
 		enableRun: {type: Boolean, default: false},
+		runStatus: {type: String},
 		resultsStatus: {type: String},
 		resultsHeader: {type: String},
 		resultsDetails: {type: String},
@@ -4176,16 +4178,12 @@ class ProblemElement extends s {
 	render() {
 		let results =
 			'Test results will appear here after clicking "Run Tests" above.';
-		if (this.clickedRun) {
-			if (this.resultsStatus) {
-				results = $`<test-results-element
-					status=${this.resultsStatus}
-					header=${this.resultsHeader}
-					details=${this.resultsDetails}
-				></test-results-element>`;
-			} else {
-				results = $`<loader-element></loader-element>`;
-			}
+		if (this.resultsStatus) {
+			results = $`<test-results-element
+				status=${this.resultsStatus}
+				header=${this.resultsHeader}
+				details=${this.resultsDetails}
+			></test-results-element>`;
 		}
 
 		return $`
@@ -4215,6 +4213,10 @@ class ProblemElement extends s {
 							<div style="clear:both"></div>
 							<div class="row float-right">
 								<div class="col-sm-12">
+									<span style="margin-right: 8px">
+									${this.runStatus && $`<loader-element></loader-element>`}
+									${this.runStatus}
+									</span>
 									<button
 										@click=${this.onRun}
 										type="button"
@@ -4255,7 +4257,7 @@ class ProblemElement extends s {
 	}
 
 	onRun() {
-		this.clickedRun = true;
+		this.runStatus = "Running code...";
 		this.dispatchEvent(
 			new CustomEvent('run', {
 				detail: {
@@ -4280,6 +4282,7 @@ async function initPyodide() {
 		indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.19.0/full/',
 	});
 	probEl.setAttribute('enableRun', 'enableRun');
+    probEl.setAttribute('runStatus', '');
 }
 
 function initWidget() {
@@ -4313,6 +4316,7 @@ function initWidget() {
 		probEl.setAttribute('description', probDescription);
 		probEl.setAttribute('codeLines', codeLines);
 		probEl.setAttribute('codeHeader', func);
+        probEl.setAttribute('runStatus', 'Loading Pyodide...');
 		probEl.addEventListener('run', (e) => {
 			handleSubmit(e.detail.code, e.detail.repr, func);
 		});
@@ -4333,7 +4337,8 @@ function handleSubmit(submittedCode, reprCode, codeHeader) {
 			testResults = processTestError(error, testResults.startLine);
 		}
 	}
-	console.log(testResults);
+
+    probEl.setAttribute('runStatus', '');
 	probEl.setAttribute('resultsStatus', testResults.status);
 	probEl.setAttribute('resultsHeader', testResults.header);
 	probEl.setAttribute('resultsDetails', testResults.details);
