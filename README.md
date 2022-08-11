@@ -3,6 +3,10 @@
 This website allows you to run Faded Parsons Problems in the browser.
 It uses Pyodide for executing Python doctests and localStorage for storing user progress.
 
+Check it out here:
+
+https://pamelafox.github.io/faded-parsons-static/index.html
+
 ## Running the website
 
 To run locally:
