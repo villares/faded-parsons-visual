@@ -1,0 +1,27 @@
+problem_name: double_time
+
+problem_description: |
+  <code>double_time</code>
+    doubles each element in the provided list.
+
+  <pre><code>
+  """
+  >>> nums = [1, 2, 3]
+  >>> double_time(nums)
+  >>> nums
+  [2, 4, 6]
+  >>> nums2 = [-1, -4]
+  >>> double_time(nums2)
+  >>> nums2
+  [-2, -8]
+  """
+  </code></pre>
+
+code_lines: |
+  def double_time(sequence): #0given
+  i = 0
+  while i < !BLANK:
+  !BLANK *= 2
+  i += !BLANK
+
+test_fn: double_time
