@@ -1,5 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import {terser} from 'rollup-plugin-terser';
+import copy from 'rollup-plugin-copy';
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
@@ -15,5 +16,8 @@ export default {
 	plugins: [
 		resolve(),
 		production && terser(), // minify, but only in production
+		copy({
+			targets: [{src: 'js/worker.js', dest: 'dist/'}],
+		}),
 	],
 };

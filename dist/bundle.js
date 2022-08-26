@@ -4007,7 +4007,6 @@ function prepareCode(submittedCode, codeHeader) {
 }
 
 function processTestResults(outputStr) {
-	console.log(outputStr);
 	const summaryRe = /(\d+)\spassed\sand\s(\d+)\sfailed./;
 	const summaryMatches = outputStr.match(summaryRe);
 	if (summaryMatches) {
@@ -4271,19 +4270,34 @@ class ProblemElement extends s {
 
 customElements.define('problem-element', ProblemElement);
 
-/* global loadPyodide */
+const pyodideWorker = new Worker("dist/worker.js");
+
+const callbacks = {};
+
+pyodideWorker.onmessage = (event) => {
+  const { id, ...data } = event.data;
+  const onSuccess = callbacks[id];
+  delete callbacks[id];
+  onSuccess(data);
+};
+
+const asyncRun = (() => {
+  let id = 0; // identify a Promise
+  return (script) => {
+    // the id could be generated more carefully
+    id = (id + 1) % Number.MAX_SAFE_INTEGER;
+    return new Promise((onSuccess) => {
+      callbacks[id] = onSuccess;
+      pyodideWorker.postMessage({
+        python: script,
+        id,
+      });
+    });
+  };
+})();
 
 const LS_REPR = '-repr';
 let probEl;
-let pyodide;
-
-async function initPyodide() {
-	pyodide = await loadPyodide({
-		indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.19.0/full/',
-	});
-	probEl.setAttribute('enableRun', 'enableRun');
-    probEl.setAttribute('runStatus', '');
-}
 
 function initWidget() {
 	let params = new URL(document.location).searchParams;
@@ -4320,21 +4334,27 @@ function initWidget() {
 		probEl.addEventListener('run', (e) => {
 			handleSubmit(e.detail.code, e.detail.repr, func);
 		});
+		probEl.setAttribute('enableRun', 'enableRun');
+		probEl.setAttribute('runStatus', '');
 		document.getElementById('problem-wrapper').appendChild(probEl);
 	});
 }
 
-function handleSubmit(submittedCode, reprCode, codeHeader) {
+async function handleSubmit(submittedCode, reprCode, codeHeader) {
 	let testResults = prepareCode(submittedCode, codeHeader);
 
 	if (testResults.code) {
+
 		try {
-			pyodide.runPython(testResults.code);
-			testResults = processTestResults(
-				pyodide.runPython('sys.stdout.getvalue()')
-			);
-		} catch (error) {
-			testResults = processTestError(error, testResults.startLine);
+			const { results, error } = await asyncRun(testResults.code + '\nsys.stdout.getvalue()');
+
+			if (results) {
+				testResults = processTestResults(results);
+			} else {
+				testResults = processTestError(error, testResults.startLine);
+			}
+		} catch (e) {
+			console.log(`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`);
 		}
 	}
 
@@ -4346,5 +4366,5 @@ function handleSubmit(submittedCode, reprCode, codeHeader) {
 	set(probEl.getAttribute('name') + LS_REPR, reprCode);
 }
 
-export { initPyodide, initWidget };
+export { initWidget };
 //# sourceMappingURL=bundle.js.map

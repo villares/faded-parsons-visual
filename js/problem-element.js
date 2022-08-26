@@ -77,8 +77,9 @@ export class ProblemElement extends LitElement {
 							<div class="row float-right">
 								<div class="col-sm-12">
 									<span style="margin-right: 8px">
-									${this.runStatus && html`<loader-element></loader-element>`}
-									${this.runStatus}
+										${this.runStatus &&
+										html`<loader-element></loader-element>`}
+										${this.runStatus}
 									</span>
 									<button
 										@click=${this.onRun}
@@ -120,7 +121,7 @@ export class ProblemElement extends LitElement {
 	}
 
 	onRun() {
-		this.runStatus = "Running code..."
+		this.runStatus = 'Running code...';
 		this.dispatchEvent(
 			new CustomEvent('run', {
 				detail: {

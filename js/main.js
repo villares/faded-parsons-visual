@@ -1,4 +1,3 @@
-/* global loadPyodide */
 import yaml from 'js-yaml';
 
 import {get, set} from './user-storage.js';
@@ -8,18 +7,10 @@ import {
 	processTestError,
 } from './doctest-grader.js';
 import './problem-element.js';
+import {asyncRun} from './worker-manager.js';
 
 const LS_REPR = '-repr';
 let probEl;
-let pyodide;
-
-export async function initPyodide() {
-	pyodide = await loadPyodide({
-		indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.19.0/full/',
-	});
-	probEl.setAttribute('enableRun', 'enableRun');
-    probEl.setAttribute('runStatus', '');
-}
 
 export function initWidget() {
 	let params = new URL(document.location).searchParams;
@@ -52,29 +43,38 @@ export function initWidget() {
 		probEl.setAttribute('description', probDescription);
 		probEl.setAttribute('codeLines', codeLines);
 		probEl.setAttribute('codeHeader', func);
-        probEl.setAttribute('runStatus', 'Loading Pyodide...');
+		probEl.setAttribute('runStatus', 'Loading Pyodide...');
 		probEl.addEventListener('run', (e) => {
 			handleSubmit(e.detail.code, e.detail.repr, func);
 		});
+		probEl.setAttribute('enableRun', 'enableRun');
+		probEl.setAttribute('runStatus', '');
 		document.getElementById('problem-wrapper').appendChild(probEl);
 	});
 }
 
-function handleSubmit(submittedCode, reprCode, codeHeader) {
+async function handleSubmit(submittedCode, reprCode, codeHeader) {
 	let testResults = prepareCode(submittedCode, codeHeader);
 
 	if (testResults.code) {
 		try {
-			pyodide.runPython(testResults.code);
-			testResults = processTestResults(
-				pyodide.runPython('sys.stdout.getvalue()')
+			const {results, error} = await asyncRun(
+				testResults.code + '\nsys.stdout.getvalue()'
 			);
-		} catch (error) {
-			testResults = processTestError(error, testResults.startLine);
+
+			if (results) {
+				testResults = processTestResults(results);
+			} else {
+				testResults = processTestError(error, testResults.startLine);
+			}
+		} catch (e) {
+			console.log(
+				`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`
+			);
 		}
 	}
 
-    probEl.setAttribute('runStatus', '');
+	probEl.setAttribute('runStatus', '');
 	probEl.setAttribute('resultsStatus', testResults.status);
 	probEl.setAttribute('resultsHeader', testResults.header);
 	probEl.setAttribute('resultsDetails', testResults.details);

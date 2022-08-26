@@ -131,7 +131,6 @@ export function prepareCode(submittedCode, codeHeader) {
 }
 
 export function processTestResults(outputStr) {
-	console.log(outputStr);
 	const summaryRe = /(\d+)\spassed\sand\s(\d+)\sfailed./;
 	const summaryMatches = outputStr.match(summaryRe);
 	if (summaryMatches) {
