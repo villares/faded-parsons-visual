@@ -9,11 +9,11 @@ let pyodideReadyPromise = loadPyodideAndRemember();
 
 self.onmessage = async (event) => {
 	await pyodideReadyPromise;
-	const {id, python} = event.data;
+	const python = event.data;
 	try {
 		let results = await self.pyodide.runPythonAsync(python);
-		self.postMessage({results, id});
+		self.postMessage({results});
 	} catch (error) {
-		self.postMessage({error: error, id});
+		self.postMessage({error: error});
 	}
 };

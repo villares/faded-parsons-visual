@@ -1,27 +1,26 @@
-const pyodideWorker = new Worker('dist/worker.js');
+export class FiniteWorker {
+	constructor(code) {
+		this.gotCalledBack = false;
 
-const callbacks = {};
+		this.worker = new Worker('dist/worker.js');
+		this.worker.onmessage = this.handleMessage.bind(this);
 
-pyodideWorker.onmessage = (event) => {
-	const {id, ...data} = event.data;
-	const onSuccess = callbacks[id];
-	delete callbacks[id];
-	onSuccess(data);
-};
-
-const asyncRun = (() => {
-	let id = 0; // identify a Promise
-	return (script) => {
-		// the id could be generated more carefully
-		id = (id + 1) % Number.MAX_SAFE_INTEGER;
-		return new Promise((onSuccess) => {
-			callbacks[id] = onSuccess;
-			pyodideWorker.postMessage({
-				python: script,
-				id,
-			});
+		return new Promise((resolve) => {
+			window.setTimeout(this.finishIt.bind(this), 1000 * 5);
+			this.worker.postMessage(code);
+			this.resolve = resolve;
 		});
-	};
-})();
+	}
 
-export {asyncRun};
+	finishIt() {
+		if (!this.gotCalledBack) {
+			this.worker.terminate();
+			this.resolve({error: {message: 'Infinite loop'}});
+		}
+	}
+
+	handleMessage(event) {
+		this.gotCalledBack = true;
+		this.resolve(event.data);
+	}
+}

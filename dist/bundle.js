@@ -4029,6 +4029,13 @@ function processTestError(error, startLine) {
 			header: 'Syntax error',
 			details: extractError(error.message, startLine),
 		};
+	} else if (error.message == 'Infinite loop') {
+		return {
+			status: 'fail',
+			header: 'Infinite loop',
+			details:
+				'Your code did not finish executing within 5 seconds. Please look to see if you accidentally coded an infinite loop.',
+		};
 	}
 	return {
 		status: 'fail',
@@ -4213,8 +4220,9 @@ class ProblemElement extends s {
 							<div class="row float-right">
 								<div class="col-sm-12">
 									<span style="margin-right: 8px">
-									${this.runStatus && $`<loader-element></loader-element>`}
-									${this.runStatus}
+										${this.runStatus &&
+										$`<loader-element></loader-element>`}
+										${this.runStatus}
 									</span>
 									<button
 										@click=${this.onRun}
@@ -4256,7 +4264,7 @@ class ProblemElement extends s {
 	}
 
 	onRun() {
-		this.runStatus = "Running code...";
+		this.runStatus = 'Running code...';
 		this.dispatchEvent(
 			new CustomEvent('run', {
 				detail: {
@@ -4270,31 +4278,32 @@ class ProblemElement extends s {
 
 customElements.define('problem-element', ProblemElement);
 
-const pyodideWorker = new Worker("dist/worker.js");
+class FiniteWorker {
+	constructor(code) {
+		this.gotCalledBack = false;
 
-const callbacks = {};
+		this.worker = new Worker('dist/worker.js');
+		this.worker.onmessage = this.handleMessage.bind(this);
 
-pyodideWorker.onmessage = (event) => {
-  const { id, ...data } = event.data;
-  const onSuccess = callbacks[id];
-  delete callbacks[id];
-  onSuccess(data);
-};
+		return new Promise((resolve) => {
+			window.setTimeout(this.finishIt.bind(this), 1000 * 5);
+			this.worker.postMessage(code);
+			this.resolve = resolve;
+		});
+	}
 
-const asyncRun = (() => {
-  let id = 0; // identify a Promise
-  return (script) => {
-    // the id could be generated more carefully
-    id = (id + 1) % Number.MAX_SAFE_INTEGER;
-    return new Promise((onSuccess) => {
-      callbacks[id] = onSuccess;
-      pyodideWorker.postMessage({
-        python: script,
-        id,
-      });
-    });
-  };
-})();
+	finishIt() {
+		if (!this.gotCalledBack) {
+			this.worker.terminate();
+			this.resolve({error: {message: 'Infinite loop'}});
+		}
+	}
+
+	handleMessage(event) {
+		this.gotCalledBack = true;
+		this.resolve(event.data);
+	}
+}
 
 const LS_REPR = '-repr';
 let probEl;
@@ -4330,7 +4339,7 @@ function initWidget() {
 		probEl.setAttribute('description', probDescription);
 		probEl.setAttribute('codeLines', codeLines);
 		probEl.setAttribute('codeHeader', func);
-        probEl.setAttribute('runStatus', 'Loading Pyodide...');
+		probEl.setAttribute('runStatus', 'Loading Pyodide...');
 		probEl.addEventListener('run', (e) => {
 			handleSubmit(e.detail.code, e.detail.repr, func);
 		});
@@ -4344,21 +4353,22 @@ async function handleSubmit(submittedCode, reprCode, codeHeader) {
 	let testResults = prepareCode(submittedCode, codeHeader);
 
 	if (testResults.code) {
-
 		try {
-			const { results, error } = await asyncRun(testResults.code + '\nsys.stdout.getvalue()');
-
+			const code = testResults.code + '\nsys.stdout.getvalue()';
+			const {results, error} = await new FiniteWorker(code);
 			if (results) {
 				testResults = processTestResults(results);
 			} else {
 				testResults = processTestError(error, testResults.startLine);
 			}
 		} catch (e) {
-			console.log(`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`);
+			console.warn(
+				`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`
+			);
 		}
 	}
 
-    probEl.setAttribute('runStatus', '');
+	probEl.setAttribute('runStatus', '');
 	probEl.setAttribute('resultsStatus', testResults.status);
 	probEl.setAttribute('resultsHeader', testResults.header);
 	probEl.setAttribute('resultsDetails', testResults.details);

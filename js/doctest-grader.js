@@ -153,6 +153,13 @@ export function processTestError(error, startLine) {
 			header: 'Syntax error',
 			details: extractError(error.message, startLine),
 		};
+	} else if (error.message == 'Infinite loop') {
+		return {
+			status: 'fail',
+			header: 'Infinite loop',
+			details:
+				'Your code did not finish executing within 5 seconds. Please look to see if you accidentally coded an infinite loop.',
+		};
 	}
 	return {
 		status: 'fail',

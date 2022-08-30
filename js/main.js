@@ -7,7 +7,7 @@ import {
 	processTestError,
 } from './doctest-grader.js';
 import './problem-element.js';
-import {asyncRun} from './worker-manager.js';
+import {FiniteWorker} from './worker-manager.js';
 
 const LS_REPR = '-repr';
 let probEl;
@@ -58,17 +58,15 @@ async function handleSubmit(submittedCode, reprCode, codeHeader) {
 
 	if (testResults.code) {
 		try {
-			const {results, error} = await asyncRun(
-				testResults.code + '\nsys.stdout.getvalue()'
-			);
-
+			const code = testResults.code + '\nsys.stdout.getvalue()';
+			const {results, error} = await new FiniteWorker(code);
 			if (results) {
 				testResults = processTestResults(results);
 			} else {
 				testResults = processTestError(error, testResults.startLine);
 			}
 		} catch (e) {
-			console.log(
+			console.warn(
 				`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`
 			);
 		}
