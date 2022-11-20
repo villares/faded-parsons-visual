@@ -7,19 +7,16 @@ problem_description: |
     </br>
     <img src="https://user-images.githubusercontent.com/3694604/202911277-41710bfc-01db-4354-97bd-9b6b74c91486.png">
     </br>
-    <div id="ContainerBox">CB</div>     
-  		   
-
-  <pre><code>
-  >>> ugh_hack(1)
-  1
-  </code></pre>
+   		   
 
 code_lines: |
-  def ugh_hack(p): #0given
-  print(!BLANK)
+  def setup(p): #0given
+  background(100, 200, 0) #1given
+  fill('red')
+  rect(100, 100, 100, 50)
   !BLANK
-  # !BLANK #1given
-  return !BLANK
+  !BLANK
 
-test_fn: ugh_hack
+
+
+test_fn: setup
