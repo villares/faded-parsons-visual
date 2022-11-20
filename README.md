@@ -1,20 +1,17 @@
-# Python Faded Parsons Problems
+# Python Faded Parsons Problems with Visual Output (Work in Progress!)
 
 This website allows you to run Faded Parsons Problems in the browser.
 It uses Pyodide for executing Python doctests and localStorage for storing user progress.
 
-Check it out here:
+Based on https://github.com/pamelafox/faded-parsons-static/
 
-https://pamelafox.github.io/faded-parsons-static/index.html
+Check out at ttps://abav.lugaralgum.com/faded-parsons-visual/
 
 ## Running the website
 
-To run locally:
+From the download directory:
 
-```
-npm install
-npm run dev
-```
+`python -m http.server 8000`
 
 ## Deploying the website
 
