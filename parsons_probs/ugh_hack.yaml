@@ -1,0 +1,25 @@
+problem_name: count_evens
+
+problem_description: |
+  <code>ugh_hack</code>
+    counts the number of even numbers between a given start number and given end number.
+    Count should include the start or end if they are even.
+    </br>
+    <img src="https://user-images.githubusercontent.com/3694604/202911277-41710bfc-01db-4354-97bd-9b6b74c91486.png">
+    </br>
+    <div id="ContainerBox">CB</div>     
+  		   
+
+  <pre><code>
+  >>> ugh_hack(1)
+  1
+  </code></pre>
+
+code_lines: |
+  def ugh_hack(p): #0given
+  print(!BLANK)
+  !BLANK
+  # !BLANK #1given
+  return !BLANK
+
+test_fn: ugh_hack
