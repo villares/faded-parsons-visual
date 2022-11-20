@@ -6,7 +6,7 @@ It uses Pyodide for executing Python doctests and localStorage for storing user 
 
 Based on https://github.com/pamelafox/faded-parsons-static/
 
-Check out at ttps://abav.lugaralgum.com/faded-parsons-visual/
+Check out at https://abav.lugaralgum.com/faded-parsons-visual/
 
 ## Running the website
 
