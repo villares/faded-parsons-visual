@@ -6,13 +6,14 @@ import {
 	processTestResults,
 	processTestError,
 } from './doctest-grader.js';
+import {main, runCode, runCodeOnWorker} from './sketch-runner';
 import './problem-element.js';
 import {FiniteWorker} from './worker-manager.js';
 
 const LS_REPR = '-repr';
 let probEl;
 
-export function initWidget() {
+export async function initWidget() {
 	let params = new URL(document.location).searchParams;
 	let problemName = params.get('name');
 
@@ -51,26 +52,21 @@ export function initWidget() {
 		probEl.setAttribute('runStatus', '');
 		document.getElementById('problem-wrapper').appendChild(probEl);
 	});
+
+	await main();
 }
 
 async function handleSubmit(submittedCode, reprCode, codeHeader) {
-	let testResults = prepareCode(submittedCode, codeHeader);
+	let testResults = {
+		status: 'pass',
+		header: 'lala header',
+		details: 'lala details',
+	};
 
-	if (testResults.code) {
-		try {
-			const code = testResults.code + '\nsys.stdout.getvalue()';
-			const {results, error} = await new FiniteWorker(code);
-			if (results) {
-				testResults = processTestResults(results);
-			} else {
-				testResults = processTestError(error, testResults.startLine);
-			}
-		} catch (e) {
-			console.warn(
-				`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`
-			);
-		}
-	}
+	debugger;
+	runCode(submittedCode);
+	// const {result, error} = await runCodeOnWorker();
+	// runCode(submittedCode);
 
 	probEl.setAttribute('runStatus', '');
 	probEl.setAttribute('resultsStatus', testResults.status);

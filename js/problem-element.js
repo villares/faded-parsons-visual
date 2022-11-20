@@ -40,7 +40,7 @@ export class ProblemElement extends LitElement {
 
 	render() {
 		let results =
-			'Test results will appear here after clicking "Run Tests" above.';
+			'The resulting image will be rendered here when you click "Run code".';
 		if (this.resultsStatus) {
 			results = html`<test-results-element
 				status=${this.resultsStatus}
@@ -87,7 +87,7 @@ export class ProblemElement extends LitElement {
 										class="btn btn-primary"
 										?disabled=${!this.enableRun}
 									>
-										Run Tests
+										Run code
 									</button>
 								</div>
 							</div>
@@ -100,7 +100,7 @@ export class ProblemElement extends LitElement {
 				<div class="col-sm-12">
 					<div class="card">
 						<div class="card-header">
-							<h4>Test Cases</h4>
+							<h4>Result</h4>
 						</div>
 						<div id="test_description">
 							<div class="card-body">${results}</div>

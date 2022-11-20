@@ -31,12 +31,6 @@
 		"build": "rollup -c",
 		"watch": "rollup -c -w",
 		"dev": "npm-run-all --parallel start watch",
-		"start": "python3 -m http.server",
-		"prepare": "husky install"
-	},
-	"lint-staged": {
-		"js/*-element.js": "lit-analyzer",
-		"*.js": "eslint --cache --fix",
-		"*.--write": "prettier \"**/*.{js,json}\" --ignore-path ./.eslintignore --write"
+		"start": "python3 -m http.server"
 	}
 }
