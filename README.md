@@ -2,7 +2,7 @@
 ## (Work in Progress!)
 
 This website should allow you to run Faded Parsons Problems in the browser.
-It uses Pyodide for executing Python doctests and localStorage for storing user progress.
+It will use Pyodide to show *pyp5js* sketch results.
 
 Based on https://github.com/pamelafox/faded-parsons-static/
 
@@ -12,7 +12,7 @@ Check out at https://abav.lugaralgum.com/faded-parsons-visual/
 
 From the download directory:
 
-`python -m http.server 8000`
+`python -m http.server 8000`  because I can't even type `npm`
 
 ## Deploying the website
 
