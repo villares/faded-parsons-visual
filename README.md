@@ -1,3 +1,6 @@
+# ***The fun is at the [`hack` branch](https://github.com/villares/faded-parsons-visual/blob/hack/README.md)...***
+
+
 # Python Faded Parsons Problems
 
 This website allows you to run Faded Parsons Problems in the browser.
