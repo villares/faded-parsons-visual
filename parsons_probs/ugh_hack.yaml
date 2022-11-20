@@ -10,7 +10,7 @@ problem_description: |
    		   
 
 code_lines: |
-  def setup(p): #0given
+  def setup(): #0given
   background(100, 200, 0) #1given
   fill('red')
   rect(100, 100, 100, 50)

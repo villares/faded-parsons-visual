@@ -1,4 +1,4 @@
-def ugh_hack(p):
+def ugh_hack():
     """
     I have no idea.
 
