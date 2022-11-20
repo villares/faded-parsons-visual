@@ -1,24 +1,24 @@
 /* global ParsonsWidget */
 
-import {LitElement, html, css} from 'lit';
-import {unsafeHTML} from 'lit/directives/unsafe-html.js';
-import {ref, createRef} from 'lit/directives/ref.js';
+import { LitElement, html, css } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { ref, createRef } from 'lit/directives/ref.js';
 
 import './loader-element.js';
 import './test-results-element.js';
 
 export class ProblemElement extends LitElement {
 	static properties = {
-		name: {type: String},
-		description: {type: String},
-		codeLines: {type: String},
-		codeHeader: {type: String},
-		isLoading: {type: Boolean},
-		enableRun: {type: Boolean, default: false},
-		runStatus: {type: String},
-		resultsStatus: {type: String},
-		resultsHeader: {type: String},
-		resultsDetails: {type: String},
+		name: { type: String },
+		description: { type: String },
+		codeLines: { type: String },
+		codeHeader: { type: String },
+		isLoading: { type: Boolean },
+		enableRun: { type: Boolean, default: false },
+		runStatus: { type: String },
+		resultsStatus: { type: String },
+		resultsHeader: { type: String },
+		resultsDetails: { type: String },
 	};
 
 	static styles = css`
@@ -42,11 +42,12 @@ export class ProblemElement extends LitElement {
 		let results =
 			'The resulting image will be rendered here when you click "Run code".';
 		if (this.resultsStatus) {
-			results = html`<test-results-element
-				status=${this.resultsStatus}
-				header=${this.resultsHeader}
-				details=${this.resultsDetails}
-			></test-results-element>`;
+			results = html`
+				<test-results-element
+					status=${this.resultsStatus}
+					header=${this.resultsHeader}
+					details=${this.resultsDetails}
+				></test-results-element>`;
 		}
 
 		return html`
@@ -78,7 +79,8 @@ export class ProblemElement extends LitElement {
 								<div class="col-sm-12">
 									<span style="margin-right: 8px">
 										${this.runStatus &&
-										html`<loader-element></loader-element>`}
+										html`
+											<loader-element></loader-element>`}
 										${this.runStatus}
 									</span>
 									<button

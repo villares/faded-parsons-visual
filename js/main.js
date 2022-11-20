@@ -1,14 +1,8 @@
 import yaml from 'js-yaml';
 
-import {get, set} from './user-storage.js';
-import {
-	prepareCode,
-	processTestResults,
-	processTestError,
-} from './doctest-grader.js';
-import {main, runCode, runCodeOnWorker} from './sketch-runner';
+import { get, set } from './user-storage.js';
+import { main, runCode } from './sketch-runner';
 import './problem-element.js';
-import {FiniteWorker} from './worker-manager.js';
 
 const LS_REPR = '-repr';
 let probEl;
