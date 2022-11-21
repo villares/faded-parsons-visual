@@ -22,7 +22,7 @@ This website can be deployed anywhere since it's entirely static, and is current
 
 Add two files to the `parson_probs` folder:
 
-* ~~problem_name.py: This should be a Python function that _only_ has the function header, docstring, and doctests. It shouldn't contain the solution.~~0
+* ~~problem_name.py: This should be a Python function that _only_ has the function header, docstring, and doctests. It shouldn't contain the solution.~~
 * problem_name.yaml: This is a YAML file that includes the problem description (HTML) and code lines with blanks.
     - I have tested adding an image to the description, I have to figure where I'll keep the images.
 
