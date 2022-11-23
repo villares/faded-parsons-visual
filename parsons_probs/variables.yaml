@@ -1,25 +1,24 @@
 problem_name: count_evens
 
 problem_description: |
-  <code>ugh_hack</code>
+  <code>variables</code>
     Organize as linhas para formar o desenho abaixo
     </br>
     <img src="parsons_probs/variables.png">
     </br>
-   		   
+          
 
 code_lines: |
-def setup(): #0given
-    size(400, 400) #1given
-    background(200) # fundo cinza
-    nome = '!BLANK'
-    text(nome, 20, 180)  # desenha o texto de `nome` na área de desenho
-    # Se você tentar usar a variável `a` aqui, antes de criar, vai ter um erro
-    # do tipo NameError (não conheço `a`)
-    a = 10  # cria a variável `a` que aponta para o valor 10
-    square(a, 10, 140)  # desenha um quadrado de lado 40 em x:10, y:10
-    a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
-    square(a, 10, !BLANK)  # desenha um quadrado de lado 40 
-
+  def setup(): #0given
+  size(400, 400) #1given
+  background(200) # fundo cinza
+  nome = '!BLANK'
+  text(nome, 20, 180)  # desenha o texto de `nome`
+  # Se tentar usar a variável `a` antes de criar...
+  # ... vai ter um erro do tipo NameError (não conheço `a`)
+  a = 10  # cria a variável `a` que aponta para o valor 10
+  square(a, 10, 140)  # desenha um quadrado de lado 140 em x:10, y:10
+  a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
+  square(a, 10, !BLANK)  # desenha um quadrado de lado 140 
 
 test_fn: setup
