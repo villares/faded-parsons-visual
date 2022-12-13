@@ -1,7 +1,7 @@
-problem_name: count_evens
+problem_name: Variables
 
 problem_description: |
-  <code>variables</code>
+  <code>Variáveis </code>
     Organize as linhas para formar o desenho abaixo
     </br>
     <img src="parsons_probs/variables.png">
