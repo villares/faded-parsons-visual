@@ -1,18 +1,14 @@
 from pathlib import Path
 from bs4 import BeautifulSoup
 
-parsons_probs = Path.cwd() / 'parsons_probs'
-puzzle_files = [f for f in parsons_probs.iterdir()
-                if f.is_file() and f.suffix.lower() == '.yaml']
+# This script should run from the same directory as the index.html file
 index_html = 'index.html'
+parsons_probs = Path.cwd() / 'parsons_probs'      # the puzzles dir
+puzzle_files = [f for f in parsons_probs.iterdir()
+                if f.suffix.lower() == '.yaml']
 
-# puzzle_list = [
-#     ('variables', 'Variables 1'),
-#     ('loop_1', 'Loop 1'),
-#     ('nested_loop_1', 'Nested Loop 1'),
-#      ]
-puzzle_list = []
-for yaml_file in puzzle_files:
+puzzle_list = []   # (file-name-without-yaml-extension, problem-title)
+for yaml_file in sorted(puzzle_files):
     with open(yaml_file) as file:
         title = [li[14:].strip() for li in file.readlines() if li.startswith('problem_name: ')]
     title = title[0] if title else '-no title-'
