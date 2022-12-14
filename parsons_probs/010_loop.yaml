@@ -1,4 +1,8 @@
-problem_name: first loop
+problem_name: Simple Loop
+
+problem_subtitle: a first try
+
+problem_category: loops
 
 problem_description: |
   <code>ugh_hack</code>
@@ -7,7 +11,6 @@ problem_description: |
     <img src="https://user-images.githubusercontent.com/3694604/202911277-41710bfc-01db-4354-97bd-9b6b74c91486.png">
     </br>
    		   
-
 code_lines: |
   def setup(): #0given
   background(100, 200, 0) #1given
@@ -15,7 +18,5 @@ code_lines: |
   rect(100, 100, 100, 50)
   !BLANK
   !BLANK
-
-
 
 test_fn: setup
