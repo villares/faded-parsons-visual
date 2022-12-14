@@ -1,10 +1,14 @@
 problem_name: Variables
 
+problem_subtitle: assignement
+
+problem_category: Getting Started
+
 problem_description: |
   <code>Variáveis </code>
     Organize as linhas para formar o desenho abaixo
     </br>
-    <img src="parsons_probs/variables.png">
+    <img src="parsons_probs/000_variables.png">
     </br>
           
 
@@ -21,4 +25,4 @@ code_lines: |
   a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
   square(a, 10, !BLANK)  # desenha um quadrado de lado 140 
 
-test_fn: setup
+

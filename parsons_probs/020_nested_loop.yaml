@@ -1,5 +1,9 @@
 problem_name: Nested Loops
 
+problem_subtitle: A grid
+
+problem_category: Loops
+
 problem_description: |
   <code>ugh_hack</code>
     counts the number of even numbers between a given start number and given end number.
