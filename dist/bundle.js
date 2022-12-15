@@ -3892,7 +3892,12 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 const wrapperContent = `
-# This version is adapted to be more similar to py5 (py5coding.org)
+class PythonFunctions: pass
+
+setattr(PythonFunctions, 'map', map)
+setattr(PythonFunctions, 'filter', filter)
+setattr(PythonFunctions, 'set', set)
+
 
 _P5_INSTANCE = None
 
@@ -4012,44 +4017,43 @@ WEBGL = None
 P2D = None
 PI = None
 
-frame_count = None
+frameCount = None
 focused = None
-display_width = None
-display_height = None
-window_width = None
-window_height = None
+displayWidth = None
+displayHeight = None
+windowWidth = None
+windowHeight = None
 width = None
 height = None
-device_orientation = None
-acceleration_x = None
-acceleration_y = None
-acceleration_z = None
-p_acceleration_x = None
-p_acceleration_y = None
-p_acceleration_z = None
-rotation_x = None
-rotation_y = None
-rotation_z = None
-p_rotation_x = None
-p_rotation_y = None
-p_rotation_z = None
-turn_axis = None
-is_key_pressed = None
+deviceOrientation = None
+accelerationX = None
+accelerationY = None
+accelerationZ = None
+pAccelerationX = None
+pAccelerationY = None
+pAccelerationZ = None
+rotationX = None
+rotationY = None
+rotationZ = None
+pRotationX = None
+pRotationY = None
+pRotationZ = None
+turnAxis = None
+keyIsPressed = None
 key = None
-key_code = None
-mouse_x = None
-mouse_y = None
-pmouse_x = None
-pmouse_y = None
-win_mouse_x = None
-win_mouse_y = None
-pwin_mouse_x = None
-pwin_mouse_y = None
-mouse_button = None
-is_mouse_pressed = None
+keyCode = None
+mouseX = None
+mouseY = None
+pmouseX = None
+pmouseY = None
+winMouseX = None
+winMouseY = None
+pwinMouseX = None
+pwinMouseY = None
+mouseButton = None
+mouseIsPressed = None
 touches = None
 pixels = None
-
 
 
 def alpha(*args):
@@ -4070,7 +4074,7 @@ def green(*args):
 def hue(*args):
     return _P5_INSTANCE.hue(*args)
 
-def lerp_color(*args):
+def lerpColor(*args):
     return _P5_INSTANCE.lerpColor(*args)
 
 def lightness(*args):
@@ -4092,22 +4096,19 @@ def clear(*args):
 def erase(*args):
     return _P5_INSTANCE.erase(*args)
 
-def no_erase(*args):
+def noErase(*args):
     return _P5_INSTANCE.noErase(*args)
 
-def color_mode(*args):
-    if args == [HSB]:
-      return _P5_INSTANCE.colorMode(HSB, 255, 255, 255, 255)
-    else:
-      return _P5_INSTANCE.colorMode(*args)
+def colorMode(*args):
+    return _P5_INSTANCE.colorMode(*args)
 
 def fill(*args):
     return _P5_INSTANCE.fill(*args)
 
-def no_fill(*args):
+def noFill(*args):
     return _P5_INSTANCE.noFill(*args)
 
-def no_stroke(*args):
+def noStroke(*args):
     return _P5_INSTANCE.noStroke(*args)
 
 def stroke(*args):
@@ -4125,24 +4126,8 @@ def circle(*args):
 def line(*args):
     return _P5_INSTANCE.line(*args)
 
-def lines(arg):
-     for a, b in arg:
-         line(*a, *b)
-
 def point(*args):
     return _P5_INSTANCE.point(*args)
-
-def points(arg):
-    for p in arg:
-        point(*p)
-
-def vertices(arg):
-    for v in arg:
-        vertex(*v)
-
-def lines(arg):
-    for li in arg:
-        line(*li)
 
 def quad(*args):
     return _P5_INSTANCE.quad(*args)
@@ -4177,79 +4162,79 @@ def ellipsoid(*args):
 def torus(*args):
     return _P5_INSTANCE.torus(*args)
 
-def load_model(*args):
+def loadModel(*args):
     return _P5_INSTANCE.loadModel(*args)
 
 def model(*args):
     return _P5_INSTANCE.model(*args)
 
-def ellipse_mode(*args):
+def ellipseMode(*args):
     return _P5_INSTANCE.ellipseMode(*args)
 
-def no_smooth(*args):
+def noSmooth(*args):
     return _P5_INSTANCE.noSmooth(*args)
 
-def rect_mode(*args):
+def rectMode(*args):
     return _P5_INSTANCE.rectMode(*args)
 
 def smooth(*args):
     return _P5_INSTANCE.smooth(*args)
 
-def stroke_cap(*args):
+def strokeCap(*args):
     return _P5_INSTANCE.strokeCap(*args)
 
-def stroke_join(*args):
+def strokeJoin(*args):
     return _P5_INSTANCE.strokeJoin(*args)
 
-def stroke_weight(*args):
+def strokeWeight(*args):
     return _P5_INSTANCE.strokeWeight(*args)
 
 def bezier(*args):
     return _P5_INSTANCE.bezier(*args)
 
-def bezier_detail(*args):
+def bezierDetail(*args):
     return _P5_INSTANCE.bezierDetail(*args)
 
-def bezier_point(*args):
+def bezierPoint(*args):
     return _P5_INSTANCE.bezierPoint(*args)
 
-def bezier_tangent(*args):
+def bezierTangent(*args):
     return _P5_INSTANCE.bezierTangent(*args)
 
 def curve(*args):
     return _P5_INSTANCE.curve(*args)
 
-def curve_detail(*args):
+def curveDetail(*args):
     return _P5_INSTANCE.curveDetail(*args)
 
-def curve_tightness(*args):
+def curveTightness(*args):
     return _P5_INSTANCE.curveTightness(*args)
 
-def curve_point(*args):
+def curvePoint(*args):
     return _P5_INSTANCE.curvePoint(*args)
 
-def curve_tangent(*args):
+def curveTangent(*args):
     return _P5_INSTANCE.curveTangent(*args)
 
-def begin_contour(*args):
+def beginContour(*args):
     return _P5_INSTANCE.beginContour(*args)
 
-def begin_shape(*args):
+def beginShape(*args):
     return _P5_INSTANCE.beginShape(*args)
 
-def bezier_vertex(*args):
+def bezierVertex(*args):
     return _P5_INSTANCE.bezierVertex(*args)
 
-def curve_vertex(*args):
+def curveVertex(*args):
     return _P5_INSTANCE.curveVertex(*args)
 
-def end_contour(*args):
+def endContour(*args):
     return _P5_INSTANCE.endContour(*args)
 
-def end_shape(*args):
+def endShape(*args):
     return _P5_INSTANCE.endShape(*args)
 
-def quadratic_vertex(*args):
+def quadraticVertex(*args):
     return _P5_INSTANCE.quadraticVertex(*args)
 
 def vertex(*args):
@@ -4258,22 +4243,19 @@ def vertex(*args):
 def cursor(*args):
     return _P5_INSTANCE.cursor(*args)
 
-def frame_rate(*args):
+def frameRate(*args):
     return _P5_INSTANCE.frameRate(*args)
 
-def get_frame_rate(*args):
-    return _P5_INSTANCE.getFrameRate(*args)
-
-def no_cursor(*args):
+def noCursor(*args):
     return _P5_INSTANCE.noCursor(*args)
 
 def fullscreen(*args):
     return _P5_INSTANCE.fullscreen(*args)
 
-def pixel_density(*args):
+def pixelDensity(*args):
     return _P5_INSTANCE.pixelDensity(*args)
 
-def display_density(*args):
+def displayDensity(*args):
     return _P5_INSTANCE.displayDensity(*args)
 
 def getURL(*args):
@@ -4288,7 +4270,7 @@ def getURLParams(*args):
 def remove(*args):
     return _P5_INSTANCE.remove(*args)
 
-def no_loop(*args):
+def noLoop(*args):
     return _P5_INSTANCE.noLoop(*args)
 
 def loop(*args):
@@ -4300,61 +4282,61 @@ def push(*args):
 def redraw(*args):
     return _P5_INSTANCE.redraw(*args)
 
-def resize_canvas(*args):
+def resizeCanvas(*args):
     return _P5_INSTANCE.resizeCanvas(*args)
 
-def no_canvas(*args):
+def noCanvas(*args):
     return _P5_INSTANCE.noCanvas(*args)
 
-def create_graphics(*args):
+def createGraphics(*args):
     return _P5_INSTANCE.createGraphics(*args)
 
-def blend_mode(*args):
+def blendMode(*args):
     return _P5_INSTANCE.blendMode(*args)
 
-def set_attributes(*args):
+def setAttributes(*args):
     return _P5_INSTANCE.setAttributes(*args)
 
-def apply_matrix(*args):
+def applyMatrix(*args):
     return _P5_INSTANCE.applyMatrix(*args)
 
-def reset_matrix(*args):
+def resetMatrix(*args):
     return _P5_INSTANCE.resetMatrix(*args)
 
 def rotate(*args):
     return _P5_INSTANCE.rotate(*args)
 
-def rotate_x(*args):
+def rotateX(*args):
     return _P5_INSTANCE.rotateX(*args)
 
-def rotate_y(*args):
+def rotateY(*args):
     return _P5_INSTANCE.rotateY(*args)
 
-def rotate_z(*args):
+def rotateZ(*args):
     return _P5_INSTANCE.rotateZ(*args)
 
 def scale(*args):
     return _P5_INSTANCE.scale(*args)
 
-def shear_x(*args):
+def shearX(*args):
     return _P5_INSTANCE.shearX(*args)
 
-def shear_y(*args):
+def shearY(*args):
     return _P5_INSTANCE.shearY(*args)
 
 def translate(*args):
     return _P5_INSTANCE.translate(*args)
 
-def create_string_dict(*args):
+def createStringDict(*args):
     return _P5_INSTANCE.createStringDict(*args)
 
-def create_number_dict(*args):
+def createNumberDict(*args):
     return _P5_INSTANCE.createNumberDict(*args)
 
 def append(*args):
     return _P5_INSTANCE.append(*args)
 
-def array_copy(*args):
+def arrayCopy(*args):
     return _P5_INSTANCE.arrayCopy(*args)
 
 def concat(*args):
@@ -4411,7 +4393,7 @@ def join(*args):
 def match(*args):
     return _P5_INSTANCE.match(*args)
 
-def match_all(*args):
+def matchAll(*args):
     return _P5_INSTANCE.matchAll(*args)
 
 def nf(*args):
@@ -4429,7 +4411,7 @@ def nfs(*args):
 def split(*args):
     return _P5_INSTANCE.split(*args)
 
-def split_tokens(*args):
+def splitTokens(*args):
     return _P5_INSTANCE.splitTokens(*args)
 
 def trim(*args):
@@ -4441,19 +4423,19 @@ def setMoveThreshold(*args):
 def setShakeThreshold(*args):
     return _P5_INSTANCE.setShakeThreshold(*args)
 
-def key_is_down(*args):
+def keyIsDown(*args):
     return _P5_INSTANCE.keyIsDown(*args)
 
-def create_image(*args):
+def createImage(*args):
     return _P5_INSTANCE.createImage(*args)
 
-def save_canvas(*args):
+def saveCanvas(*args):
     return _P5_INSTANCE.saveCanvas(*args)
 
-def save_frames(*args):
+def saveFrames(*args):
     return _P5_INSTANCE.saveFrames(*args)
 
-def load_image(*args):
+def loadImage(*args):
     return _P5_INSTANCE.loadImage(*args)
 
 def image(*args):
@@ -4462,10 +4444,10 @@ def image(*args):
 def tint(*args):
     return _P5_INSTANCE.tint(*args)
 
-def no_tint(*args):
+def noTint(*args):
     return _P5_INSTANCE.noTint(*args)
 
-def image_mode(*args):
+def imageMode(*args):
     return _P5_INSTANCE.imageMode(*args)
 
 def blend(*args):
@@ -4474,34 +4456,40 @@ def blend(*args):
 def copy(*args):
     return _P5_INSTANCE.copy(*args)
 
-def apply_filter(*args):
-    return _P5_INSTANCE.filter(*args)
+def filter(*args):
+    if len(args) > 1 and (args[0] is None or callable(args[0])):
+        return PythonFunctions.filter(*args)
+    else:
+        return _P5_INSTANCE.filter(*args)
 
 def get(*args):
     return _P5_INSTANCE.get(*args)
 
-def load_pixels(*args):
+def loadPixels(*args):
     return _P5_INSTANCE.loadPixels(*args)
 
-def set_pixel(*args):
-    return _P5_INSTANCE.set(*args)
+def set(*args):
+    if len(args) <= 1:
+        return PythonFunctions.set(*args)
+    else:
+        return _P5_INSTANCE.set(*args)
 
-def update_pixels(*args):
+def updatePixels(*args):
     return _P5_INSTANCE.updatePixels(*args)
 
 def loadJSON(*args):
     return _P5_INSTANCE.loadJSON(*args)
 
-def load_strings(*args):
+def loadStrings(*args):
     return _P5_INSTANCE.loadStrings(*args)
 
-def load_table(*args):
+def loadTable(*args):
     return _P5_INSTANCE.loadTable(*args)
 
 def loadXML(*args):
     return _P5_INSTANCE.loadXML(*args)
 
-def load_bytes(*args):
+def loadBytes(*args):
     return _P5_INSTANCE.loadBytes(*args)
 
 def httpGet(*args):
@@ -4513,7 +4501,7 @@ def httpPost(*args):
 def httpDo(*args):
     return _P5_INSTANCE.httpDo(*args)
 
-def create_writer(*args):
+def createWriter(*args):
     return _P5_INSTANCE.createWriter(*args)
 
 def save(*args):
@@ -4522,10 +4510,10 @@ def save(*args):
 def saveJSON(*args):
     return _P5_INSTANCE.saveJSON(*args)
 
-def save_strings(*args):
+def saveStrings(*args):
     return _P5_INSTANCE.saveStrings(*args)
 
-def save_table(*args):
+def saveTable(*args):
     return _P5_INSTANCE.saveTable(*args)
 
 def day(*args):
@@ -4549,7 +4537,7 @@ def second(*args):
 def year(*args):
     return _P5_INSTANCE.year(*args)
 
-def create_vector(*args):
+def createVector(*args):
     return _P5_INSTANCE.createVector(*args)
 
 def abs(*args):
@@ -4579,8 +4567,11 @@ def log(*args):
 def mag(*args):
     return _P5_INSTANCE.mag(*args)
 
-def remap(*args):
-    return _P5_INSTANCE.map(*args)
+def map(*args):
+    if len(args) > 1 and callable(args[0]):
+        return PythonFunctions.map(*args)
+    else:
+        return _P5_INSTANCE.map(*args)
 
 def max(*args):
     return _P5_INSTANCE.max(*args)
@@ -4648,88 +4639,88 @@ def degrees(*args):
 def radians(*args):
     return _P5_INSTANCE.radians(*args)
 
-def angle_mode(*args):
+def angleMode(*args):
     return _P5_INSTANCE.angleMode(*args)
 
-def text_align(*args):
+def textAlign(*args):
     return _P5_INSTANCE.textAlign(*args)
 
-def text_leading(*args):
-    return _P5_INSTANmCE.textLeading(*args)
+def textLeading(*args):
+    return _P5_INSTANCE.textLeading(*args)
 
-def text_size(*args):
+def textSize(*args):
     return _P5_INSTANCE.textSize(*args)
 
-def text_style(*args):
+def textStyle(*args):
     return _P5_INSTANCE.textStyle(*args)
 
-def text_width(*args):
+def textWidth(*args):
     return _P5_INSTANCE.textWidth(*args)
 
-def text_ascent(*args):
+def textAscent(*args):
     return _P5_INSTANCE.textAscent(*args)
 
-def text_descent(*args):
+def textDescent(*args):
     return _P5_INSTANCE.textDescent(*args)
 
-def load_font(*args):
+def loadFont(*args):
     return _P5_INSTANCE.loadFont(*args)
 
 def text(*args):
     return _P5_INSTANCE.text(*args)
 
-def text_font(*args):
+def textFont(*args):
     return _P5_INSTANCE.textFont(*args)
 
-def orbit_control(*args):
+def orbitControl(*args):
     return _P5_INSTANCE.orbitControl(*args)
 
-def debug_mode(*args):
+def debugMode(*args):
     return _P5_INSTANCE.debugMode(*args)
 
-def no_debug_mode(*args):
+def noDebugMode(*args):
     return _P5_INSTANCE.noDebugMode(*args)
 
-def ambient_light(*args):
+def ambientLight(*args):
     return _P5_INSTANCE.ambientLight(*args)
 
-def directional_light(*args):
+def directionalLight(*args):
     return _P5_INSTANCE.directionalLight(*args)
 
-def point_light(*args):
+def pointLight(*args):
     return _P5_INSTANCE.pointLight(*args)
 
 def lights(*args):
     return _P5_INSTANCE.lights(*args)
 
-def load_shader(*args):
+def loadShader(*args):
     return _P5_INSTANCE.loadShader(*args)
 
-def create_shader(*args):
+def createShader(*args):
     return _P5_INSTANCE.createShader(*args)
 
 def shader(*args):
     return _P5_INSTANCE.shader(*args)
 
-def reset_shader(*args):
+def resetShader(*args):
     return _P5_INSTANCE.resetShader(*args)
 
-def normal_material(*args):
+def normalMaterial(*args):
     return _P5_INSTANCE.normalMaterial(*args)
 
 def texture(*args):
     return _P5_INSTANCE.texture(*args)
 
-def texture_mode(*args):
+def textureMode(*args):
     return _P5_INSTANCE.textureMode(*args)
 
-def texture_wrap(*args):
+def textureWrap(*args):
     return _P5_INSTANCE.textureWrap(*args)
 
-def ambient_material(*args):
+def ambientMaterial(*args):
     return _P5_INSTANCE.ambientMaterial(*args)
 
-def specular_material(*args):
+def specularMaterial(*args):
     return _P5_INSTANCE.specularMaterial(*args)
 
 def shininess(*args):
@@ -4744,19 +4735,19 @@ def perspective(*args):
 def ortho(*args):
     return _P5_INSTANCE.ortho(*args)
 
-def create_camera(*args):
+def createCamera(*args):
     return _P5_INSTANCE.createCamera(*args)
 
-def set_camera(*args):
+def setCamera(*args):
     return _P5_INSTANCE.setCamera(*args)
 
 def select(*args):
     return _P5_INSTANCE.select(*args)
 
-def select_all(*args):
+def selectAll(*args):
     return _P5_INSTANCE.selectAll(*args)
 
-def remove_elements(*args):
+def removeElements(*args):
     return _P5_INSTANCE.removeElements(*args)
 
 def changed(*args):
@@ -4818,170 +4809,132 @@ def createElement(*args):
 
 def createCanvas(*args):
     canvas = _P5_INSTANCE.createCanvas(*args)
+
     global width, height
     width = _P5_INSTANCE.width
     height = _P5_INSTANCE.height
+
     return canvas
 
-def size(*args):
-    canvas = createCanvas(*args)
-    background(200)
-    return canvas
-    
 def __deviceMoved(e):
-    try:
-        device_moved()
-    except TypeError:
-        device_moved(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(deviceMoved, e)
+  except NameError:
+    pass
 
 def __deviceTurned(e):
-    try:
-        device_turned()
-    except TypeError:
-        device_turned(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(deviceTurned, e)
+  except NameError:
+    pass
 
 def __deviceShaken(e):
-    try:
-        device_shaken()
-    except TypeError:
-        device_shaken(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(deviceShaken, e)
+  except NameError:
+    pass
 
 def __touchEnded(e):
-    try:
-        device_shaken()
-    except TypeError:
-        device_shaken(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(deviceShaken, e)
+  except NameError:
+    pass
 
 def __touchStarted(e):
-    try:
-        touch_started()
-    except TypeError:
-        touch_started(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(touchStarted, e)
+  except NameError:
+    pass
 
 def __windowResized(e):
-    try:
-        window_resized()
-    except TypeError:
-        window_resized(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(windowResized, e)
+  except NameError:
+    pass
 
 def __touchMoved(e):
-    try:
-        touch_moved()
-    except TypeError:
-        touch_moved(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(touchMoved, e)
+  except NameError:
+    pass
 
 def __mouseMoved(e):
-    try:
-        mouse_moved()
-    except TypeError:
-        mouse_moved(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(mouseMoved, e)
+  except NameError:
+    pass
 
 def __mouseDragged(e):
-    try:
-        mouse_dragged()
-    except TypeError:
-        mouse_dragged(e)
-    except NameError:
-            pass
+  try:
+    _bind_event_function(mouseDragged, e)
+  except NameError:
+      pass
 
 def __mousePressed(e):
-    try:
-        mouse_pressed()
-    except TypeError:
-        mouse_pressed(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(mousePressed, e)
+  except NameError:
+    pass
 
 def __mouseReleased(e):
-    try:
-        mouse_released()
-    except TypeError:
-        mouse_released(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(mouseReleased, e)
+  except NameError:
+    pass
 
 def __mouseClicked(e):
-    try:
-        mouse_clicked()
-    except TypeError:
-        mouse_clicked(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(mouseClicked, e)
+  except NameError:
+    pass
 
 def __doubleClicked(e):
-    try:
-        double_clicked()
-    except TypeError:
-        double_clicked(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(doubleClicked, e)
+  except NameError:
+    pass
 
 def __mouseWheel(e):
-    try:
-        mouse_wheel()
-    except TypeError:
-        mouse_wheel(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(mouseWheel, e)
+  except NameError:
+    pass
 
 def __keyPressed(e):
-    try:
-        key_pressed()
-    except TypeError:
-        key_pressed(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(keyPressed, e)
+  except NameError:
+    pass
 
 def __keyReleased(e):
-    try:
-        key_released()
-    except TypeError:
-        key_released(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(keyReleased, e)
+  except NameError:
+    pass
 
 def __keyTyped(e):
-    try:
-        key_typed()
-    except TypeError:
-        key_typed(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(keyTyped, e)
+  except NameError:
+    pass
 
 def __keyIsDown(e):
-    try:
-        key_is_down()
-    except TypeError:
-        key_is_down(e)
-    except NameError:
-        pass
+  try:
+    _bind_event_function(keyIsDown, e)
+  except NameError:
+    pass
 
 def pop(*args):
     p5_pop = _P5_INSTANCE.pop(*args)
     return p5_pop
 
 
-# more py5 mode compatibility aliases
-pop_matrix = pop
-pop_style = pop
-push_matrix = push
-push_style = push
+# Processing Python or Java mode compatibility aliases
+size = createCanvas
+popMatrix = pop
+popStyle = pop
+pushMatrix = push
+pushStyle = push
 
 # PVector is a wrapper/helper class for p5.Vector objets
 # providing names similar to Processing Python or Java modes
@@ -5304,7 +5257,6 @@ class PVector:
         self.__vector.rem(*args)
         return self
 
-Py5Vector = PVector
 
 def pre_draw(p5_instance, draw_func, *args, **kwargs):
     """
@@ -5322,11 +5274,11 @@ def pre_draw(p5_instance, draw_func, *args, **kwargs):
     global ROUND, SCREEN, SHIFT, SOFT_LIGHT, SQUARE, STROKE, SUBTRACT, TAB, TAU, TEXT, TEXTURE, THRESHOLD, TOP
     global TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TWO_PI, UP_ARROW, VIDEO, WAIT, WEBGL
 
-    global frame_count, focused, display_width, display_height, window_width, window_height, width, height
-    global device_orientation, acceleration_x, acceleration_y, acceleration_z
-    global p_acceleration_x, p_acceleration_y, p_acceleration_z, rotation_x, rotation_y, rotation_z
-    global p_rotation_x, p_rotation_y, p_rotation_z, turn_axis, is_key_pressed, key, key_code, mouse_x, mouse_y, pmouse_x, pmouse_y
-    global win_mouse_x, win_mouse_y, pwin_mouse_x, pwin_mouse_y, mouse_button, is_mouse_pressed, touches, pixels
+    global frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height
+    global deviceOrientation, accelerationX, accelerationY, accelerationZ
+    global pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ
+    global pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY
+    global winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
 
     _CTX_MIDDLE = p5_instance._CTX_MIDDLE
     _DEFAULT_FILL = p5_instance._DEFAULT_FILL
@@ -5444,41 +5396,41 @@ def pre_draw(p5_instance, draw_func, *args, **kwargs):
     WAIT = p5_instance.WAIT
     WEBGL = p5_instance.WEBGL
 
-    frame_count = p5_instance.frameCount
+    frameCount = p5_instance.frameCount
     focused = p5_instance.focused
-    display_width = p5_instance.displayWidth
-    display_height = p5_instance.displayHeight
-    window_width = p5_instance.windowWidth
-    window_height = p5_instance.windowHeight
+    displayWidth = p5_instance.displayWidth
+    displayHeight = p5_instance.displayHeight
+    windowWidth = p5_instance.windowWidth
+    windowHeight = p5_instance.windowHeight
     width = p5_instance.width
     height = p5_instance.height
-    device_orientation = p5_instance.deviceOrientation
-    acceleration_x = p5_instance.accelerationX
-    acceleration_y = p5_instance.accelerationY
-    acceleration_z = p5_instance.accelerationZ
-    pAcceleration_x = p5_instance.pAccelerationX
-    pAcceleration_y = p5_instance.pAccelerationY
-    pAcceleration_z = p5_instance.pAccelerationZ
-    rotation_x = p5_instance.rotationX
-    rotation_y = p5_instance.rotationY
-    rotation_z = p5_instance.rotationZ
-    pRotation_x = p5_instance.pRotationX
-    pRotation_y = p5_instance.pRotationY
-    pRotation_z = p5_instance.pRotationZ
-    turn_axis = p5_instance.turnAxis
-    is_key_pressed = p5_instance.keyIsPressed
+    deviceOrientation = p5_instance.deviceOrientation
+    accelerationX = p5_instance.accelerationX
+    accelerationY = p5_instance.accelerationY
+    accelerationZ = p5_instance.accelerationZ
+    pAccelerationX = p5_instance.pAccelerationX
+    pAccelerationY = p5_instance.pAccelerationY
+    pAccelerationZ = p5_instance.pAccelerationZ
+    rotationX = p5_instance.rotationX
+    rotationY = p5_instance.rotationY
+    rotationZ = p5_instance.rotationZ
+    pRotationX = p5_instance.pRotationX
+    pRotationY = p5_instance.pRotationY
+    pRotationZ = p5_instance.pRotationZ
+    turnAxis = p5_instance.turnAxis
+    keyIsPressed = p5_instance.keyIsPressed
     key = p5_instance.key
-    key_code = p5_instance.keyCode
-    mouse_x = p5_instance.mouseX
-    mouse_y = p5_instance.mouseY
-    pmouse_x = p5_instance.pmouseX
-    pmouse_y = p5_instance.pmouseY
-    win_mouse_x = p5_instance.winMouseX
-    win_mouse_y = p5_instance.winMouseY
-    pwin_mouse_x = p5_instance.pwinMouseX
-    pwin_mouse_y = p5_instance.pwinMouseY
-    mouse_button = p5_instance.mouseButton
-    is_mouse_pressed = p5_instance.mouseIsPressed
+    keyCode = p5_instance.keyCode
+    mouseX = p5_instance.mouseX
+    mouseY = p5_instance.mouseY
+    pmouseX = p5_instance.pmouseX
+    pmouseY = p5_instance.pmouseY
+    winMouseX = p5_instance.winMouseX
+    winMouseY = p5_instance.winMouseY
+    pwinMouseX = p5_instance.pwinMouseX
+    pwinMouseY = p5_instance.pwinMouseY
+    mouseButton = p5_instance.mouseButton
+    mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
 
@@ -5539,7 +5491,7 @@ def start_p5(preload_func, setup_func, draw_func, event_functions):
         func = event_functions[f_name]
         event_func = global_p5_injection(window.instance)(func)
         setattr(window.instance, f_name, event_func)
-`;  // end of const wrapperContent
+`;
 
 const placeholder = `
 def preload():
@@ -5570,34 +5522,29 @@ touchEnded = None
 windowResized = None
 `;
 
-let userCode = `
-{{ sketch_content }}
-`;
-
 const startCode = `
 event_functions = {
-    "deviceMoved": __deviceMoved,
-    "deviceTurned": __deviceTurned,
-    "deviceShaken": __deviceShaken,
-    "keyPressed": __keyPressed,
-    "keyReleased": __keyReleased,
-    "keyTyped": __keyTyped,
-    "mouseMoved": __mouseMoved,
-    "mouseDragged": __mouseDragged,
-    "mousePressed": __mousePressed,
-    "mouseReleased": __mouseReleased,
-    "mouseClicked": __mouseClicked,
-    "doubleClicked": __doubleClicked,
-    "mouseWheel": __mouseWheel,
-    "touchStarted": __touchStarted,
-    "touchMoved": __touchMoved,
-    "touchEnded": __touchEnded,
-    "windowResized": __windowResized,
+    "deviceMoved": deviceMoved,
+    "deviceTurned": deviceTurned,
+    "deviceShaken": deviceShaken,
+    "keyPressed": keyPressed,
+    "keyReleased": keyReleased,
+    "keyTyped": keyTyped,
+    "mouseMoved": mouseMoved,
+    "mouseDragged": mouseDragged,
+    "mousePressed": mousePressed,
+    "mouseReleased": mouseReleased,
+    "mouseClicked": mouseClicked,
+    "doubleClicked": doubleClicked,
+    "mouseWheel": mouseWheel,
+    "touchStarted": touchStarted,
+    "touchMoved": touchMoved,
+    "touchEnded": touchEnded,
+    "windowResized": windowResized,
 }
 
 start_p5(preload, setup, draw, event_functions)
 `;
-
 
 function runCode(userCode) {
 	let code = [placeholder, userCode, wrapperContent, startCode].join('\n');
