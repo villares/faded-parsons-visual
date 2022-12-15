@@ -25,9 +25,6 @@ export async function initWidget() {
 		const probDescription = configYaml['problem_description'];
 		let codeLines =
 			configYaml['code_lines'] +
-			"\nprint('DEBUG:', !BLANK)" +
-			"\nprint('DEBUG:', !BLANK)" +
-			'\n# !BLANK' +
 			'\n# !BLANK';
 		const localRepr = get(problemName + LS_REPR);
 		if (localRepr) {
