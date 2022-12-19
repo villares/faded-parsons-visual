@@ -18,7 +18,7 @@ code_lines: |
   background(0, 0, 200) #1given
   def draw(): #0given
   circle(x, height / 2, 200) #1given
-  x = x + 1	
+  x = x + 5	
   !BLANK x # para poder modificar x
   if x > width + 50:
   x = -50
