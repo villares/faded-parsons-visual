@@ -1,0 +1,27 @@
+problem_name: Usando variáveis 
+
+problem_subtitle: atribuição e reatribuição
+
+problem_category: variáveis
+
+problem_description: |
+  <code>Usando variáveis </code> atribuição e reatribuição
+    Organize as linhas para formar o desenho abaixo
+    </br>
+    <img src="parsons_probs/001_variables.png">
+    </br>
+   
+code_lines: |
+   def setup(): #0given
+   size(400, 400) #1given
+   background(200) # fundo cinza
+   a = 10
+   square(a, 10, 140)  # quadrado de lado 140
+   a = a + 145
+   square(a, 10,!BLANK)  
+   nome = 'Guido' 
+   fill(0)    
+   text(nome, 20, 180)  # desenha o texto de `nome`
+   
+  
+test_fn: setup

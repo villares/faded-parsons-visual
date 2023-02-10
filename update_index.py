@@ -22,7 +22,8 @@ for yaml_file in sorted(puzzle_files):
         sub_title = stl[0] if stl else ''
         cl = [line[18:].strip() for line in lines if line.startswith('problem_category: ')]
         category = cl[0] if cl else ''
-    puzzles_cat[category].append((yaml_file.stem, title, sub_title))#
+    puzzles_cat[category].append((yaml_file.stem, title, sub_title))
+    print(category, yaml_file.stem, title, sub_title)
  
 with open(index_html) as index_file:
     html = index_file.read()
