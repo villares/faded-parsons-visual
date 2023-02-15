@@ -14,12 +14,12 @@ problem_description: |
 code_lines: |
    def setup(): #0given
    size(400, 400) #1given
-   background(200) # fundo cinza
+   background(!BLANK) # fundo cinza 
    a = 10
    square(a, 10, 140)  # quadrado de lado 140
    a = a + 145
-   square(a, 10,!BLANK)  
-   nome = 'Guido' 
+   square(a, 10, !BLANK)  
+   nome = '!BLANK' 
    fill(0)    
    text(nome, 20, 180)  # desenha o texto de `nome`
    

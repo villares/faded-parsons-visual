@@ -21,7 +21,7 @@ for yaml_file in sorted(puzzle_files):
         stl = [line[18:].strip() for line in lines if line.startswith('problem_subtitle: ')]
         sub_title = stl[0] if stl else ''
         cl = [line[18:].strip() for line in lines if line.startswith('problem_category: ')]
-        category = cl[0] if cl else ''
+        category = cl[0].lower() if cl else 'geral'
     puzzles_cat[category].append((yaml_file.stem, title, sub_title))
     print(category, yaml_file.stem, title, sub_title)
  
