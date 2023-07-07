@@ -5570,10 +5570,6 @@ touchEnded = None
 windowResized = None
 `;
 
-let userCode = `
-{{ sketch_content }}
-`;
-
 const startCode = `
 event_functions = {
     "deviceMoved": __deviceMoved,
@@ -5597,7 +5593,6 @@ event_functions = {
 
 start_p5(preload, setup, draw, event_functions)
 `;
-
 
 function runCode(userCode) {
 	let code = [placeholder, userCode, wrapperContent, startCode].join('\n');
