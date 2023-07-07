@@ -1,7 +1,8 @@
 import yaml from 'js-yaml';
 
-import { get, set } from './user-storage.js';
-import { main, runCode } from './sketch-runner';
+import {processTestError} from './doctest-grader.js';
+import {get, set} from './user-storage.js';
+import {main, runCode} from './sketch-runner';
 import './problem-element.js';
 
 const LS_REPR = '-repr';
@@ -23,9 +24,7 @@ export async function initWidget() {
 		const [config, func] = res;
 		const configYaml = yaml.load(config);
 		const probDescription = configYaml['problem_description'];
-		let codeLines =
-			configYaml['code_lines'] +
-			'\n# !BLANK';
+		let codeLines = configYaml['code_lines'] + '\n# !BLANK';
 		const localRepr = get(problemName + LS_REPR);
 		if (localRepr) {
 			codeLines = localRepr;
@@ -46,14 +45,28 @@ export async function initWidget() {
 	await main();
 }
 
-async function handleSubmit(submittedCode, reprCode, codeHeader) {
+function clearCanvases() {
+	const canvases = document.querySelectorAll('canvas');
+	if (canvases.length) {
+		canvases.forEach((canvas) => {
+			canvas.remove();
+		});
+	}
+}
+
+async function handleSubmit(submittedCode, reprCode) {
 	let testResults = {
 		status: 'pass',
-		header: 'lala header',
-		details: 'lala details',
+		header: '',
+		details: '',
 	};
 
-	runCode(submittedCode);
+	try {
+		runCode(submittedCode);
+	} catch (e) {
+		clearCanvases();
+		testResults = processTestError(e, 29);
+	}
 	// const {result, error} = await runCodeOnWorker();
 	// runCode(submittedCode);
 

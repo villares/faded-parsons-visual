@@ -3846,6 +3846,57 @@ var jsYaml = {
 	safeDump: safeDump
 };
 
+function extractError(error, numDocstringLines) {
+	let startI = -1;
+	let endI = -1;
+	let lineNum;
+	const errorLines = error.split('\n');
+	for (var i = errorLines.length - 1; i >= 0; i--) {
+		let line = errorLines[i];
+		if (
+			line.startsWith('NameError') ||
+			line.startsWith('SyntaxError') ||
+			line.startsWith('IndentationError')
+		) {
+			endI = i;
+		} else if (line.includes('File "<exec>", line')) {
+			lineNum = parseInt(line.split(', line ')[1], 10);
+			lineNum -= numDocstringLines - 1;
+			startI = i;
+			break;
+		}
+	}
+	if (startI == -1 || endI == -1) {
+		return 'No error report found.';
+	} else {
+		return (
+			`Error at line ${lineNum}:\n` +
+			errorLines.slice(startI + 1, endI + 1).join('\n')
+		);
+	}
+}
+
+function processTestError(error, startLine) {
+	if (error.message.startsWith('Traceback')) {
+		return {
+			status: 'fail',
+			header: 'Syntax error',
+			details: extractError(error.message, startLine),
+		};
+	} else if (error.message == 'Infinite loop') {
+		return {
+			status: 'fail',
+			header: 'Infinite loop',
+			details:
+				'Your code did not finish executing within 5 seconds. Please look to see if you accidentally coded an infinite loop.',
+		};
+	}
+	return {
+		status: 'fail',
+		header: 'Unexpected error occurred',
+	};
+}
+
 const veryLocalStorage = {};
 
 function supportsStorage() {
@@ -5709,14 +5760,29 @@ class LoaderElement extends s {
 customElements.define('loader-element', LoaderElement);
 
 class TestResultsElement extends s {
+	static properties = {
+		status: {type: String},
+		header: {type: String},
+		details: {type: String},
+	};
+
 	createRenderRoot() {
 		return this;
 	}
 
 	render() {
 		return $`
-			<div id="sketch-holder">
-				<!-- You sketch will go here! -->
+			<div id="sketch-holder" class="${this.status !== 'pass' ? this.status : ''}">
+				${this.header.length
+					? $`<div class="testcase ${this.status !== 'pass' ? this.status : ''}">
+							<span class="msg">${this.header}</span>
+					  </div>`
+					: ''}
+				${this.details.length
+					? $`<div class="testcase">
+							<pre><code>${this.details}</code></pre>
+					  </div>`
+					: ''}
 			</div>
 		`;
 	}
@@ -5758,7 +5824,6 @@ class ProblemElement extends s {
 		this.enableRun = false;
 
 		window.addEventListener('pyodideReady', () => {
-			debugger;
 			this.enableRun = true;
 		});
 	}
@@ -5877,9 +5942,7 @@ async function initWidget() {
 		const [config, func] = res;
 		const configYaml = jsYaml.load(config);
 		const probDescription = configYaml['problem_description'];
-		let codeLines =
-			configYaml['code_lines'] +
-			'\n# !BLANK';
+		let codeLines = configYaml['code_lines'] + '\n# !BLANK';
 		const localRepr = get(problemName + LS_REPR);
 		if (localRepr) {
 			codeLines = localRepr;
@@ -5900,14 +5963,28 @@ async function initWidget() {
 	await main();
 }
 
-async function handleSubmit(submittedCode, reprCode, codeHeader) {
+function clearCanvases() {
+	const canvases = document.querySelectorAll('canvas');
+	if (canvases.length) {
+		canvases.forEach((canvas) => {
+			canvas.remove();
+		});
+	}
+}
+
+async function handleSubmit(submittedCode, reprCode) {
 	let testResults = {
 		status: 'pass',
-		header: 'lala header',
-		details: 'lala details',
+		header: '',
+		details: '',
 	};
 
-	runCode(submittedCode);
+	try {
+		runCode(submittedCode);
+	} catch (e) {
+		clearCanvases();
+		testResults = processTestError(e, 29);
+	}
 	// const {result, error} = await runCodeOnWorker();
 	// runCode(submittedCode);
 
