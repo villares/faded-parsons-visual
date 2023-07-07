@@ -5864,7 +5864,7 @@ class ProblemElement extends s {
 										class="btn btn-primary"
 										?disabled=${!this.enableRun}
 									>
-										Run code
+										${this.enableRun ? 'Run code' : 'Loading...'}
 									</button>
 								</div>
 							</div>
