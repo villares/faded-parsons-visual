@@ -5832,6 +5832,11 @@ class ProblemElement extends s {
 		return this;
 	}
 
+	clearStorage() {
+		set(this.name + LS_REPR, '');
+		window.location.reload();
+	}
+
 	render() {
 		return $`
 			<div class="row mt-3">
@@ -5858,6 +5863,13 @@ class ProblemElement extends s {
 										${this.runStatus && $` <loader-element></loader-element>`}
 										${this.runStatus}
 									</span>
+									<button
+										@click=${this.clearStorage}
+										type="button"
+										class="btn btn-outline-danger"
+									>
+										Reset code
+									</button>
 									<button
 										@click=${this.onRun}
 										type="button"
@@ -5996,5 +6008,5 @@ async function handleSubmit(submittedCode, reprCode) {
 	set(probEl.getAttribute('name') + LS_REPR, reprCode);
 }
 
-export { initWidget };
+export { LS_REPR, initWidget };
 //# sourceMappingURL=bundle.js.map

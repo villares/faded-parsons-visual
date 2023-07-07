@@ -5,7 +5,7 @@ import {get, set} from './user-storage.js';
 import {main, runCode} from './sketch-runner';
 import './problem-element.js';
 
-const LS_REPR = '-repr';
+export const LS_REPR = '-repr';
 let probEl;
 
 export async function initWidget() {

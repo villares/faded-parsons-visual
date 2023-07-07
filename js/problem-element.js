@@ -6,6 +6,8 @@ import {ref, createRef} from 'lit/directives/ref.js';
 
 import './loader-element.js';
 import './test-results-element.js';
+import {set} from './user-storage.js';
+import {LS_REPR} from './main.js';
 
 export class ProblemElement extends LitElement {
 	static properties = {
@@ -47,6 +49,11 @@ export class ProblemElement extends LitElement {
 		return this;
 	}
 
+	clearStorage() {
+		set(this.name + LS_REPR, '');
+		window.location.reload();
+	}
+
 	render() {
 		return html`
 			<div class="row mt-3">
@@ -73,6 +80,13 @@ export class ProblemElement extends LitElement {
 										${this.runStatus && html` <loader-element></loader-element>`}
 										${this.runStatus}
 									</span>
+									<button
+										@click=${this.clearStorage}
+										type="button"
+										class="btn btn-outline-danger"
+									>
+										Reset code
+									</button>
 									<button
 										@click=${this.onRun}
 										type="button"
