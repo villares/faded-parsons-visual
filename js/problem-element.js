@@ -1,24 +1,24 @@
 /* global ParsonsWidget */
 
-import { LitElement, html, css } from 'lit';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { ref, createRef } from 'lit/directives/ref.js';
+import {LitElement, html, css} from 'lit';
+import {unsafeHTML} from 'lit/directives/unsafe-html.js';
+import {ref, createRef} from 'lit/directives/ref.js';
 
 import './loader-element.js';
 import './test-results-element.js';
 
 export class ProblemElement extends LitElement {
 	static properties = {
-		name: { type: String },
-		description: { type: String },
-		codeLines: { type: String },
-		codeHeader: { type: String },
-		isLoading: { type: Boolean },
-		enableRun: { type: Boolean, default: false },
-		runStatus: { type: String },
-		resultsStatus: { type: String },
-		resultsHeader: { type: String },
-		resultsDetails: { type: String },
+		name: {type: String},
+		description: {type: String},
+		codeLines: {type: String},
+		codeHeader: {type: String},
+		isLoading: {type: Boolean},
+		enableRun: {type: Boolean, default: false},
+		runStatus: {type: String},
+		resultsStatus: {type: String},
+		resultsHeader: {type: String},
+		resultsDetails: {type: String},
 	};
 
 	static styles = css`
@@ -39,17 +39,6 @@ export class ProblemElement extends LitElement {
 	}
 
 	render() {
-		let results =
-			'The resulting image will be rendered here when you click "Run code".';
-		if (this.resultsStatus) {
-			results = html`
-				<test-results-element
-					status=${this.resultsStatus}
-					header=${this.resultsHeader}
-					details=${this.resultsDetails}
-				></test-results-element>`;
-		}
-
 		return html`
 			<div class="row mt-3">
 				<div class="col-sm-12">
@@ -66,21 +55,13 @@ export class ProblemElement extends LitElement {
 				<div class="col-sm-12">
 					<div class="card">
 						<div class="card-body">
-							<div
-								${ref(this.starterRef)}
-								class="sortable-code starter"
-							></div>
-							<div
-								${ref(this.solutionRef)}
-								class="sortable-code solution"
-							></div>
+							<div ${ref(this.starterRef)} class="sortable-code starter"></div>
+							<div ${ref(this.solutionRef)} class="sortable-code solution"></div>
 							<div style="clear:both"></div>
 							<div class="row float-right">
 								<div class="col-sm-12">
 									<span style="margin-right: 8px">
-										${this.runStatus &&
-										html`
-											<loader-element></loader-element>`}
+										${this.runStatus && html` <loader-element></loader-element>`}
 										${this.runStatus}
 									</span>
 									<button
@@ -105,7 +86,18 @@ export class ProblemElement extends LitElement {
 							<h4>Result</h4>
 						</div>
 						<div id="test_description">
-							<div class="card-body">${results}</div>
+							<div class="card-body">
+								${!this.resultsStatus
+									? 'The resulting image will be rendered here when you click "Run code".'
+									: ''}
+								${html`
+									<test-results-element
+										status=${this.resultsStatus}
+										header=${this.resultsHeader}
+										details=${this.resultsDetails}
+									/>
+								`}
+							</div>
 						</div>
 					</div>
 				</div>
