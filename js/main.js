@@ -39,7 +39,6 @@ export async function initWidget() {
 		probEl.addEventListener('run', (e) => {
 			handleSubmit(e.detail.code, e.detail.repr, func);
 		});
-		probEl.setAttribute('enableRun', 'enableRun');
 		probEl.setAttribute('runStatus', '');
 		document.getElementById('problem-wrapper').appendChild(probEl);
 	});
@@ -54,7 +53,6 @@ async function handleSubmit(submittedCode, reprCode, codeHeader) {
 		details: 'lala details',
 	};
 
-	debugger;
 	runCode(submittedCode);
 	// const {result, error} = await runCodeOnWorker();
 	// runCode(submittedCode);

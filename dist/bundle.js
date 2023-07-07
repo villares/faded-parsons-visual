@@ -5610,9 +5610,12 @@ async function main() {
 		indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.21.3/full/',
 		fullStdLib: false,
 	};
-	window.pyodide = await loadPyodide(config);
-	// TODO: add event listeners to enable the buttons
-	// Pyodide is now ready to use...
+	window.pyodide = await window.loadPyodide(config);
+
+	// Pyodide is now ready to use.
+	// This sends a custom event to enable the `Run code` button
+	window.dispatchEvent(new CustomEvent('pyodideReady'));
+
 	console.log(
 		window.pyodide.runPython(`
 				import io, code, sys
@@ -5730,7 +5733,7 @@ class ProblemElement extends s {
 		codeLines: {type: String},
 		codeHeader: {type: String},
 		isLoading: {type: Boolean},
-		enableRun: {type: Boolean, default: false},
+		enableRun: {type: Boolean, state: true},
 		runStatus: {type: String},
 		resultsStatus: {type: String},
 		resultsHeader: {type: String},
@@ -5749,6 +5752,16 @@ class ProblemElement extends s {
 
 	starterRef = e();
 	solutionRef = e();
+
+	constructor() {
+		super();
+		this.enableRun = false;
+
+		window.addEventListener('pyodideReady', () => {
+			debugger;
+			this.enableRun = true;
+		});
+	}
 
 	createRenderRoot() {
 		return this;
@@ -5880,7 +5893,6 @@ async function initWidget() {
 		probEl.addEventListener('run', (e) => {
 			handleSubmit(e.detail.code, e.detail.repr);
 		});
-		probEl.setAttribute('enableRun', 'enableRun');
 		probEl.setAttribute('runStatus', '');
 		document.getElementById('problem-wrapper').appendChild(probEl);
 	});
@@ -5895,7 +5907,6 @@ async function handleSubmit(submittedCode, reprCode, codeHeader) {
 		details: 'lala details',
 	};
 
-	debugger;
 	runCode(submittedCode);
 	// const {result, error} = await runCodeOnWorker();
 	// runCode(submittedCode);

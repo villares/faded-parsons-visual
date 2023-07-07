@@ -14,7 +14,7 @@ export class ProblemElement extends LitElement {
 		codeLines: {type: String},
 		codeHeader: {type: String},
 		isLoading: {type: Boolean},
-		enableRun: {type: Boolean, default: false},
+		enableRun: {type: Boolean, state: true},
 		runStatus: {type: String},
 		resultsStatus: {type: String},
 		resultsHeader: {type: String},
@@ -33,6 +33,15 @@ export class ProblemElement extends LitElement {
 
 	starterRef = createRef();
 	solutionRef = createRef();
+
+	constructor() {
+		super();
+		this.enableRun = false;
+
+		window.addEventListener('pyodideReady', () => {
+			this.enableRun = true;
+		});
+	}
 
 	createRenderRoot() {
 		return this;

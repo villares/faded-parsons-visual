@@ -1734,9 +1734,12 @@ export async function main() {
 		indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.21.3/full/',
 		fullStdLib: false,
 	};
-	window.pyodide = await loadPyodide(config);
-	// TODO: add event listeners to enable the buttons
-	// Pyodide is now ready to use...
+	window.pyodide = await window.loadPyodide(config);
+
+	// Pyodide is now ready to use.
+	// This sends a custom event to enable the `Run code` button
+	window.dispatchEvent(new CustomEvent('pyodideReady'));
+
 	console.log(
 		window.pyodide.runPython(`
 				import io, code, sys
