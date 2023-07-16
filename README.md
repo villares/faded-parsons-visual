@@ -45,38 +45,43 @@ This website can be deployed anywhere since it's entirely static, and is current
 
 Add files to the `parson_probs` folder:
 
-- ~~problem*name.py: This should be a Python function that \_only* has the function header, docstring, and doctests. It shouldn't contain the solution.~~
-- `problem_file.yaml`: This is a YAML file that includes the problem description (HTML) and code lines with blanks. - You can add an image to the description, I have to figure where to keep the images. - Example:
+- `problem_file.yaml`: This is a YAML file that includes the problem description (HTML) and code lines with blanks.
 
-  ````yaml
-  problem_name: Variables
+- You should add an image to the description, like `problem_file.png`, in the same folder.
 
-      		problem_subtitle: assignement
+- Example `000_variables.yaml` that uses `000_variables.png` in the same folder:
 
-      		problem_category: Getting Started
+```yaml
 
-      		problem_description: |
-      			<code>Variáveis </code>
-      				Organize as linhas para formar o desenho abaixo
-      				</br>
-      				<img src="parsons_probs/000_variables.png">
-      				</br>
+problem_name: Variables
+
+problem_subtitle: assignement
+
+problem_category: Getting Started
+
+problem_description: |
+	<code>Variáveis </code>
+		Organize as linhas para formar o desenho abaixo
+		</br>
+		<img src="parsons_probs/000_variables.png">
+		</br>
 
 
-      		code_lines: |
-      			def setup(): #0given
-      			size(400, 400) #1given
-      			background(200) # fundo cinza
-      			nome = '!BLANK'
-      			text(nome, 20, 180)  # desenha o texto de `nome`
-      			# Se tentar usar a variável `a` antes de criar...
-      			# ... vai ter um erro do tipo NameError (não conheço `a`)
-      			a = 10  # cria a variável `a` que aponta para o valor 10
-      			square(a, 10, 140)  # desenha um quadrado de lado 140 em x:10, y:10
-      			a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
-      			square(a, 10, !BLANK)  # desenha um quadrado de lado 140
+code_lines: |
+	 def setup(): #0given
+	 size(400, 400) #1given
+	 background(200) # fundo cinza
+	 nome = '!BLANK'
+	 text(nome, 20, 180)  # desenha o texto de `nome`
+	 # Se tentar usar a variável `a` antes de criar...
+	 # ... vai ter um erro do tipo NameError (não conheço `a`)
+	 a = 10  # cria a variável `a` que aponta para o valor 10
+	 square(a, 10, 140)  # desenha um quadrado de lado 140 em x:10, y:10
+	 a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
+	 square(a, 10, !BLANK)  # desenha um quadrado de lado 140
 
-      		```
+```
 
-  Then you can access the new problem at **`.../problem.html?name=problem_file`**
-  ````
+Then you can access the new problem at **`.../problem.html?name=problem_file`**
+
+There is a [Python script](https://github.com/villares/faded-parsons-visual/blob/hack/update_index.py) that will look for YAML problems, check the category and update the `index.html` with links to all the problems found in `parsons_probs`.
