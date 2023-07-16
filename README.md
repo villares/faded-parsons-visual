@@ -1,33 +1,13 @@
-# ***The fun is at the [`hack` branch](https://github.com/villares/faded-parsons-visual/blob/hack/README.md)...***
+# ***The fun is at the [`hack`](https://github.com/villares/faded-parsons-visual/blob/hack/README.md) branch...***
 
+> this came from:
+> 
+> ## Python Faded Parsons Problems
+> 
+> This website allows you to run Faded Parsons Problems in the browser.
+> It uses Pyodide for executing Python doctests and localStorage for storing user progress.
+>
+> Check the orginal at:
+> https://pamelafox.github.io/faded-parsons-static/index.html
 
-# Python Faded Parsons Problems
-
-This website allows you to run Faded Parsons Problems in the browser.
-It uses Pyodide for executing Python doctests and localStorage for storing user progress.
-
-Check it out here:
-
-https://pamelafox.github.io/faded-parsons-static/index.html
-
-## Running the website
-
-To run locally:
-
-```
-npm install
-npm run dev
-```
-
-## Deploying the website
-
-This website can be deployed anywhere since it's entirely static, and is currently deployed on Github Pages. You can enable Pages on your own fork of the repo to host on Github.
-
-## Adding a new problem
-
-Add two files to the `parson_probs` folder:
-
-* problem_name.py: This should be a Python function that _only_ has the function header, docstring, and doctests. It shouldn't contain the solution.
-* problem_name.yaml: This is a YAML file that includes the problem description (HTML) and code lines with blanks.
-
-Then you can access the new problem at problem.html?name=problem_name
+This forked version of **Python Parsons Problems with visual output** in the [hack branch](https://github.com/villares/faded-parsons-visual/blob/hack/README.md) can be tested at: [abav.lugaralgum.com/faded-parsons-visual](https://abav.lugaralgum.com/faded-parsons-visual)
