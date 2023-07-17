@@ -14,7 +14,7 @@ problem_description: |
 code_lines: |
    def setup(): #0given
    size(400, 400) #1given
-   n = 10
+   n = !BLANK
    esp = width / n
    for i in range(n):
    x = i * esp + esp / 2
