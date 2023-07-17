@@ -14,8 +14,9 @@ problem_description: |
 code_lines: |
    def setup(): #0given
    size(400, 400) #1given
-   n = !BLANK
-   esp = width / n
+   # n é  o número de filas e colunas
+   n = !BLANK  
+   esp = width / n  # espaçamento
    for i in range(n):
    x = i * esp + esp / 2
    for j in range(n):
