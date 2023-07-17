@@ -15,8 +15,8 @@ code_lines: |
    def setup(): #0given
    size(400, 400)
    background(100, 200, 0) #1given
-   fill('red')
-   for i in range(4):
+   fill(!BLANK) # r, g, b (or 'red')
+   for i in range(!BLANK):
    rect(25 + i * 60, 100, 50, 100)
   
 test_fn: setup
