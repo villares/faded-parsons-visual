@@ -1,0 +1,25 @@
+problem_name: Desenhando olhos 
+
+problem_subtitle: Definindo uma função olho
+
+problem_category: funções
+
+problem_description: |
+  <code>Definindo uma função olho</code>
+  Organize as linhas para formar o desenho abaixo</br>
+  <img src="parsons_probs/003_olhos.png"></br>
+   
+code_lines: |
+  def setup(): #0given
+  size(400, 400) #1given    
+  olho(100, 150, 100) #1given
+  olho(250, 250, 200) #1given
+  # definição do olho   
+  def olho(x, y, tamanho): #1given
+  no_stroke()
+  fill(255)
+  ellipse(x, y, !BLANK, tamanho * 0.4)
+  fill(0)
+  circle(x, y, !BLANK * 0.4)   
+  
+test_fn: setup
