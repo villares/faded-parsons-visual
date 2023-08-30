@@ -5,7 +5,16 @@ problem_description: |
   from the top left corner of a square grid to the bottom right corner.
 
   <pre><code>
-  >>> paths(1, 1)
+         | ---- width ---- |
+    _    ┌────────┬────────┐
+    |    │ start  │        │
+    |    │        │        │
+  height ├────────┼────────┤
+    |    │        │        │
+    |    │        │   end  │
+    -    └────────┴────────┘
+  </code></pre>
+  <pre><code>>>> paths(1, 1)
   1
   >>> paths(2, 2)
   2
