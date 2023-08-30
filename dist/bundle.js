@@ -4034,7 +4034,7 @@ function processTestError(error, startLine) {
 			status: 'fail',
 			header: 'Infinite loop',
 			details:
-				'Your code did not finish executing within 5 seconds. Please look to see if you accidentally coded an infinite loop.',
+				'Your code did not finish executing within 60 seconds. Please look to see if you accidentally coded an infinite loop.',
 		};
 	}
 	return {
@@ -4286,7 +4286,7 @@ class FiniteWorker {
 		this.worker.onmessage = this.handleMessage.bind(this);
 
 		return new Promise((resolve) => {
-			window.setTimeout(this.finishIt.bind(this), 1000 * 5);
+			window.setTimeout(this.finishIt.bind(this), 1000 * 60);
 			this.worker.postMessage(code);
 			this.resolve = resolve;
 		});
