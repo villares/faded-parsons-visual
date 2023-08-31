@@ -57,7 +57,7 @@ export class ProblemElement extends LitElement {
 	render() {
 		return html`
 			<div class="row mt-3">
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<div class="card">
 						<div class="card-header">
 							<h3>Problem Statement</h3>
@@ -65,6 +65,27 @@ export class ProblemElement extends LitElement {
 						<div class="card-body">${unsafeHTML(this.description)}</div>
 					</div>
 				</div>
+			  <div class="col-sm-6">
+					<div class="card">
+						<div class="card-header">
+							<h4>Result</h4>
+						</div>
+						<div id="test_description">
+							<div class="card-body">
+								${!this.resultsStatus
+									? 'The resulting image will be rendered here when you click "Run code".'
+									: ''}
+								${html`
+									<test-results-element
+										status=${this.resultsStatus}
+										header=${this.resultsHeader}
+										details=${this.resultsDetails}
+									/>
+								`}
+							</div>
+						</div>
+					</div>
+				</div>	
 			</div>
 
 			<div class="row mt-4">
@@ -96,30 +117,6 @@ export class ProblemElement extends LitElement {
 										${this.enableRun ? 'Run code' : 'Loading...'}
 									</button>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row mt-4">
-				<div class="col-sm-12">
-					<div class="card">
-						<div class="card-header">
-							<h4>Result</h4>
-						</div>
-						<div id="test_description">
-							<div class="card-body">
-								${!this.resultsStatus
-									? 'The resulting image will be rendered here when you click "Run code".'
-									: ''}
-								${html`
-									<test-results-element
-										status=${this.resultsStatus}
-										header=${this.resultsHeader}
-										details=${this.resultsDetails}
-									/>
-								`}
 							</div>
 						</div>
 					</div>
