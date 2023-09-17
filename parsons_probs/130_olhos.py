@@ -18,7 +18,7 @@ def exiting():
     save(file + '.png')
     print(file)
     nome = 'Função olho'
-    subt = 'Definindo uma função de desenho e a chamando.'
+    subt = 'definindo uma função de desenho e a chamando.'
     categoria = 'funções'
     descrição = (
 f"""<img src="parsons_probs/{file}.png"></br>"""

@@ -1,11 +1,11 @@
 problem_name: Função olho 
 
-problem_subtitle: Definindo uma função de desenho e a chamando.
+problem_subtitle: definindo uma função de desenho e a chamando.
 
 problem_category: funções
 
 problem_description: |
-  <img src="parsons_probs/003_olhos.png"></br><code>Definindo uma função de desenho e a chamando.</code> Organize o bloco de definição da função olho para que ela possa ser chamada no setup() e os olhos desenhados.</br>
+  <img src="parsons_probs/130_olhos.png"></br><code>Definindo uma função de desenho e a chamando.</code> Organize o bloco de definição da função olho para que ela possa ser chamada no setup() e os olhos desenhados.</br>
    
 code_lines: |
   def setup(): #0given
@@ -16,10 +16,10 @@ code_lines: |
   def olho(x, y, tamanho): #0given
   no_stroke()  # sem contorno
   fill(255)  # branco
-  ellipse(x, y, tamanho, tamanho * 0.4)
+  ellipse(x, y, tamanho, tamanho * 0.40)
   fill(200, 200, 0) # amarelo
-  circle(x, y, tamanho * 0.4)  # iris
-  fill(!BLANK)   # preto
-  circle(x, y, tamanho * 0.1)  # pupila
+  circle(x, y, tamanho * 0.40)  # iris
+  fill(!BLANK)   # preto (0)
+  circle(x, y, tamanho * 0.10)  # pupila
   
 test_fn: setup
