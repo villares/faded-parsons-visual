@@ -1,7 +1,7 @@
 /** Stylesheet for the puzzles */
 .line-number {
 	float: right !important;
-	font-size: 80%;
+	font-size: 50%;
 }
 .sortable-code {
 	position: static;
@@ -27,7 +27,7 @@
 	font-family: monospace;
 	list-style: none;
 	background-color: #efefff;
-	padding-bottom: 60px;
+	padding-bottom: 40px;
 	padding-left: 0;
 	margin-left: 0;
 	border: 1px solid #efefff;

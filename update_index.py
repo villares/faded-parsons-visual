@@ -1,3 +1,8 @@
+"""
+Update the index.html file adding problems
+found in the 'parsons_probs' folder.
+"""
+
 from pathlib import Path
 from bs4 import BeautifulSoup
 from collections import defaultdict
