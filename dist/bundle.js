@@ -83,7 +83,7 @@ const at=2,ot=e=>(...n)=>({_$litDirective$:e,values:n});class lt{constructor(e){
 		}
 	`;starterRef=At();solutionRef=At();constructor(){super(),this.enableRun=!1,window.addEventListener("pyodideReady",(()=>{this.enableRun=!0}))}createRenderRoot(){return this}clearStorage(){rn(this.name+St,""),window.location.reload()}render(){return Fn`
 			<div class="row mt-3">
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<div class="card">
 						<div class="card-header">
 							<h3>Problem Statement</h3>
@@ -91,6 +91,25 @@ const at=2,ot=e=>(...n)=>({_$litDirective$:e,values:n});class lt{constructor(e){
 						<div class="card-body">${ut(this.description)}</div>
 					</div>
 				</div>
+			  <div class="col-sm-6">
+					<div class="card">
+						<div class="card-header">
+							<h4>Result</h4>
+						</div>
+						<div id="test_description">
+							<div class="card-body">
+								${this.resultsStatus?"":'The resulting image will be rendered here when you click "Run code".'}
+								${Fn`
+									<test-results-element
+										status=${this.resultsStatus}
+										header=${this.resultsHeader}
+										details=${this.resultsDetails}
+									/>
+								`}
+							</div>
+						</div>
+					</div>
+				</div>	
 			</div>
 
 			<div class="row mt-4">
@@ -122,28 +141,6 @@ const at=2,ot=e=>(...n)=>({_$litDirective$:e,values:n});class lt{constructor(e){
 										${this.enableRun?"Run code":"Loading..."}
 									</button>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row mt-4">
-				<div class="col-sm-12">
-					<div class="card">
-						<div class="card-header">
-							<h4>Result</h4>
-						</div>
-						<div id="test_description">
-							<div class="card-body">
-								${this.resultsStatus?"":'The resulting image will be rendered here when you click "Run code".'}
-								${Fn`
-									<test-results-element
-										status=${this.resultsStatus}
-										header=${this.resultsHeader}
-										details=${this.resultsDetails}
-									/>
-								`}
 							</div>
 						</div>
 					</div>
