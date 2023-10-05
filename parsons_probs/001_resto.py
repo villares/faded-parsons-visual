@@ -1,12 +1,12 @@
 def setup():
     size(400, 400)
-    for i in range(80):
+    for i in range(2, 18):
         if i % 2 == 0:
             stroke(255)
         else:
             stroke(0)
         y = 10 + i * 20
-        line(0, y, width, y)
+        line(50, y, width - 50, y)
         
 
 ### fim do código do quebra-cabeças - gerando metadados
@@ -16,7 +16,7 @@ def exiting():
     print(file)
     nome = 'Pares e ímpares'
     subt = 'Usando o resto da divisão para alternar cores.'
-    categoria = 'funções'
+    categoria = 'laços de repetição'
     instructions = "Organize os blocos para desenhar as linhas corretamente."
     
     descrição = (
@@ -34,15 +34,15 @@ problem_description: |
   {descrição}
    
 code_lines: |
-    def setup(): 
-    size(400, 400)
-    for i in range(80):
+    def setup(): #0given
+    size(400, 400) #1given
+    for i in range(2, 18):
     if i % 2 == 0:
     stroke(255)
     else:
     stroke(0)
     y = 10 + i * 20
-    line(0, y, width, y) 
+    line(50, y, width - 50, y) 
   
 test_fn: setup
 """
