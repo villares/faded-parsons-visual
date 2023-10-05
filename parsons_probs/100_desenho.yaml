@@ -8,8 +8,7 @@ problem_description: |
   <img src="parsons_probs/100_desenho.png"></br><code>Formas básicas, preenchimento e traço.</code> Organize os blocos para desenhar as figuras.</br>
    
 code_lines: |
-    def setup(): #0given
-    size(400, 400) #1given
+    size(400, 400) #0given
     background(0, 200, 0) # verde
     rect_mode(CENTER)
     circle(200, 50, 50)
