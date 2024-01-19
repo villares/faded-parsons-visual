@@ -1,0 +1,24 @@
+problem_name: Desenho e cor 
+
+problem_subtitle: Formas básicas, preenchimento e traço.
+
+problem_category: 100 Primeiros passos
+
+problem_description: |
+  <img src="parsons_probs/100_desenho.png"></br><code>Formas básicas, preenchimento e traço.</code> Organize os blocos para desenhar as figuras.</br>
+   
+code_lines: |
+    size(400, 400) #0given
+    background(0, 200, 0) # verde
+    rect_mode(CENTER)
+    circle(200, 50, 50)
+    fill(0)  # preto
+    ellipse(200, 150, 100, 50)
+    fill(0, 0, 200)  # azul
+    no_stroke() # desliga traço
+    square(200, 250, 50)
+    stroke(255, 255, 0) # amarelo
+    fill(255, 0, 0)  # vermelho
+    rect(200, 350, 100, 50)
+  
+test_fn: setup

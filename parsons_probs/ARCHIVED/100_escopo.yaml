@@ -1,0 +1,26 @@
+problem_name: Animação
+
+problem_subtitle: escopo de varáveis
+
+problem_category: Variáveis
+
+problem_description: |
+  <img src="parsons_probs/100_escopo.gif" style="float: left;">
+  <p><code>Escopo de variáveis</code>
+  </br>Ajuste o código abaixo para obter a animação.
+  </p>		   
+
+code_lines: |
+  x = -50 # varíavel global
+  def setup(): #0given
+  size(400, 400) #1given
+  # desenha quadros #0given
+  background(0, 0, 200) #1given
+  def draw(): #0given
+  circle(x, height / 2, 200) #1given
+  x = x + 5	
+  !BLANK x # para poder modificar x
+  if x > width + 50:
+  x = -50
+
+test_fn: setup

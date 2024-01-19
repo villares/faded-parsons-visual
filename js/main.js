@@ -1,18 +1,14 @@
 import yaml from 'js-yaml';
 
+import {processTestError} from './doctest-grader.js';
 import {get, set} from './user-storage.js';
-import {
-	prepareCode,
-	processTestResults,
-	processTestError,
-} from './doctest-grader.js';
+import {main, runCode} from './sketch-runner';
 import './problem-element.js';
-import {FiniteWorker} from './worker-manager.js';
 
-const LS_REPR = '-repr';
+export const LS_REPR = '-repr';
 let probEl;
 
-export function initWidget() {
+export async function initWidget() {
 	let params = new URL(document.location).searchParams;
 	let problemName = params.get('name');
 
@@ -28,12 +24,7 @@ export function initWidget() {
 		const [config, func] = res;
 		const configYaml = yaml.load(config);
 		const probDescription = configYaml['problem_description'];
-		let codeLines =
-			configYaml['code_lines'] +
-			"\nprint('DEBUG:', !BLANK)" +
-			"\nprint('DEBUG:', !BLANK)" +
-			'\n# !BLANK' +
-			'\n# !BLANK';
+		let codeLines = configYaml['code_lines'] + '\n# !BLANK';
 		const localRepr = get(problemName + LS_REPR);
 		if (localRepr) {
 			codeLines = localRepr;
@@ -47,30 +38,37 @@ export function initWidget() {
 		probEl.addEventListener('run', (e) => {
 			handleSubmit(e.detail.code, e.detail.repr, func);
 		});
-		probEl.setAttribute('enableRun', 'enableRun');
 		probEl.setAttribute('runStatus', '');
 		document.getElementById('problem-wrapper').appendChild(probEl);
 	});
+
+	await main();
 }
 
-async function handleSubmit(submittedCode, reprCode, codeHeader) {
-	let testResults = prepareCode(submittedCode, codeHeader);
-
-	if (testResults.code) {
-		try {
-			const code = testResults.code + '\nsys.stdout.getvalue()';
-			const {results, error} = await new FiniteWorker(code);
-			if (results) {
-				testResults = processTestResults(results);
-			} else {
-				testResults = processTestError(error, testResults.startLine);
-			}
-		} catch (e) {
-			console.warn(
-				`Error in pyodideWorker at ${e.filename}, Line: ${e.lineno}, ${e.message}`
-			);
-		}
+function clearCanvases() {
+	const canvases = document.querySelectorAll('canvas');
+	if (canvases.length) {
+		canvases.forEach((canvas) => {
+			canvas.remove();
+		});
 	}
+}
+
+async function handleSubmit(submittedCode, reprCode) {
+	let testResults = {
+		status: 'pass',
+		header: '',
+		details: '',
+	};
+
+	try {
+		runCode(submittedCode);
+	} catch (e) {
+		clearCanvases();
+		testResults = processTestError(e, 29);
+	}
+	// const {result, error} = await runCodeOnWorker();
+	// runCode(submittedCode);
 
 	probEl.setAttribute('runStatus', '');
 	probEl.setAttribute('resultsStatus', testResults.status);

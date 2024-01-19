@@ -1,0 +1,21 @@
+problem_name: Pares e ímpares 
+
+problem_subtitle: Usando o resto da divisão para alternar cores.
+
+problem_category: laços de repetição
+
+problem_description: |
+  <img src="parsons_probs/001_resto.png"></br><code>Usando o resto da divisão para alternar cores.</code> Organize os blocos para desenhar as linhas corretamente.</br>
+   
+code_lines: |
+    def setup(): #0given
+    size(400, 400) #1given
+    for i in range(2, 18):
+    if i % 2 == 0:
+    stroke(255)
+    else:
+    stroke(0)
+    y = 10 + i * 20
+    line(50, y, width - 50, y) 
+  
+test_fn: setup

@@ -12,11 +12,20 @@ export class TestResultsElement extends LitElement {
 	}
 
 	render() {
-		return html`<div class="testcase ${this.status}">
-						<span class="msg">${this.header}</span>
-						</div>
-						<pre><code>${this.details}</code></pre></div>
-					</div>`;
+		return html`
+			<div id="sketch-holder" class="${this.status !== 'pass' ? this.status : ''}">
+				${this.header.length
+					? html`<div class="testcase ${this.status !== 'pass' ? this.status : ''}">
+							<span class="msg">${this.header}</span>
+					  </div>`
+					: ''}
+				${this.details.length
+					? html`<div class="testcase">
+							<pre><code>${this.details}</code></pre>
+					  </div>`
+					: ''}
+			</div>
+		`;
 	}
 }
 

@@ -1,53 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Faded Parsons Problems</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="js-parsons/parsons.css"/>
+<meta charset="utf-8"/>
+<title>Faded Parsons Problems with Visual Output</title>
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" rel="stylesheet"/>
+<link href="js-parsons/parsons.css" rel="stylesheet"/>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark mb-4">
-        <div class="navbar-brand">🧩 Faded Parsons Problems</div>
-    </nav>
+<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark mb-4">
+<div class="navbar-brand">🧩 Faded Parsons Problems with Visual Output</div>
+<div style="float: rigth;">
+        	[<a href="https://github.com/villares/faded-parsons-visual" target="blank">repository</a>]</div>
+</nav>
+<div class="container">
+<p>This website, based on <a href="https://github.com/pamelafox/faded-parsons-static">previous on work by Pamela Fox</a>, and other researchers, lets you work on Faded Parsons Problems, a type of programming exercise where you rearrange blocks of code and fill in blanks to create a working program. You can learn more about Faded Parsons Problems in <a href="https://dl.acm.org/doi/10.1145/3411764.3445228" target="_blank">Nate Weinman's CHI 2021 paper</a>.
 
-    <div class="container">
-		<p>This website lets you work on Faded Parsons Problems, a type of
-		programming exercise where you rearrange blocks of code and fill in blanks
-		to create a working program. You can learn more about Faded Parsons Problems
-		in <a target="_blank" href="https://dl.acm.org/doi/10.1145/3411764.3445228">
-			Nate Weinman's CHI 2021 paper</a>.
-
-		<p>The problems hosted here are all in Python 3 and checked for correctness using <a target="_blank" href="https://docs.python.org/3/library/doctest.html">doctests</a>.
-	    </p>
-
-        <p>Here's a (non-comprehensive) list of the problem hosted here:</p>
-
-		<ul>
-			<li><a href="problem.html?name=greater_num">greater_num</a> (Conditionals)</li>
-			<li><a href="problem.html?name=hello_world">hello_world</a> (Conditionals)</li>
-			<li><a href="problem.html?name=assign_grade">assign_grade</a> (Conditionals)</li>
-			<li><a href="problem.html?name=count_evens">count_evens</a> (Loops)</li>
-			<li><a href="problem.html?name=count_multiples">count_multiples</a> (Loops)</li>
-			<li><a href="problem.html?name=average_scores">average_scores</a> (Loops+Lists)</li>
-			<li><a href="problem.html?name=concatenator">concatenator</a> (Loops+Lists)</li>
-			<li><a href="problem.html?name=double_time">double_time</a> (List Mutation)</li>
-			<li><a href="problem.html?name=sum_grid">sum_grid</a> (Nested Lists)</li>
-			<li><a href="problem.html?name=contains_15row">contains_15row</a> (Nested Lists)</li>
-			<li><a href="problem.html?name=count_unread_books">count_unread_books</a> (Dicts)</li>
-			<li><a href="problem.html?name=plant">plant</a> (Classes)</li>
-			<li><a href="problem.html?name=movie_purchase">movie_purchase</a> (Classes)</li>
-			<li><a href="problem.html?name=player">player</a> (Classes)</li>
-			<li><a href="problem.html?name=clothing">clothing</a> (Classes)</li>
-		</ul>
-
-		<p>If you're a teacher and would like to host your own problems,
-			<a target="blank" href="https://github.com/pamelafox/faded-parsons-static">
+		</p><p>The problems hosted here are all in Python 3 (via pyodide) and use drawing infrastructure provided by <a href="https://berinhard.github.com/pyp5js">pyp5js</a>, modified to use method names more similar to the <a href="https://py5coding.org">py5</a> library for creative coding.</p>
+<p>Some of the problems hosted here (WIP):</p>
+<div id="problem-list"><h5>100 primeiros passos</h5><ul>
+<li><a href="problem.html?name=100_desenho2">Desenho e cor</a> Formas básicas, preenchimento e traço.</li>
+</ul><h5>funções</h5><ul>
+<li><a href="problem.html?name=130_olhos">Função olho</a> definindo uma função de desenho e a chamando.</li>
+</ul><h5>grades</h5><ul>
+<li><a href="problem.html?name=001_loop">Grade de círculos 1</a> calculando x e y de uma grade</li>
+</ul><h5>laços de repetição</h5><ul>
+<li><a href="problem.html?name=000_loop2">Laço simples</a> Uma fila de elementos</li>
+<li><a href="problem.html?name=001_resto">Pares e ímpares</a> Usando o resto da divisão para alternar cores.</li>
+<li><a href="problem.html?name=test">Laço simples</a> Uma fila de elementos</li>
+</ul><h5>variáveis</h5><ul>
+<li><a href="problem.html?name=002_variables">Usando variáveis</a> atribuição e reatribuição</li>
+<li><a href="problem.html?name=121_escopo">Animação</a> escopo de variáveis</li>
+</ul></div>
+<p></p>
+<p>If you're a teacher and would like to host your own problems,
+			<a href="https://github.com/villares/faded-parsons-visual" target="blank">
 				check the Github repository for more instructions.
 			</a>
-		</p>
-
-    </div>
+</p>
+</div>
 </body>
 </html>

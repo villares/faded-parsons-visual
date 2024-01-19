@@ -1,0 +1,22 @@
+problem_name: Laço simples
+
+problem_subtitle: Uma fila de elementos
+
+problem_category: laços de repetição
+
+problem_description: |
+  <code>Laço simples</code> Uma fila de elementos
+    Organize as linhas para formar o desenho abaixo
+    </br>
+    <img src="parsons_probs/000_loop2.png">
+    </br>
+   
+code_lines: |
+   def setup(): #0given
+   size(400, 400)
+   background(100, 200, 0) #1given
+   fill('red')
+   for i in range(4):
+   rect(25 + i * 60, 100, 50, 100)
+  
+test_fn: setup

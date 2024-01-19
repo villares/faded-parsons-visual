@@ -1,0 +1,26 @@
+problem_name: Grade de círculos 1 
+
+problem_subtitle: calculando x e y de uma grade
+
+problem_category: laços de repetição
+
+problem_description: |
+  <code>Grade de círculos 1 </code> calculando x e y de uma grade
+    Organize as linhas para formar o desenho abaixo
+    </br>
+    <img src="parsons_probs/001_loop.png">
+    </br>
+   
+code_lines: |
+   def setup(): #0given
+   size(400, 400) #1given
+   n = 10
+   esp = width / n
+   for i in range(n):
+   x = i * esp + esp / 2
+   for j in range(n):
+   y = j * esp + esp / 2
+   circle(x, y, esp / 2)
+      
+  
+test_fn: setup

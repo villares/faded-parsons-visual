@@ -36,7 +36,11 @@ function extractError(error, numDocstringLines) {
 	const errorLines = error.split('\n');
 	for (var i = errorLines.length - 1; i >= 0; i--) {
 		let line = errorLines[i];
-		if (line.startsWith('SyntaxError') || line.startsWith('IndentationError')) {
+		if (
+			line.startsWith('NameError') ||
+			line.startsWith('SyntaxError') ||
+			line.startsWith('IndentationError')
+		) {
 			endI = i;
 		} else if (line.includes('File "<exec>", line')) {
 			lineNum = parseInt(line.split(', line ')[1], 10);
