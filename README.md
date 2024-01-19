@@ -85,3 +85,9 @@ code_lines: |
 Then you can access the new problem at **`.../problem.html?name=problem_file`**
 
 There is a [Python script](https://github.com/villares/faded-parsons-visual/blob/hack/update_index.py) that will look for YAML problems, check the category and update the `index.html` with links to all the problems found in `parsons_probs`.
+
+
+# Important:
+
+***The working prototype is developed and served from the [`hack`](https://github.com/villares/faded-parsons-visual/blob/hack/README.md) branch...***
+
