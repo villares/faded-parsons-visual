@@ -1,7 +1,12 @@
 # Registro de ideias e anotações de processo
 
 
-## Ideias para criar puzzles
+## WIP
+
+- página de rosto: Fazer em inglês e em português
+- script para premarar código pro yaml automaticamente
+
+### Ideias para criar puzzles
 
 series: 
 
@@ -32,15 +37,14 @@ series:
 - Nota, no momento "static mode" não funciona, então indentação tem que começar junto com size e formas básicas
 
 
-
 #### 100 desenho básico
 
 - setup, size e rect 
 
 ```python
-     def setup():
+def setup():
 	size(400, 400)
-        rect(100, 40, 150, 200)
+    rect(100, 40, 150, 200)
 ```        
 
 - formas
