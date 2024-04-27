@@ -9,7 +9,7 @@ def olho(x, y, tamanho): #0given
     ellipse(x, y, tamanho, tamanho * 0.40) # branco do olho
     fill(200, 200, 0) # amarelo
     circle(x, y, tamanho * 0.40) # iris
-    fill(0) # preto (0)
+    fill(0) # preto (0) 
     circle(x, y, tamanho * 0.10) # pupila
     
 # fim do código do quebra-cabeças - gerando metadados
@@ -30,6 +30,8 @@ def format_source():
         for lin in f.readlines():
             if lin.startswith('# fim'):
                 break
+            # pensar como tratar o #!BLANK
+            # talvez com !REMOVE 
             fline = '  ' + lin.strip(' ') # preserves \n
             if fline.strip():  # skip empty lines
                 code_lines += fline
