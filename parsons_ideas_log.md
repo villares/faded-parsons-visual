@@ -5,6 +5,7 @@
 
 - página de rosto: Fazer em inglês e em português
 - script para premarar código pro yaml automaticamente
+   - problema com o !BLANK, pensar solução.
 
 ### Ideias para criar puzzles
 
