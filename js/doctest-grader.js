@@ -162,7 +162,7 @@ export function processTestError(error, startLine) {
 			status: 'fail',
 			header: 'Infinite loop',
 			details:
-				'Your code did not finish executing within 5 seconds. Please look to see if you accidentally coded an infinite loop.',
+				'Your code did not finish executing within 60 seconds. Please look to see if you accidentally coded an infinite loop.',
 		};
 	}
 	return {
