@@ -12,7 +12,7 @@ Check out the tool in action at https://abav.lugaralgum.com/faded-parsons-visual
 
 You can fork this repository, edit the YAML files in the `parsons_prob` folder as explained bellow, and set the GitHub Pages settings to publish your own page, or upload on some other webhosting server. This tool is based on "static pages", so uploading the files (mostly html, js, yaml, images and etc.) is all there is to it.
 
-## If you want to contribute with this tool/project 
+## If you want to know more and contribute with this tool/project 
 
 ### Setting up a local development environmet
 
@@ -44,7 +44,7 @@ This will recreate the `dist` folder with the website ready to be deployed.
 
 ### Deploying the website
 
-This website can be deployed anywhere since it's entirely static, and is currently deployed on Github Pages. You can enable Pages on your own fork of the repo to host on Github.
+The website can be deployed anywhere since it's entirely static. You can enable the GitHub Pages feature on your own fork of the repo to host it as currently is done with the working prototype example at https://abav.lugaralgum.com/faded-parsons-visual/ served from the main branch of this repo using the files `index.html` (home page) and `problem.html` (puzzle page). The README.md is not the starting page because of the `index.html` presence.
 
 ## Adding a new problem
 
@@ -96,6 +96,4 @@ There is a [Python script](https://github.com/villares/faded-parsons-visual/blob
 
 Also inside the `parson_probs` folder, you will find some `.py` files that contain py5 imported mode style code for a problem, with added annotations like `#0given` as explained above, and some extra special comments containing `!REMOVE` on some lines, as well as commented out lines with code containing `!BLANK`. Those scripts will generate the YAML problem file and the image file for the problem description.
 
-## About the main prototipe page
 
-Again, the working prototype at https://abav.lugaralgum.com/faded-parsons-visual/ is served with GitHub Pages now from the main branch's `index.html` (home page) and `problem.html` (puzzle page). If you have any question you can open an issue or contact Alexandre B A Villares.
