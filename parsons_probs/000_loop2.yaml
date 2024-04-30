@@ -5,11 +5,10 @@ problem_subtitle: Uma fila de elementos
 problem_category: laços de repetição
 
 problem_description: |
-  <code>Laço simples</code> Uma fila de elementos
-    Organize as linhas para formar o desenho abaixo
-    </br>
-    <img src="parsons_probs/000_loop2.png">
-    </br>
+  <h6>Uma fila de elementos</h6>
+  <img src="parsons_probs/000_loop2.png"></br>
+  <code>Uma fila de elementos</code></br>
+  Organize as linhas para formar o desenho acima
    
 code_lines: |
    def setup(): #0given

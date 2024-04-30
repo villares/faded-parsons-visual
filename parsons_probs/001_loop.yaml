@@ -5,17 +5,16 @@ problem_subtitle: calculando x e y de uma grade
 problem_category: grades
 
 problem_description: |
-  <code>Grade de círculos 1 </code> calculando x e y de uma grade
-    Organize as linhas para formar o desenho abaixo
-    </br>
-    <img src="parsons_probs/001_loop.png">
-    </br>
+  <h6>Grade de círculos</h6>
+  <img src="parsons_probs/001_loop.png">
+  <code>calculando x e y de uma grade</code></br>
+  Organize as linhas para formar o desenho da grade de círculos.
    
 code_lines: |
    def setup(): #0given
    size(400, 400) #1given
-   # n é  o número de filas e colunas
-   n = !BLANK  
+   # n é  o número de filas e colunas #1given
+   n = !BLANK 
    esp = width / n  # espaçamento
    for i in range(n):
    x = i * esp + esp / 2

@@ -1,14 +1,17 @@
-problem_name: Animação
+problem_name: círculo movendo
 
-problem_subtitle: escopo de variáveis
+problem_subtitle: animação usando variável global
 
 problem_category: variáveis
 
 problem_description: |
-  <img src="parsons_probs/121_escopo.gif" style="float: left;">
-  <p><code>Escopo de variáveis</code>
-  </br>Ajuste o código abaixo para obter a animação.
-  </p>		   
+  <h6>círculo movendo</h6>
+  <img src="parsons_probs/121_escopo.gif"></br>
+  <code>animação usando variável global</code></br>
+  Ajuste os blocos de código para obter a animação do círculo.
+  Note a necessidade de se modificar a variável global x dentro
+  da função draw().
+  		   
 
 code_lines: |
   x = -50 # varíavel global

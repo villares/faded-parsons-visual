@@ -12,12 +12,13 @@ def olho(x, y, tamanho): #0given
     fill(0) # preto (0) 
     circle(x, y, tamanho * 0.10) # pupila
     
-# fim do código do quebra-cabeças - gerando metadados
+# END PUZZLE
 file = Path(__file__).stem
 name = 'Função olho'
 subt = 'Definindo uma função de desenho e a chamando.'
 dcat = 'funções'
 desc = (
+f"""<h6>{name}</h6>"""
 f"""<img src="parsons_probs/{file}.png"></br>"""
 f"""<code>{subt}</code> """
 f"""Organize o bloco de definição da função olho para que ela """
@@ -28,10 +29,8 @@ def format_source():
     with open(__file__) as f:
         code_lines = ''
         for lin in f.readlines():
-            if lin.startswith('# fim'):
+            if lin.startswith('# END'):
                 break
-            # pensar como tratar o #!BLANK
-            # talvez com !REMOVE 
             fline = '  ' + lin.strip(' ') # preserves \n
             if fline.strip():  # skip empty lines
                 code_lines += fline

@@ -23,6 +23,7 @@ name = 'Desenho, cor e a interação com o mouse'
 subt = 'Formas básicas, preenchimento, traço e interação usando draw()'
 dcat = '100 Primeiros passos'
 desc = (
+f"""<h6>{name}</h6></br>"""
 f"""<img src="parsons_probs/{file}.gif"></br>"""
 f"""<code>{subt}</code></br>"""
 f"""Organize os blocos para fazer um sketch como este."""

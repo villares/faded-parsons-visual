@@ -5,7 +5,7 @@ problem_subtitle: Definindo uma função de desenho e a chamando.
 problem_category: funções
 
 problem_description: |
-  <img src="parsons_probs/130_olhos.png"></br><code>Definindo uma função de desenho e a chamando.</code> Organize o bloco de definição da função olho para que ela possa ser chamada no setup() e os olhos desenhados.</br>
+  <h6>Função olho</h6><img src="parsons_probs/130_olhos.png"></br><code>Definindo uma função de desenho e a chamando.</code> Organize o bloco de definição da função olho para que ela possa ser chamada no setup() e os olhos desenhados.</br>
    
 code_lines: |
   def setup(): #0given
@@ -19,7 +19,7 @@ code_lines: |
   ellipse(x, y, tamanho, tamanho * 0.40) # branco do olho
   fill(200, 200, 0) # amarelo
   circle(x, y, tamanho * 0.40) # iris
-  fill(0) # preto (0)
+  fill(0) # preto (0) 
   circle(x, y, tamanho * 0.10) # pupila
 
   
