@@ -94,7 +94,7 @@ There is a [Python script](https://github.com/villares/faded-parsons-visual/blob
 
 ### Automating YAML generation from puzzle source code 
 
-Also inside the `parson_probs` folder, you will find some `.py` files that contain py5 imported mode style code for a problem, with added annotations like `#0given` as explained above, and some extra special comments, like`#REMOVE` on some lines, and commened out lines with code containing `!BLANK`. Those scripts will generate the YAML problem file and the image file for the problem description.
+Also inside the `parson_probs` folder, you will find some `.py` files that contain py5 imported mode style code for a problem, with added annotations like `#0given` as explained above, and some extra special comments containing `!REMOVE` on some lines, as well as commented out lines with code containing `!BLANK`. Those scripts will generate the YAML problem file and the image file for the problem description.
 
 ## About the main prototipe page
 
