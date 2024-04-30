@@ -86,8 +86,11 @@ Then you can access the new problem at **`.../problem.html?name=problem_file`**
 
 There is a [Python script](https://github.com/villares/faded-parsons-visual/blob/hack/update_index.py) that will look for YAML problems, check the category and update the `index.html` with links to all the problems found in `parsons_probs`.
 
+## Automating YAML puzzle generation from puzzle source code 
 
-# Important:
+Also inside the `parson_probs` folder, you will find `.py` files that contain py5 imported mode style code for a problem, with added annotations like `#0given` as explained above, and some extra special comments, like`#REMOVE` on some lines, and commened out lines with code containing `!BLANK`. Those scripts will generate the YAML problem file and the image file for the problem description.
 
-***The working prototype is developed and served from the [`hack`](https://github.com/villares/faded-parsons-visual/blob/hack/README.md) branch...***
+## About the main prototipe page
+
+The working prototype at https://abav.lugaralgum.com/faded-parsons-visual/ is served with GitHub Pages now from the main branch's `index.html` (home page) and `problem.html` (puzzle page).
 
