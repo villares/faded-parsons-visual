@@ -17,7 +17,6 @@ def draw(): #0given
     stroke(255, 255, 0) # traço amarelo
     square(200, 250, 50)
     
-
 # fim do código do quebra-cabeças - gerando metadados
 file = Path(__file__).stem
 name = 'Desenho e cor 2'
@@ -27,9 +26,9 @@ desc = (
 f"""<img src="parsons_probs/{file}.gif"></br>"""
 f"""<code>{subt}</code></br>"""
 f"""Organize os blocos para desenhar as figuras."""
-f"""Note que o círculo não tem traço de contorno, e que"""
-f"""o quadrado, sempre redesenhado no mesmo lugar,"""
-f""" tem um traço de contorno amarelo."""
+f"""Note que o círculo, com a posição controlada pela ponta do mouse"""
+f""" não tem traço de contorno, e que o quadrado, sempre redesenhado"""
+f""" no mesmo lugar, tem um traço de contorno amarelo mais espesso."""
     )
 
 def format_source():
