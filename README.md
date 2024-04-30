@@ -1,12 +1,12 @@
 # Python Faded Parsons Problems with Visual Output
 
-<sup>Based on https://github.com/pamelafox/faded-parsons-static/</sup> and **pyp5js** and a lot of help from many people!</sup>
+This tool should allow you to run Faded Parsons Problems in static page in the browser, with visual results, using **pyp5js** (_pyodide_ and the _p5js_ canvas) to show the sketch results, as written with puzzle blocks in a dialect close to **py5** in *imported mode* style.
+
+<sup>Based on https://github.com/pamelafox/faded-parsons-static/</sup>, <em>pyp5js</em> and a lot of help from many people!</sup>
 
 ## Work in progress! Working prototype!
 
-Check out at https://abav.lugaralgum.com/faded-parsons-visual/
-
-The website should allow you to run Faded Parsons Problems in the browser, with visual results, using **pyodide** and the _p5js_ canvas to show sketch results, written in a dialect close to **py5** in *imported mode* style.
+Check out the tool in action at https://abav.lugaralgum.com/faded-parsons-visual/
 
 ## A quick way to make and publish your own puzzles
 
