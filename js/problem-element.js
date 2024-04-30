@@ -73,7 +73,7 @@ export class ProblemElement extends LitElement {
 						<div id="test_description">
 							<div class="card-body">
 								${!this.resultsStatus
-									? '<em>Result of code execution will be shown here.</em> O resultado da execução do código aparece aqui'
+									? 'Result of code execution will be shown here | O resultado da execução do código aparecerá aqui'
 									: ''}
 								${html`
 									<test-results-element
