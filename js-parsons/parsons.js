@@ -8,13 +8,13 @@
 	var givenIndentRegexp = /#(\d+)given\s*/;
 	var blankRegexp = /#blank([^#]*)/;
 	var userStrings = {
-		trash_label: 'Drag from here',
-		solution_label: 'Construct your solution here, including indents',
+		trash_label: 'Drag blocks from here | Arraste daqui os blocos',
+		solution_label: 'Construct your solution here, including indents! | Construa aqui a sua respossta, incluindo a indentação!',
 		no_matching: function (lineNro) {
 			return (
-				'Based on language syntax, the highlighted fragment (' +
+				'The highlighted fragment (' +
 				lineNro +
-				') is not correctly indented.'
+				') is not correctly indented. | A indentação parece estar incorreta.'
 			);
 		},
 	};
