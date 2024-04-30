@@ -8,8 +8,8 @@
 	var givenIndentRegexp = /#(\d+)given\s*/;
 	var blankRegexp = /#blank([^#]*)/;
 	var userStrings = {
-		trash_label: 'Drag blocks from here | Arraste daqui os blocos',
-		solution_label: 'Construct your solution here, including indents! | Construa aqui a sua respossta, incluindo a indentação!',
+		trash_label: '<em>Drag blocks from here</em></br>Arraste daqui os blocos',
+		solution_label: '<em>Construct your solution here, including indents!</em></br>Construa aqui a sua respossta, incluindo a indentação!',
 		no_matching: function (lineNro) {
 			return (
 				'The highlighted fragment (' +
