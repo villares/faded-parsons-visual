@@ -106,7 +106,7 @@ export class ProblemElement extends LitElement {
 										type="button"
 										class="btn btn-outline-danger"
 									>
-										Reset code
+										Reset | Recomeçar
 									</button>
 									<button
 										@click=${this.onRun}
