@@ -1,11 +1,11 @@
-problem_name: Desenho e cor 2 
+problem_name: Desenho, cor e a interação com o mouse 
 
-problem_subtitle: Formas básicas, preenchimento e traço.
+problem_subtitle: Formas básicas, preenchimento, traço e interação usando draw()
 
 problem_category: 100 Primeiros passos
 
 problem_description: |
-  <img src="parsons_probs/100_desenho2.gif"></br><code>Formas básicas, preenchimento e traço.</code></br>Organize os blocos para desenhar as figuras.Note que o círculo, com a posição controlada pela ponta do mouse não tem traço de contorno, e que o quadrado, sempre redesenhado no mesmo lugar, tem um traço de contorno amarelo mais espesso.
+  <img src="parsons_probs/100_desenho2.gif"></br><code>Formas básicas, preenchimento, traço e interação usando draw()</code></br>Organize os blocos para fazer um sketch como este.Note que o círculo, com a posição controlada pela ponta do mouse não tem traço de contorno, e que o quadrado, sempre redesenhado no mesmo lugar, tem um traço de contorno amarelo mais espesso.
    
 code_lines: |
   # setup: configurações iniciais #0given

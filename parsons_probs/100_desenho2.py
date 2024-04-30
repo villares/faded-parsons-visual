@@ -17,15 +17,15 @@ def draw(): #0given
     stroke(255, 255, 0) # traço amarelo
     square(200, 250, 50)
     
-# fim do código do quebra-cabeças - gerando metadados
+# END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
-name = 'Desenho e cor 2'
-subt = 'Formas básicas, preenchimento e traço.'
+name = 'Desenho, cor e a interação com o mouse'
+subt = 'Formas básicas, preenchimento, traço e interação usando draw()'
 dcat = '100 Primeiros passos'
 desc = (
 f"""<img src="parsons_probs/{file}.gif"></br>"""
 f"""<code>{subt}</code></br>"""
-f"""Organize os blocos para desenhar as figuras."""
+f"""Organize os blocos para fazer um sketch como este."""
 f"""Note que o círculo, com a posição controlada pela ponta do mouse"""
 f""" não tem traço de contorno, e que o quadrado, sempre redesenhado"""
 f""" no mesmo lugar, tem um traço de contorno amarelo mais espesso."""
@@ -35,7 +35,7 @@ def format_source():
     with open(__file__) as f:
         code_lines = ''
         for lin in f.readlines():
-            if lin.startswith('# fim'):
+            if lin.startswith('# END'):
                 break
             elif '!REMOVE' in lin:
                 continue
