@@ -13,8 +13,7 @@
 		no_matching: function (lineNro) {
 			return (
 				'The highlighted fragment (' +
-				lineNro +
-				') is not correctly indented. | A indentação parece estar incorreta.'
+				lineNro + ') is not correctly indented. | A indentação parece estar incorreta.'
 			);
 		},
 	};

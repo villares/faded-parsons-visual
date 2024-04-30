@@ -68,7 +68,7 @@ export class ProblemElement extends LitElement {
 			  <div class="col-sm-6">
 					<div class="card">
 						<div class="card-header">
-							<h5><em>Result</em> ! Resultado</h5>
+							<h5><em>Result</em> | Resultado</h5>
 						</div>
 						<div id="test_description">
 							<div class="card-body">
@@ -135,7 +135,7 @@ export class ProblemElement extends LitElement {
 	}
 
 	onRun() {
-		this.runStatus = 'Running code...';
+		this.runStatus = 'Running...';
 		this.dispatchEvent(
 			new CustomEvent('run', {
 				detail: {
