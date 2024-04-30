@@ -86,7 +86,7 @@ const at=2,ot=e=>(...n)=>({_$litDirective$:e,values:n});class lt{constructor(e){
 				<div class="col-sm-6">
 					<div class="card">
 						<div class="card-header">
-							<h3>Problem Statement</h3>
+							<h5<em>Problem Statement</em> | Descrição do problema</h3>
 						</div>
 						<div class="card-body">${ut(this.description)}</div>
 					</div>
@@ -94,7 +94,7 @@ const at=2,ot=e=>(...n)=>({_$litDirective$:e,values:n});class lt{constructor(e){
 			  <div class="col-sm-6">
 					<div class="card">
 						<div class="card-header">
-							<h4>Result</h4>
+							<h5><em>Result</em> | Resultado</h5>
 						</div>
 						<div id="test_description">
 							<div class="card-body">
