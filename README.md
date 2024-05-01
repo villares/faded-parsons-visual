@@ -89,10 +89,10 @@ Then you can access the new problem at **`.../problem.html?name=problem_file`**
 
 ### Updating the index/home page
 
-There is a [Python script](https://github.com/villares/faded-parsons-visual/blob/hack/update_index.py) that will look for YAML problems, check the category and update the `index.html` with links to all the problems found in `parsons_probs`.
+The Python script [`update_index.py`](https://github.com/villares/faded-parsons-visual/blob/hack/update_index.py), that depends on *Beautiful Soup 4*, will look for YAML problems in the `parsons_probs` folder, check the category and update the `index.html` with links to all the problems found.
 
 ### Automating YAML generation from puzzle source code 
 
-Also inside the `parson_probs` folder, you will find some `.py` files that contain py5 imported mode style code for a problem, with added annotations like `#0given` as explained above, and some extra special comments containing `!REMOVE` on some lines, as well as commented out lines with code containing `!BLANK`. Those scripts will generate the YAML problem file and the image file for the problem description.
+Also inside the `parson_probs` folder, you will find some `.py` files that contain [py5 code, in imported mode style](https://abav.lugaralgum.com/como-instalar-py5/index-EN.html) for a problem, with added annotations like `#0given` as explained above, and some extra special comments containing `!REMOVE` on some lines, as well as commented out lines with code containing `!BLANK`. Those scripts will generate the YAML problem file and the image file for the problem description.
 
 
