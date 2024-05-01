@@ -65,12 +65,12 @@ problem_subtitle: assignement
 problem_category: Getting Started
 
 problem_description: |
-	<code>Variáveis </code>
-		Organize as linhas para formar o desenho abaixo
-		</br>
-		<img src="parsons_probs/000_variables.png">
-		</br>
-
+   <img src="parsons_probs/000_variables.png"></br>
+   <h5>Variables</h5>
+   <code>assignement</code></br>
+   Organize blocks of lines to make the drawing above.
+   Notice indentation matters.
+		
 code_lines: |
 	 def setup(): #0given
 	 size(400, 400) #1given
