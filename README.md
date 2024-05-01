@@ -65,25 +65,24 @@ problem_subtitle: assignement
 problem_category: Getting Started
 
 problem_description: |
-   <img src="parsons_probs/000_variables.png"></br>
-   <h5>Variables</h5>
-   <code>assignement</code></br>
-   Organize blocks of lines to make the drawing above.
-   Notice indentation matters.
-		
-code_lines: |
-	 def setup(): #0given
-	 size(400, 400) #1given
-	 background(200) # fundo cinza
-	 nome = '!BLANK'
-	 text(nome, 20, 180)  # desenha o texto de `nome`
-	 # Se tentar usar a variável `a` antes de criar...
-	 # ... vai ter um erro do tipo NameError (não conheço `a`)
-	 a = 10  # cria a variável `a` que aponta para o valor 10
-	 square(a, 10, 140)  # desenha um quadrado de lado 140 em x:10, y:10
-	 a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
-	 square(a, 10, !BLANK)  # desenha um quadrado de lado 140
+  <img src="parsons_probs/000_variables.png"></br>
+  <h5>Variables</h5>
+  <code>assignement</code></br>
+  Organize blocks of lines to make the drawing above.
+  Notice indentation matters.
 
+code_lines: |
+  def setup(): #0given
+  size(400, 400) #1given
+  background(200) # fundo cinza
+  nome = '!BLANK'
+  text(nome, 20, 180)  # desenha o texto de `nome`
+  # Se tentar usar a variável `a` antes de criar...
+  # ... vai ter um erro do tipo NameError (não conheço `a`)
+  a = 10  # cria a variável `a` que aponta para o valor 10
+  square(a, 10, 140)  # desenha um quadrado de lado 140 em x:10, y:10
+  a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
+  square(a, 10, !BLANK)  # desenha um quadrado de lado 140
 ```
 
 Then you can access the new problem at **`.../problem.html?name=problem_file`**
