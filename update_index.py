@@ -3,9 +3,10 @@ Update the index.html file adding problems
 found in the 'parsons_probs' folder.
 """
 
-from pathlib import Path
-from bs4 import BeautifulSoup
 from collections import defaultdict
+from pathlib import Path
+
+from bs4 import BeautifulSoup  # pip install beautifulsoup4
  
 puzzles_cat = defaultdict(list)  # puzzle category: [puzzle0, ...]
 # This script should run from the same directory as the index.html file
