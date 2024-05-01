@@ -65,35 +65,34 @@ problem_subtitle: assignement
 problem_category: Getting Started
 
 problem_description: |
-	<code>Variáveis </code>
-		Organize as linhas para formar o desenho abaixo
-		</br>
-		<img src="parsons_probs/000_variables.png">
-		</br>
+  <img src="parsons_probs/000_variables.png"></br>
+  <h5>Variables</h5>
+  <code>assignement</code></br>
+  Organize blocks of lines to make the drawing above.
+  Notice indentation matters.
 
 code_lines: |
-	 def setup(): #0given
-	 size(400, 400) #1given
-	 background(200) # fundo cinza
-	 nome = '!BLANK'
-	 text(nome, 20, 180)  # desenha o texto de `nome`
-	 # Se tentar usar a variável `a` antes de criar...
-	 # ... vai ter um erro do tipo NameError (não conheço `a`)
-	 a = 10  # cria a variável `a` que aponta para o valor 10
-	 square(a, 10, 140)  # desenha um quadrado de lado 140 em x:10, y:10
-	 a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
-	 square(a, 10, !BLANK)  # desenha um quadrado de lado 140
-
+  def setup(): #0given
+  size(400, 400) #1given
+  background(200) # fundo cinza
+  nome = '!BLANK'
+  text(nome, 20, 180)  # desenha o texto de `nome`
+  # Se tentar usar a variável `a` antes de criar...
+  # ... vai ter um erro do tipo NameError (não conheço `a`)
+  a = 10  # cria a variável `a` que aponta para o valor 10
+  square(a, 10, 140)  # desenha um quadrado de lado 140 em x:10, y:10
+  a = a + 145  # calcula o valor de `a + 145` e muda a variável `a`
+  square(a, 10, !BLANK)  # desenha um quadrado de lado 140
 ```
 
 Then you can access the new problem at **`.../problem.html?name=problem_file`**
 
 ### Updating the index/home page
 
-There is a [Python script](https://github.com/villares/faded-parsons-visual/blob/hack/update_index.py) that will look for YAML problems, check the category and update the `index.html` with links to all the problems found in `parsons_probs`.
+The Python script [`update_index.py`](https://github.com/villares/faded-parsons-visual/blob/hack/update_index.py), that depends on *Beautiful Soup 4*, will look for YAML problems in the `parsons_probs` folder, check the category and update the `index.html` with links to all the problems found.
 
 ### Automating YAML generation from puzzle source code 
 
-Also inside the `parson_probs` folder, you will find some `.py` files that contain py5 imported mode style code for a problem, with added annotations like `#0given` as explained above, and some extra special comments containing `!REMOVE` on some lines, as well as commented out lines with code containing `!BLANK`. Those scripts will generate the YAML problem file and the image file for the problem description.
+Also inside the `parson_probs` folder, you will find some `.py` files that contain [py5 code, in imported mode style](https://abav.lugaralgum.com/como-instalar-py5/index-EN.html) for a problem, with added annotations like `#0given` as explained above, and some extra special comments containing `!REMOVE` on some lines, as well as commented out lines with code containing `!BLANK`. Those scripts will generate the YAML problem file and the image file for the problem description.
 
 
