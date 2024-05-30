@@ -5,7 +5,7 @@ problem_subtitle: Formas básicas, cores de preenchimento e traço
 problem_category: 100 Primeiros passos
 
 problem_description: |
-  <h6>Desenho, formas e cores</h6></br><img src="parsons_probs/100_desenho.gif"></br><code>Formas básicas, cores de preenchimento e traço</code></br>Organize os blocos para desenhar as figuras.Preste atenção nas cores dos elementos e das linhas de contorno.
+  <h6>Desenho, formas e cores</h6></br><img src="parsons_probs/100_desenho.png"></br><code>Formas básicas, cores de preenchimento e traço</code></br>Organize os blocos para desenhar as figuras.Preste atenção nas cores dos elementos e das linhas de contorno.
    
 code_lines: |
   def setup(): #0given

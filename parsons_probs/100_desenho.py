@@ -19,7 +19,7 @@ subt = 'Formas básicas, cores de preenchimento e traço'
 dcat = '100 Primeiros passos'
 desc = (
 f"""<h6>{name}</h6></br>"""
-f"""<img src="parsons_probs/{file}.gif"></br>"""
+f"""<img src="parsons_probs/{file}.png"></br>"""
 f"""<code>{subt}</code></br>"""
 f"""Organize os blocos para desenhar as figuras."""
 f"""Preste atenção nas cores dos elementos e das linhas de contorno."""
