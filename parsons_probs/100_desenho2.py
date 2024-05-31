@@ -19,8 +19,8 @@ def draw(): #0given
     
 # END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
-name = 'Desenho, cor e a interação com o mouse'
-subt = 'Formas básicas, preenchimento, traço e interação usando draw()'
+name = 'Interação com o mouse'
+subt = 'Preenchimento, traço e interação usando draw()'
 dcat = '100 Primeiros passos'
 desc = (
 f"""<h6>{name}</h6></br>"""
