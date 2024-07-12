@@ -16,7 +16,7 @@ def olho(x, y, tamanho): #0given
 file = Path(__file__).stem
 name = 'Função olho'
 subt = 'Definindo uma função de desenho e a chamando.'
-dcat = '[120] funções'
+dcat = '120 - funções'
 desc = (
 f"""<h6>{name}</h6>"""
 f"""<img src="parsons_probs/{file}.png"></br>"""

@@ -1,28 +1,22 @@
+
 def setup(): #0given
-    size(400, 400) #1given
-    background(0, 200, 0) # verde 
-    rect_mode(CENTER)
-    circle(200, 50, 50) #1given
-    fill(0)  # preto
-    ellipse(200, 150, 100, 50)
-    fill(0, 0, 200)  # azul
-    no_stroke() # desliga traço
-    square(200, 250, 50)
-    stroke(255, 255, 0) # amarelo
-    fill(255, 0, 0)  # vermelho
-    rect(200, 350, 100, 50)
+    size(400, 400) # sempre primeiro
+    background(0, 100, 00)
+    rect(100, 100, 50, 50)
     
 # END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
-name = 'Desenho, formas e cores'
-subt = 'Formas básicas, cores de preenchimento e traço'
+name = 'indentação e um retângulo'
+subt = 'usando a função size() dentro do setup()'
 dcat = '100 - primeiros passos'
 desc = (
 f"""<h6>{name}</h6></br>"""
-f"""<img src="parsons_probs/{file}.png"></br>"""
+f"""<img src="parsons_probs/{file}.gif"></br>"""
 f"""<code>{subt}</code></br>"""
-f"""Organize os blocos para desenhar as figuras."""
-f"""Preste atenção nas cores dos elementos e das linhas de contorno."""
+f"""Organize os blocos de tal forma que size() fique indentada"""
+f"""e esteja bem no começo da função setup()."""
+f"""background() que faz o fundo deve vir antes da chamada a rect(),"""
+f"""ambas estão "dentro" de setup(), e por isso indentadas."""
     )
 
 def format_source():

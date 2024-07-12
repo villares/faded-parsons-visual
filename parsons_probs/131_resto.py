@@ -16,7 +16,7 @@ def exiting():
     print(file)
     nome = 'Pares e ímpares'
     subt = 'Usando o resto da divisão para alternar cores.'
-    categoria = '[130] laços de repetição'
+    categoria = '130 - laços de repetição'
     instructions = "Organize os blocos para desenhar as linhas corretamente."
     
     descrição = (

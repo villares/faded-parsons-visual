@@ -1,0 +1,17 @@
+problem_name: indentação e um retângulo 
+
+problem_subtitle: usando a função size() dentro do setup()
+
+problem_category: 100 - primeiros passos
+
+problem_description: |
+  <h6>indentação e um retângulo</h6></br><img src="parsons_probs/000_indentar.gif"></br><code>usando a função size() dentro do setup()</code></br>Organize os blocos de tal forma que size() fique indentadae esteja bem no começo da função setup().background() que faz o fundo deve vir antes da chamada a rect(),ambas estão "dentro" de setup(), e por isso indentadas.
+   
+code_lines: |
+  def setup(): #0given
+  size(400, 400) # sempre primeiro
+  background(0, 100, 00)
+  rect(100, 100, 50, 50)
+
+  
+test_fn: setup
