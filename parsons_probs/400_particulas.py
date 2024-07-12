@@ -6,9 +6,9 @@ def setup(): #0given
     global particula_0 #1given
     particula_0 = Particula(80, 10, 30) #1given
     #!REMOVE code to capture animation
-#     py5_tools.animated_gif(file + '.gif', #!REMOVE
-#                            duration=0.2,  #!REMOVE 
-#                            frame_numbers=range(10,140,2)) #!REMOVE
+    py5_tools.animated_gif(file + '.gif', #!REMOVE
+                           duration=0.1,  #!REMOVE 
+                           frame_numbers=range(10,240,2)) #!REMOVE
 
 def draw(): #0given
     background(0)  # atualização do desenho, fundo preto
@@ -20,11 +20,11 @@ class Particula(): #0given
         self.x = x #2given
         self.y = y #2given
         self.tam = tamanho  #2given
-        self.vx = random(-1, 1)  #2given
-        self.vy = random(-1, 1)  #2given
-        self.cor = color(random(256),  # R  #2given
-                         random(256),  # G  #2given
-                         random(256),  # B #2given
+        self.vx = random(-2, 2)  #2given
+        self.vy = random(-2, 2)  #2given
+        self.cor = color(random(128, 256),  # R  #2given
+                         random(128, 256),  # G  #2given
+                         random(128, 256),  # B #2given
                          200)  # alpha #2given
 
     def desenha(self):  #1given

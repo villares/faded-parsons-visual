@@ -22,11 +22,11 @@ code_lines: |
   self.x = x #2given
   self.y = y #2given
   self.tam = tamanho  #2given
-  self.vx = random(-1, 1)  #2given
-  self.vy = random(-1, 1)  #2given
-  self.cor = color(random(256),  # R  #2given
-  random(256),  # G  #2given
-  random(256),  # B #2given
+  self.vx = random(-2, 2)  #2given
+  self.vy = random(-2, 2)  #2given
+  self.cor = color(random(128, 256),  # R  #2given
+  random(128, 256),  # G  #2given
+  random(128, 256),  # B #2given
   200)  # alpha #2given
   def desenha(self):  #1given
   fill(self.cor)  #2given
