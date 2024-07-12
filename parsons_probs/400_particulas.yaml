@@ -12,11 +12,12 @@ code_lines: |
   def setup(): #0given
   size(400, 400) #1given    
   global particula_0 #1given
-  particula_0 = Particula(80, 10, 30) #1given
-  def draw(): #0given
+  particula_0 = Particula(80, 10, 30) 
+  def draw(): 
   background(0)  # atualização do desenho, fundo preto
-  particula_0.desenha() #1given
-  particula_0.atualize() #1given
+  particula_0.desenha() 
+  particula_0.atualize() 
+  # definição da classe #0given
   class Particula(): #0given
   def __init__(self, x, y, tamanho): #1given
   self.x = x #2given

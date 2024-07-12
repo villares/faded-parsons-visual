@@ -4,17 +4,17 @@ import py5_tools  #!REMOVE
 def setup(): #0given
     size(400, 400) #1given    
     global particula_0 #1given
-    particula_0 = Particula(80, 10, 30) #1given
+    particula_0 = Particula(80, 10, 30) 
     #!REMOVE code to capture animation
-    py5_tools.animated_gif(file + '.gif', #!REMOVE
-                           duration=0.1,  #!REMOVE 
-                           frame_numbers=range(10,240,2)) #!REMOVE
+#     py5_tools.animated_gif(file + '.gif', #!REMOVE
+#                            duration=0.1,  #!REMOVE 
+#                            frame_numbers=range(10,240,2)) #!REMOVE
 
-def draw(): #0given
+def draw(): 
     background(0)  # atualização do desenho, fundo preto
-    particula_0.desenha() #1given
-    particula_0.atualize() #1given
-
+    particula_0.desenha() 
+    particula_0.atualize() 
+# definição da classe #0given
 class Particula(): #0given
     def __init__(self, x, y, tamanho): #1given
         self.x = x #2given
