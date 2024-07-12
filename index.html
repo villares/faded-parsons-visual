@@ -7,7 +7,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" rel="stylesheet"/>
 <link href="js-parsons/parsons.css" rel="stylesheet"/>
 <!-- start 2 columns meta & style -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <style>
 * {
   box-sizing: border-box;
@@ -43,39 +43,35 @@
         	[<a href="https://github.com/villares/faded-parsons-visual" target="blank">repo</a>]</div>
 </nav>
 <div class="row">
-   <div class="column">
-	<div class="container">
-	<h4><em>Puzzles</em> | Quebra-cabeças</h4>
-	<div id="problem-list"><h5>100 primeiros passos</h5><ul>
-	<li><a href="problem.html?name=100_desenho">Desenho e cor</a> Formas básicas, preenchimento e traço.</li>
-	<li><a href="problem.html?name=100_desenho2">Desenho, cor e a interação com o mouse</a> Formas básicas, preenchimento, traço e interação usando draw()</li>
-	</ul><h5>funções</h5><ul>
-	<li><a href="problem.html?name=130_olhos">Função olho</a> Definindo uma função de desenho e a chamando.</li>
-	</ul><h5>grades</h5><ul>
-	<li><a href="problem.html?name=001_loop">Grade de círculos 1</a> calculando x e y de uma grade</li>
-	</ul><h5>laços de repetição</h5><ul>
-	<li><a href="problem.html?name=000_loop2">Laço simples</a> Uma fila de elementos</li>
-	<li><a href="problem.html?name=001_resto">Pares e ímpares</a> Usando o resto da divisão para alternar cores.</li>
-	</ul><h5>variáveis</h5><ul>
-	<li><a href="problem.html?name=002_variables">Usando variáveis</a> atribuição e reatribuição</li>
-	<li><a href="problem.html?name=121_escopo">Animação</a> escopo de variáveis</li>
-	</ul>
-	</div>
-	</div>
-  </div>
-  <div class="column">
-	<div class="container">
-	<h4><em>About this site</em></h4>
-	<em><p>This website, maintained by <a href="https://abav.lugaralgum.com">Alexandre B A Villares</a>, contains a tool based on <a href="https://github.com/pamelafox/faded-parsons-static">previous work by Pamela Fox and other researchers</a> that lets you work on Faded Parsons Problems, a type of programming exercise where you rearrange blocks of code and fill in blanks to create a working program. You can learn more about Faded Parsons Problems in <a href="https://dl.acm.org/doi/10.1145/3411764.3445228" target="_blank">Nate Weinman's CHI 2021 paper</a>.The problems hosted here are all in Python 3 (via pyodide) and use drawing infrastructure provided by <a href="https://berinhard.github.com/pyp5js">pyp5js</a>, modified to use method names more similar to the <a href="https://py5coding.org">py5</a> library for creative coding.</p></em>
-	<p><em>If you'd like to host your own problems, check the <a href="https://github.com/villares/faded-parsons-visual" target="blank">GitHub repository</a> for more instructions or to contact the maintainer.</em></p>
-	<hr/>
-	<h4>Sobre este site</h4>
-	<p>Esta página, mantida por <a href="https://abav.lugaralgum.com">Alexandre B A Villares</a>, contém uma ferramenta baseada em <a href="https://github.com/pamelafox/faded-parsons-static">um trabalho anterior de Pamela Fox e outras pessoas pesquisadores</a> que permite trabalhar com quebra-cabeças de Parsons com lacunas (faded), um tipo de exercício de programação em que você deve reordenar bolcos de código e prencher as lacunas para produzir um programa que funciona. Saiba mais sobre Parsons Problems em <a href="https://dl.acm.org/doi/10.1145/3411764.3445228" target="_blank">Nate Weinman's CHI 2021 paper</a>. Os quebra-cabeças aqui hospedados são em Python 3 (via pyodide) e usam a infraestrutura de desenho do projeto <a href="https://berinhard.github.com/pyp5js">pyp5js</a>, modificado para que os nomes ficassem mais parecidos com a biblioteca <a href="https://py5coding.org">py5</a> voltada à programação criativa.</p>
-	<p>Se você quiser publicar você mesmo seus próprios quebra-cabeças, veja mais instruções no <a href="https://github.com/villares/faded-parsons-visual" target="blank">repositório no GitHub</a>. As instruções estão em inglês, mas se tiver dúvidas você pode entrar em contato com o mantenedor.</p>
-      
-  </div>
-
-</div><!-- end of row div --> 
-
-</body>
+<div class="column">
+<div class="container">
+<h4><em>Puzzles</em> | Quebra-cabeças</h4>
+<div id="problem-list"><h5>[100] primeiros passos</h5><ul>
+<li><a href="problem.html?name=002_variables">Usando variáveis</a> atribuição e reatribuição</li>
+<li><a href="problem.html?name=100_desenho">Desenho, formas e cores</a> Formas básicas, cores de preenchimento e traço</li>
+<li><a href="problem.html?name=100_desenho2">Desenho, cor e a interação com o mouse</a> Formas básicas, preenchimento, traço e interação usando draw()</li>
+<li><a href="problem.html?name=121_escopo">círculo movendo</a> animação usando variável global</li>
+</ul><h5>[120] funções</h5><ul>
+<li><a href="problem.html?name=130_olhos">Função olho</a> Definindo uma função de desenho e a chamando.</li>
+</ul><h5>[130] laços de repetição</h5><ul>
+<li><a href="problem.html?name=130_loop2">Laço simples</a> Uma fila de elementos</li>
+<li><a href="problem.html?name=131_resto">Pares e ímpares</a> Usando o resto da divisão para alternar cores.</li>
+<li><a href="problem.html?name=132_grade">Grade de círculos 1</a> calculando x e y de uma grade</li>
+</ul><h5>[400] orientação a objetos</h5><ul>
+<li><a href="problem.html?name=400_particulas">Uma particula</a> Exemplo de Orientação a Objetos</li>
+</ul></div>
+</div>
+</div>
+<div class="column">
+<div class="container">
+<h4><em>About this site</em></h4>
+<em><p>This website, maintained by <a href="https://abav.lugaralgum.com">Alexandre B A Villares</a>, contains a tool based on <a href="https://github.com/pamelafox/faded-parsons-static">previous work by Pamela Fox and other researchers</a> that lets you work on Faded Parsons Problems, a type of programming exercise where you rearrange blocks of code and fill in blanks to create a working program. You can learn more about Faded Parsons Problems in <a href="https://dl.acm.org/doi/10.1145/3411764.3445228" target="_blank">Nate Weinman's CHI 2021 paper</a>.The problems hosted here are all in Python 3 (via pyodide) and use drawing infrastructure provided by <a href="https://berinhard.github.com/pyp5js">pyp5js</a>, modified to use method names more similar to the <a href="https://py5coding.org">py5</a> library for creative coding.</p></em>
+<p><em>If you'd like to host your own problems, check the <a href="https://github.com/villares/faded-parsons-visual" target="blank">GitHub repository</a> for more instructions or to contact the maintainer.</em></p>
+<hr/>
+<h4>Sobre este site</h4>
+<p>Esta página, mantida por <a href="https://abav.lugaralgum.com">Alexandre B A Villares</a>, contém uma ferramenta baseada em <a href="https://github.com/pamelafox/faded-parsons-static">um trabalho anterior de Pamela Fox e outras pessoas pesquisadores</a> que permite trabalhar com quebra-cabeças de Parsons com lacunas (faded), um tipo de exercício de programação em que você deve reordenar bolcos de código e prencher as lacunas para produzir um programa que funciona. Saiba mais sobre Parsons Problems em <a href="https://dl.acm.org/doi/10.1145/3411764.3445228" target="_blank">Nate Weinman's CHI 2021 paper</a>. Os quebra-cabeças aqui hospedados são em Python 3 (via pyodide) e usam a infraestrutura de desenho do projeto <a href="https://berinhard.github.com/pyp5js">pyp5js</a>, modificado para que os nomes ficassem mais parecidos com a biblioteca <a href="https://py5coding.org">py5</a> voltada à programação criativa.</p>
+<p>Se você quiser publicar você mesmo seus próprios quebra-cabeças, veja mais instruções no <a href="https://github.com/villares/faded-parsons-visual" target="blank">repositório no GitHub</a>. As instruções estão em inglês, mas se tiver dúvidas você pode entrar em contato com o mantenedor.</p>
+</div>
+</div><!-- end of row div -->
+</div></body>
 </html>

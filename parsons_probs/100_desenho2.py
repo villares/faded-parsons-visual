@@ -21,7 +21,7 @@ def draw(): #0given
 file = Path(__file__).stem
 name = 'Interação com o mouse'
 subt = 'Preenchimento, traço e interação usando draw()'
-dcat = '100 Primeiros passos'
+dcat = '[100] primeiros passos'
 desc = (
 f"""<h6>{name}</h6></br>"""
 f"""<img src="parsons_probs/{file}.gif"></br>"""

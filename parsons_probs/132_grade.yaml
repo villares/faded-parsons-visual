@@ -2,11 +2,11 @@ problem_name: Grade de círculos 1
 
 problem_subtitle: calculando x e y de uma grade
 
-problem_category: grades
+problem_category: [130] laços de repetição
 
 problem_description: |
   <h6>Grade de círculos</h6>
-  <img src="parsons_probs/001_loop.png">
+  <img src="parsons_probs/132_grade.png">
   <code>calculando x e y de uma grade</code></br>
   Organize as linhas para formar o desenho da grade de círculos.
    

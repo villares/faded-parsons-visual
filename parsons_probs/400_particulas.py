@@ -50,7 +50,7 @@ class Particula(): #0given
 file = Path(__file__).stem
 name = 'Uma particula'
 subt = 'Exemplo de Orientação a Objetos'
-dcat = '400 Orientação a Objetos'
+dcat = '[400] Orientação a Objetos'
 desc = (
 f"""<h6>{name}</h6></br>"""
 f"""<img src="parsons_probs/{file}.gif"></br>"""

@@ -2,10 +2,10 @@ problem_name: Pares e ímpares
 
 problem_subtitle: Usando o resto da divisão para alternar cores.
 
-problem_category: laços de repetição
+problem_category: [130] laços de repetição
 
 problem_description: |
-  <img src="parsons_probs/001_resto.png"></br><code>Usando o resto da divisão para alternar cores.</code> Organize os blocos para desenhar as linhas corretamente.</br>
+  <img src="parsons_probs/131_resto.png"></br><code>Usando o resto da divisão para alternar cores.</code> Organize os blocos para desenhar as linhas corretamente.</br>
    
 code_lines: |
     def setup(): #0given

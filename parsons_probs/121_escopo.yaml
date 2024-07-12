@@ -2,7 +2,7 @@ problem_name: círculo movendo
 
 problem_subtitle: animação usando variável global
 
-problem_category: variáveis
+problem_category: [100] primeiros passos
 
 problem_description: |
   <h6>círculo movendo</h6>

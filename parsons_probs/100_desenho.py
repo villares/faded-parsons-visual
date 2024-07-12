@@ -16,7 +16,7 @@ def setup(): #0given
 file = Path(__file__).stem
 name = 'Desenho, formas e cores'
 subt = 'Formas básicas, cores de preenchimento e traço'
-dcat = '100 Primeiros passos'
+dcat = '[100] primeiros passos'
 desc = (
 f"""<h6>{name}</h6></br>"""
 f"""<img src="parsons_probs/{file}.png"></br>"""

@@ -2,11 +2,11 @@ problem_name: Laço simples
 
 problem_subtitle: Uma fila de elementos
 
-problem_category: laços de repetição
+problem_category: [130] laços de repetição
 
 problem_description: |
   <h6>Uma fila de elementos</h6>
-  <img src="parsons_probs/000_loop2.png"></br>
+  <img src="parsons_probs/130_loop2.png"></br>
   <code>Uma fila de elementos</code></br>
   Organize as linhas para formar o desenho acima
    
