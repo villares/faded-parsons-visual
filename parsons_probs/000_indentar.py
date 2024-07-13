@@ -13,7 +13,7 @@ desc = (
 f"""<h6>{name}</h6></br>"""
 f"""<img src="parsons_probs/{file}.png"></br>"""
 f"""<code>{subt}</code></br>"""
-f"""Organize os blocos de tal forma que size() fique em uma indentada bem no começo da função setup()."""
+f"""Organize os blocos de tal forma que size() fique em uma linha indentada bem no começo da função setup()."""
 f"""A chamada de background(), que faz o fundo, deve vir antes da chamada a rect(), ambas estão "dentro" de setup(), e por isso indentadas."""
     )
 

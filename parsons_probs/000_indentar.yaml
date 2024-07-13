@@ -1,11 +1,11 @@
-problem_name: indentação e um retângulo 
+problem_name: Indentação e um retângulo 
 
 problem_subtitle: usando a função size() dentro do setup()
 
 problem_category: 100 - primeiros passos
 
 problem_description: |
-  <h6>indentação e um retângulo</h6></br><img src="parsons_probs/000_indentar.png"></br><code>usando a função size() dentro do setup()</code></br>Organize os blocos de tal forma que size() fique em uma indentada bem no começo da função setup().A chamada de background(), que faz o fundo, deve vir antes da chamada a rect(), ambas estão "dentro" de setup(), e por isso indentadas.
+  <h6>Indentação e um retângulo</h6></br><img src="parsons_probs/000_indentar.png"></br><code>usando a função size() dentro do setup()</code></br>Organize os blocos de tal forma que size() fique em uma linha indentada bem no começo da função setup().A chamada de background(), que faz o fundo, deve vir antes da chamada a rect(), ambas estão "dentro" de setup(), e por isso indentadas.
    
 code_lines: |
   def setup(): #0given
