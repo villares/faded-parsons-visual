@@ -14,7 +14,7 @@ f"""<h6>{name}</h6></br>"""
 f"""<img src="parsons_probs/{file}.png"></br>"""
 f"""<code>{subt}</code></br>"""
 f"""Organize os blocos de tal forma que size() fique em uma indentada bem no começo da função setup()."""
-f"""A chamada de background(), que faz o fundo,  deve vir antes da chamada a rect(), e ambas estão "dentro" de setup(), e por isso indentadas."""
+f"""A chamada de background(), que faz o fundo, deve vir antes da chamada a rect(), ambas estão "dentro" de setup(), e por isso indentadas."""
     )
 
 def format_source():
@@ -33,7 +33,7 @@ def format_source():
     return code_lines
 
 def exiting():
-    #save(file + '.png')  # save image result
+    save(file + '.png')  # save image result
     print(file)
     code_lines = format_source()
     yaml = f"""\
