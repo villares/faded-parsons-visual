@@ -6,7 +6,7 @@ def setup(): #0given
     
 # END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
-name = 'indentação e um retângulo'
+name = 'Indentação e um retângulo'
 subt = 'usando a função size() dentro do setup()'
 dcat = '100 - primeiros passos'
 desc = (
