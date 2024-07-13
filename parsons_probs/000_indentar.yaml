@@ -5,13 +5,13 @@ problem_subtitle: usando a função size() dentro do setup()
 problem_category: 100 - primeiros passos
 
 problem_description: |
-  <h6>indentação e um retângulo</h6></br><img src="parsons_probs/000_indentar.gif"></br><code>usando a função size() dentro do setup()</code></br>Organize os blocos de tal forma que size() fique indentadae esteja bem no começo da função setup().background() que faz o fundo deve vir antes da chamada a rect(),ambas estão "dentro" de setup(), e por isso indentadas.
+  <h6>indentação e um retângulo</h6></br><img src="parsons_probs/000_indentar.png"></br><code>usando a função size() dentro do setup()</code></br>Organize os blocos de tal forma que size() fique em uma linha indentada bem no começo da função setup(). A chamada de background(), que faz o fundo, deve vir antes da chamada a rect(), ambas estão "dentro" de setup(), e por isso indentadas.
    
 code_lines: |
   def setup(): #0given
-  size(400, 400) # sempre primeiro
-  background(0, 100, 00)
-  rect(100, 100, 50, 50)
+  size(400, 400) # primeira linha dentro de setup()
+  background(0, 100, 00) # dentro de setup()
+  rect(100, 100, 50, 50) # dentro de setup()
 
   
 test_fn: setup
