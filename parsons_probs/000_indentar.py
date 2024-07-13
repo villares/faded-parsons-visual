@@ -1,8 +1,8 @@
 
 def setup(): #0given
-    size(400, 400) # sempre primeiro
-    background(0, 100, 00)
-    rect(100, 100, 50, 50)
+    size(400, 400) # primeira linha dentro de setup()
+    background(0, 100, 00) # dentro de setup()
+    rect(100, 100, 50, 50) # dentro de setup()
     
 # END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
@@ -11,12 +11,10 @@ subt = 'usando a função size() dentro do setup()'
 dcat = '100 - primeiros passos'
 desc = (
 f"""<h6>{name}</h6></br>"""
-f"""<img src="parsons_probs/{file}.gif"></br>"""
+f"""<img src="parsons_probs/{file}.png"></br>"""
 f"""<code>{subt}</code></br>"""
-f"""Organize os blocos de tal forma que size() fique indentada"""
-f"""e esteja bem no começo da função setup()."""
-f"""background() que faz o fundo deve vir antes da chamada a rect(),"""
-f"""ambas estão "dentro" de setup(), e por isso indentadas."""
+f"""Organize os blocos de tal forma que size() fique em uma indentada bem no começo da função setup()."""
+f"""A chamada de background(), que faz o fundo,  deve vir antes da chamada a rect(), e ambas estão "dentro" de setup(), e por isso indentadas."""
     )
 
 def format_source():
