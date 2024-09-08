@@ -48,9 +48,9 @@ for cat, puzzle_list in sorted(puzzles_cat.items()):
     div.append(BeautifulSoup(f'<h5>{cat}</h5>', 'html.parser'))   
     new_list = ''
     for file_name, title, sub_title, img_file in puzzle_list:
-        new_list += (f'<li><a href="problem.html?name={file_name}">' 
+        new_list += (f'<li><a href="problem.html?name={file_name}" class="thumbnail">' 
                      f'<img src="parsons_probs/{img_file}" alt="{title}" class="thumbnail">'
-                     f'{title}</a> {sub_title}</li>\n')
+                     f'{title}</a></br> {sub_title}</li>\n')
     div.append(BeautifulSoup('<ul>\n' + new_list + '\n</ul>', 'html.parser'))
      
 with open(index_html, 'w') as index_file:
