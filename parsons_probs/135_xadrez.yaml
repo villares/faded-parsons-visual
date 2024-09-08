@@ -8,7 +8,7 @@ problem_description: |
   <h6>Tabuleiro de xadrez</h6></br><img src="parsons_probs/135_xadrez.png"></br><code>Grade com cores alternadas</code></br>Organize os blocos para o obter um desenho como este.
    
 code_lines: |
-  # setup: configurações iniciais #0given
+  # setup: configurações iniciais
   def setup(): #0given
   size(400, 400) #1given
   n = 8
