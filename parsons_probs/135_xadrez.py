@@ -1,5 +1,5 @@
 
-# setup: configurações iniciais #0given
+# setup: configurações iniciais
 def setup(): #0given
     size(400, 400) #1given
     n = 8
