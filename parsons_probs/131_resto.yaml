@@ -10,11 +10,13 @@ problem_description: |
 code_lines: |
     def setup(): #0given
     size(400, 400) #1given
+    background(120, 120, 240) #1given
+    stroke_weight(2) #1given
     for i in range(2, 18):
     if i % 2 == 0:
-    stroke(255)
+    stroke(255)  # white
     else:
-    stroke(0)
+    stroke(0)  # black
     y = 10 + i * 20
     line(50, y, width - 50, y) 
   
