@@ -1,7 +1,7 @@
 def setup(): #0given
     size(400, 400) #1given
     background(120, 120, 240) #1given
-    stroke_weight(2)
+    stroke_weight(2) #1given
     for i in range(2, 18):
         if i % 2 == 0:
             stroke(255) # white
