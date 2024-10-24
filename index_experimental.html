@@ -6,17 +6,16 @@
 <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"/>
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" rel="stylesheet"/>
 <link href="js-parsons/parsons.css" rel="stylesheet"/>
-<!-- start 2 columns meta & style -->
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <style>
 * {
   box-sizing: border-box;
 }
 
-/* Create two equal columns that floats next to each other */
+/* Create columns that float next to each other */
 .column {
   float: left;
-  width: 47%;
+  width: 25%;
   padding: 20px;
 }
 
@@ -27,10 +26,10 @@
   clear: both;
 }
 
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
+/* Responsive layout - makes the columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
   .column {
-    width: 100%;
+    width: 90%;
   }
 }
 
@@ -38,7 +37,6 @@ ul {
     list-style-type: none; /* Remove default list styling */
 }
 li {
-
     align-items: center; /* Center items vertically */
     margin-top: 10px; /* Space between list items */
     margin-bottom: 10px; /* Space between list items */
@@ -53,34 +51,54 @@ a.thumbnail {
     display: block; /* Ensure the link takes up the full width */
 }
 </style>
-<!-- end 2 columns meta & style -->
 </head>
 <body>
 <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark mb-4">
 <div class="navbar-brand">🧩 <em>Parsons Problems with Visual Output</em> | Quebra-cabeças de Parsons com resultado visual</div>
-<div style="float: rigth;">
+<div style="float: right;">
         	[<a href="https://github.com/villares/faded-parsons-visual" target="blank">repo</a>]</div>
 </nav>
+<div style="margin-left: 20px;"><h4><em>Puzzles</em> | Quebra-cabeças</h4></div>
 <div class="row">
 <div class="column">
 <div class="container">
-<h4><em>Puzzles</em> | Quebra-cabeças</h4>
-<div id="problem-list"><h5>100 - primeiros passos</h5><ul>
+<div id="problem-list-1">
+<h5>100 - primeiros passos</h5>
+<ul>
 <li><a class="thumbnail" href="problem.html?name=000_indentar"><img alt="Indentação e um retângulo" class="thumbnail" src="parsons_probs/000_indentar.png"/>Indentação e um retângulo</a> usando a função size() dentro do setup()</li>
 <li><a class="thumbnail" href="problem.html?name=002_variables"><img alt="Usando variáveis" class="thumbnail" src="parsons_probs/002_variables.png"/>Usando variáveis</a> atribuição e reatribuição</li>
 <li><a class="thumbnail" href="problem.html?name=100_desenho"><img alt="Desenho, formas e cores" class="thumbnail" src="parsons_probs/100_desenho.png"/>Desenho, formas e cores</a> Formas básicas, cores de preenchimento e traço</li>
 <li><a class="thumbnail" href="problem.html?name=100_desenho2"><img alt="Desenho, cor e a interação com o mouse" class="thumbnail" src="parsons_probs/100_desenho2.gif"/>Desenho, cor e a interação com o mouse</a> Formas básicas, preenchimento, traço e interação usando draw()</li>
 <li><a class="thumbnail" href="problem.html?name=121_escopo"><img alt="círculo movendo" class="thumbnail" src="parsons_probs/121_escopo.gif"/>círculo movendo</a> animação usando variável global</li>
-</ul><h5>120 - funções</h5><ul>
+</ul>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="container">
+<div id="problem-list-2">
+<h5>120 - funções</h5>
+<ul>
 <li><a class="thumbnail" href="problem.html?name=130_olhos"><img alt="Função olho" class="thumbnail" src="parsons_probs/130_olhos.png"/>Função olho</a> Definindo uma função de desenho e a chamando.</li>
-</ul><h5>130 - laços de repetição</h5><ul>
+</ul>
+<h5>130 - laços de repetição</h5>
+<ul>
 <li><a class="thumbnail" href="problem.html?name=130_loop2"><img alt="Laço simples" class="thumbnail" src="parsons_probs/130_loop2.png"/>Laço simples</a> Uma fila de elementos</li>
 <li><a class="thumbnail" href="problem.html?name=131_resto"><img alt="Pares e ímpares" class="thumbnail" src="parsons_probs/131_resto.png"/>Pares e ímpares</a> Usando o resto da divisão para alternar cores.</li>
 <li><a class="thumbnail" href="problem.html?name=132_grade"><img alt="Grade de círculos 1" class="thumbnail" src="parsons_probs/132_grade.png"/>Grade de círculos 1</a> calculando x e y de uma grade</li>
 <li><a class="thumbnail" href="problem.html?name=135_xadrez"><img alt="Tabuleiro de xadrez" class="thumbnail" src="parsons_probs/135_xadrez.png"/>Tabuleiro de xadrez</a> Grade com cores alternadas</li>
-</ul><h5>400 - orientação a objetos</h5><ul>
+</ul>
+</div>
+</div>
+</div>
+<div class="column">
+<div class="container">
+<div id="problem-list-3">
+<h5>400 - orientação a objetos</h5>
+<ul>
 <li><a class="thumbnail" href="problem.html?name=400_particulas"><img alt="Uma particula" class="thumbnail" src="parsons_probs/400_particulas.gif"/>Uma particula</a> Exemplo de Orientação a Objetos</li>
-</ul></div>
+</ul>
+</div>
 </div>
 </div>
 <div class="column">
