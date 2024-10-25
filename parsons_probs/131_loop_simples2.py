@@ -13,12 +13,11 @@ def exiting():
     file = Path(__file__).stem
     save(file + '.png')
     print(file)
-    nome = 'Pares e ímpares'
-    subt = 'Usando o resto da divisão para alternar cores.'
+    nome = 'Círculos coloridos'
+    subt = 'Iterando por uma lista de nomes de cores.'
     categoria = '130 - laços de repetição'
     instructions = (
-"Organize os blocos para desenhar as linhas corretamente. "
-"Note como a primeira linha é branca."
+"Organize os blocos para desenhar os círculos coloridos."
 )    
     descrição = (
 f"""<img src="parsons_probs/{file}.png"></br>"""
