@@ -6,7 +6,7 @@ problem_category: 130 - laços de repetição
 
 problem_description: |
   <h6>Grade de círculos</h6>
-  <img src="parsons_probs/132_grade.png">
+  <img src="parsons_probs/132_grade.png"></br>
   <code>calculando x e y de uma grade</code></br>
   Organize as linhas para formar o desenho da grade de círculos.
    
