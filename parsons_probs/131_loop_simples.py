@@ -6,41 +6,45 @@ def setup(): #0given
     for t in tamanhos:
         circle(200, 200, t)
 
-### fim do código do quebra-cabeças - gerando metadados
-def exiting():
-    file = Path(__file__).stem
-    save(file + '.png')
-    print(file)
-    nome = 'Círculos concentricos'
-    subt = 'Iterando por uma lista de tamanhos.'
-    categoria = '130 - laços de repetição'
-    instructions = (
-"Organize os blocos para desenhar os círculos corretamente. "
-)    
-    descrição = (
+# END PUZZLE
+file = Path(__file__).stem
+name = 'Círculos concentricos'
+subt = 'Iterando por uma lista de tamanhos.'
+dcat = '130  - laços de repetição'
+desc = (
+f"""<h6>{name}</h6>"""
 f"""<img src="parsons_probs/{file}.png"></br>"""
-f"""<code>{subt}</code> {instructions}</br>"""
+f"""<code>{subt}</code> """
+f"""Organize os blocos para desenhar os círculos corretamente.</br>"""
     )
+
+def format_source():
+    with open(__file__) as f:
+        code_lines = ''
+        for lin in f.readlines():
+            if lin.startswith('# END'):
+                break
+            fline = '  ' + lin.strip(' ') # preserves \n
+            if fline.strip():  # skip empty lines
+                code_lines += fline
+    return code_lines
+
+def exiting():
+    save(file + '.png')  # save image result
+    print(file)
+    code_lines = format_source()
     yaml = f"""\
-problem_name: {nome} 
+problem_name: {name} 
 
 problem_subtitle: {subt}
 
-problem_category: {categoria}
+problem_category: {dcat}
 
 problem_description: |
-  {descrição}
+  {desc}
    
 code_lines: |
-    def setup(): #0given
-    size(400, 400) #1given
-    for i in range(2, 18):
-    if i % 2 == 0:
-    stroke(255)
-    else:
-    stroke(0)
-    y = 10 + i * 20
-    line(50, y, width - 50, y) 
+{code_lines}
   
 test_fn: setup
 """
@@ -48,5 +52,3 @@ test_fn: setup
         f.write(yaml)
     
     
-    
-

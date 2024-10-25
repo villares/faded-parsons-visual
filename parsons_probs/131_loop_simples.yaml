@@ -2,20 +2,18 @@ problem_name: Círculos concentricos
 
 problem_subtitle: Iterando por uma lista de tamanhos.
 
-problem_category: 130 - laços de repetição
+problem_category: 130  - laços de repetição
 
 problem_description: |
-  <img src="parsons_probs/131_loop_simples.png"></br><code>Iterando por uma lista de tamanhos.</code> Organize os blocos para desenhar os círculos corretamente. </br>
+  <h6>Círculos concentricos</h6><img src="parsons_probs/131_loop_simples.png"></br><code>Iterando por uma lista de tamanhos.</code> Organize os blocos para desenhar os círculos corretamente.</br>
    
 code_lines: |
-    def setup(): #0given
-    size(400, 400) #1given
-    for i in range(2, 18):
-    if i % 2 == 0:
-    stroke(255)
-    else:
-    stroke(0)
-    y = 10 + i * 20
-    line(50, y, width - 50, y) 
+  tamanhos = [10, 20, 40, 50, 100, 110, 220, 230] # 0given
+  def setup(): #0given
+  size(400, 400) #1given
+  no_fill() # sem preenchimento
+  for t in tamanhos:
+  circle(200, 200, t)
+
   
 test_fn: setup
