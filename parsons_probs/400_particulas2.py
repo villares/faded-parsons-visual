@@ -1,10 +1,10 @@
 import py5_tools  #!REMOVE
 
-particulas = [] #0given
+particles = [] #0given
 def setup(): #0given
     size(400, 400) #1given
     for _ in range(5): #1given
-        particulas.append(Particula(30)) #2given
+        particles.append(Particle(30)) #2given
     #!REMOVE code to capture animation
 #     py5_tools.animated_gif(file + '.gif', #!REMOVE
 #                            duration=0.1,  #!REMOVE 
@@ -12,10 +12,10 @@ def setup(): #0given
 
 def draw():  #0given
     background(0)  #1given
-    for p in particulas: #1given
-        p.atualize() #2given
+    for p in particles: 
+        p.update() 
 # definição da classe #0given
-class Particula(): #0given
+class Particle(): #0given
     def __init__(self, tamanho): #1given
         self.x = random(width) #2given
         self.y = random(height) #2given
@@ -27,11 +27,11 @@ class Particula(): #0given
                          random(128, 256),  # B #2given
                          200)  # alpha #2given
 
-    def atualize(self): #1given
+    def update(self): #1given
         fill(self.cor)  #2given
         circle(self.x, self.y, self.tam)  #2given
-        self.x += self.vx  #2given
-        self.y += self.vy  #2given
+        self.x += self.vx
+        self.y += self.vy
         if self.x > width + self.tam / 2: 
             self.x = -self.tam / 2 
         if self.y > height + self.tam / 2: 
@@ -46,7 +46,7 @@ class Particula(): #0given
     
 # END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
-name = 'Algumas particulas'
+name = 'Algumas partículas'
 subt = 'Exemplo de Orientação a Objetos'
 dcat = '400 - Orientação a Objetos'
 desc = (
