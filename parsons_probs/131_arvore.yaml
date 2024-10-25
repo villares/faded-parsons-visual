@@ -5,7 +5,7 @@ problem_subtitle: Definindo uma função recursiva.
 problem_category: 120 - funções
 
 problem_description: |
-  <h6>Função árvore</h6><img src="parsons_probs/130_arvore.png"></br><code>Definindo uma função recursiva.</code> Organize o bloco de definição da função galho para que elapossa ser chamada no setup() e a árvore desenhada.</br>
+  <h6>Função árvore</h6><img src="parsons_probs/131_arvore.png"></br><code>Definindo uma função recursiva.</code> Organize o bloco de definição da função galho para que elapossa ser chamada no setup() e a árvore desenhada.</br>
    
 code_lines: |
   def setup(): #0given
