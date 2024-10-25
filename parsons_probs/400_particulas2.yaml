@@ -1,0 +1,47 @@
+problem_name: Algumas particulas 
+
+problem_subtitle: Exemplo de Orientação a Objetos
+
+problem_category: 400 - Orientação a Objetos
+
+problem_description: |
+  <h6>Algumas particulas</h6></br><img src="parsons_probs/400_particulas2.gif"></br><code>Exemplo de Orientação a Objetos</code></br>Organize os blocos para fazer um sketch como este.
+   
+code_lines: |
+  particulas = [] #0given
+  def setup(): #0given
+  size(400, 400) #1given
+  for _ in range(5): #1given
+  particulas.append(Particula(30)) #2given
+  def draw():  #0given
+  background(0)  #1given
+  for p in particulas: #1given
+  p.atualize() #2given
+  # definição da classe #0given
+  class Particula(): #0given
+  def __init__(self, tamanho): #1given
+  self.x = random(width) #2given
+  self.y = random(height) #2given
+  self.tam = tamanho  #2given
+  self.vx = random(-2, 2)  #2given
+  self.vy = random(-2, 2)  #2given
+  self.cor = color(random(128, 256),  # R  #2given
+  random(128, 256),  # G  #2given
+  random(128, 256),  # B #2given
+  200)  # alpha #2given
+  def atualize(self): #1given
+  fill(self.cor)  #2given
+  circle(self.x, self.y, self.tam)  #2given
+  self.x += self.vx  #2given
+  self.y += self.vy  #2given
+  if self.x > width + self.tam / 2: 
+  self.x = -self.tam / 2 
+  if self.y > height + self.tam / 2: 
+  self.y = -self.tam / 2 
+  if self.x < -self.tam / 2: 
+  self.x = width + self.tam / 2 
+  if self.y < -self.tam / 2: 
+  self.y = height + self.tam / 2 #
+
+  
+test_fn: setup
