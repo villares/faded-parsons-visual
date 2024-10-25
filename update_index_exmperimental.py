@@ -50,8 +50,9 @@ for col_number in range(1, COLLUMNS+1):
     divs.append(div)   
 cat_puzzle_lists = sorted(puzzles_cat_dict.items())
 col_len = len(cat_puzzle_lists) / COLLUMNS
+print(f'{len(divs)=} {len(cat_puzzle_lists)=} {col_len=}')
 for i, (cat, puzzle_list) in enumerate(cat_puzzle_lists):
-    print(f'{len(divs)=} {len(cat_puzzle_lists)=} {col_len=} {i//col_len=}')
+    print(f'{i=} {i//col_len=}')
     div = divs[int(i / col_len)]
     div.append(BeautifulSoup(f'<h5>{cat}</h5>', 'html.parser'))   
     new_list = ''
