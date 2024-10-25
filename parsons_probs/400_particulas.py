@@ -48,7 +48,7 @@ class Particula(): #0given
     
 # END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
-name = 'Uma particula'
+name = 'Uma partícula'
 subt = 'Exemplo de Orientação a Objetos'
 dcat = '400 - Orientação a Objetos'
 desc = (
