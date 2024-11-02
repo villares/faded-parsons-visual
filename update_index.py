@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup  # pip install beautifulsoup4
  
 puzzles_cat_dict = defaultdict(list)  # puzzle category: [puzzle0, ...]
 # This script should run from the same directory as the index file
-index_html = 'index4c.html'
+index_html = 'index.html'
 parsons_probs = Path.cwd() / 'parsons_probs'  # the puzzles dir
 # Get a list of the parsons_probs subdir contents
 subdir_contents = list(parsons_probs.iterdir())

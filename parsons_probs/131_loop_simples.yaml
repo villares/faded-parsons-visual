@@ -2,7 +2,7 @@ problem_name: Círculos concentricos
 
 problem_subtitle: Iterando por uma lista de tamanhos.
 
-problem_category: 130  - laços de repetição
+problem_category: 130 - laços de repetição
 
 problem_description: |
   <h6>Círculos concentricos</h6><img src="parsons_probs/131_loop_simples.png"></br><code>Iterando por uma lista de tamanhos.</code> Organize os blocos para desenhar os círculos corretamente.</br>

@@ -10,7 +10,7 @@ def setup(): #0given
 file = Path(__file__).stem
 name = 'Círculos concentricos'
 subt = 'Iterando por uma lista de tamanhos.'
-dcat = '130  - laços de repetição'
+dcat = '130 - laços de repetição'
 desc = (
 f"""<h6>{name}</h6>"""
 f"""<img src="parsons_probs/{file}.png"></br>"""

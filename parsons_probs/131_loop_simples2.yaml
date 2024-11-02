@@ -2,7 +2,7 @@ problem_name: Círculos coloridos
 
 problem_subtitle: Iterando por uma lista de nomes de cores.
 
-problem_category: 130  - laços de repetição
+problem_category: 130 - laços de repetição
 
 problem_description: |
   <h6>Círculos coloridos</h6><img src="parsons_probs/131_loop_simples2.png"></br><code>Iterando por uma lista de nomes de cores.</code> Organize os blocos para desenhar os círculos coloridos.</br>
