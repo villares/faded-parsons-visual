@@ -1,6 +1,6 @@
 """
-Update the index.html file adding problems
-found in the 'parsons_probs' folder.
+Update the index4c.html (based on index_experimentas.html)
+file adding problems found in the 'parsons_probs' folder.
 """
 
 from collections import defaultdict
@@ -8,10 +8,10 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup  # pip install beautifulsoup4
  
-puzzles_cat = defaultdict(list)  # puzzle category: [puzzle0, ...]
-# This script should run from the same directory as the index.html file
-index_html = 'index.html'
-parsons_probs = Path.cwd() / 'parsons_probs'      # the puzzles dir
+puzzles_cat_dict = defaultdict(list)  # puzzle category: [puzzle0, ...]
+# This script should run from the same directory as the index file
+index_html = 'index4c.html'
+parsons_probs = Path.cwd() / 'parsons_probs'  # the puzzles dir
 # Get a list of the parsons_probs subdir contents
 subdir_contents = list(parsons_probs.iterdir())
 # Get only the yaml files
@@ -35,16 +35,25 @@ for yaml_file in sorted(puzzle_files):
         category = cl[0].lower() if cl else 'geral'
         il = [get_img_file(line) for line in lines if 'img src=' in line]
         img_file = il[0] if il else ''
-    puzzles_cat[category].append((yaml_file.stem, title, sub_title, img_file))
+    puzzles_cat_dict[category].append((yaml_file.stem, title, sub_title, img_file))
     print(category, yaml_file.stem, img_file, title, sub_title, sep=' | ')
  
 with open(index_html) as index_file:
     html = index_file.read()
 
 soup = BeautifulSoup(html, 'lxml')
-div = soup.find('div', {'id': 'problem-list'})  # adicionei essa div pra facilitar
-div.clear()
-for cat, puzzle_list in sorted(puzzles_cat.items()):
+COLLUMNS = 3
+divs = []
+for col_number in range(1, COLLUMNS+1):
+    div = soup.find('div', {'id': f'problem-list-{col_number}'}) 
+    div.clear()
+    divs.append(div)   
+cat_puzzle_lists = sorted(puzzles_cat_dict.items())
+col_len = len(cat_puzzle_lists) / COLLUMNS
+print(f'{len(divs)=} {len(cat_puzzle_lists)=} {col_len=}')
+for i, (cat, puzzle_list) in enumerate(cat_puzzle_lists):
+    print(f'{i=} {i//col_len=}')
+    div = divs[int(i / col_len)]
     div.append(BeautifulSoup(f'<h5>{cat}</h5>', 'html.parser'))   
     new_list = ''
     for file_name, title, sub_title, img_file in puzzle_list:
