@@ -1,4 +1,4 @@
-fill_colors = ['red', 'green', 'blue', 'pink'] # 0given
+fill_colors = ['red', 'green', 'blue', 'pink'] #0given
 
 def setup(): #0given
     size(400, 400) #1given
