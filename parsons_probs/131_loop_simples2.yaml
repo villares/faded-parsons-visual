@@ -8,7 +8,7 @@ problem_description: |
   <h6>Círculos coloridos</h6><img src="parsons_probs/131_loop_simples2.png"></br><code>Iterando por uma lista de nomes de cores.</code> Organize os blocos para desenhar os círculos coloridos.</br>
    
 code_lines: |
-  fill_colors = ['red', 'green', 'blue', 'pink'] # 0given
+  fill_colors = ['red', 'green', 'blue', 'pink'] #0given
   def setup(): #0given
   size(400, 400) #1given
   x = 50 #1given
