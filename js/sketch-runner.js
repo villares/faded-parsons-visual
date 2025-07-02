@@ -221,10 +221,10 @@ def no_erase(*args):
     return _P5_INSTANCE.noErase(*args)
 
 def color_mode(*args):
-    if args == [HSB]:  # py5 compatibility
-      return _P5_INSTANCE.colorMode(HSB, 255, 255, 255, 255)
+    if args == ('hsb',):  # py5 compatibility
+        return _P5_INSTANCE.colorMode('hsb', 255, 255, 255)
     else:
-      return _P5_INSTANCE.colorMode(*args)
+        return _P5_INSTANCE.colorMode(*args)
 
 def fill(*args):
     return _P5_INSTANCE.fill(*args)
@@ -357,11 +357,35 @@ def curve_point(*args):
 def curve_tangent(*args):
     return _P5_INSTANCE.curveTangent(*args)
 
-def begin_contour(*args):
-    return _P5_INSTANCE.beginContour(*args)
+class begin_contour():
+    def __init__(self):
+        _P5_INSTANCE.beginContour()
 
-def begin_shape(*args):
-    return _P5_INSTANCE.beginShape(*args)
+    def __enter__(self):
+        pass
+
+    def __exit__(self,  exc_type, exc_value, exc_tb):
+        _P5_INSTANCE.endContour()
+
+class begin_shape():
+    def __init__(self, *args):
+        _P5_INSTANCE.beginShape(*args)
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self,  exc_type, exc_value, exc_tb):
+        _P5_INSTANCE.endShape()
+
+class begin_closed_shape():
+    def __init__(self):
+        _P5_INSTANCE.beginShape()
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self,  exc_type, exc_value, exc_tb):
+        _P5_INSTANCE.endShape(CLOSE)
 
 def bezier_vertex(*args):
     return _P5_INSTANCE.bezierVertex(*args)
@@ -420,8 +444,15 @@ def no_loop(*args):
 def loop(*args):
     return _P5_INSTANCE.loop(*args)
 
-def push(*args):
-    return _P5_INSTANCE.push(*args)
+class push():  # py5  compatibility
+    def __init__(self):
+        _P5_INSTANCE.push()
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self,  exc_type, exc_value, exc_tb):
+        _P5_INSTANCE.pop()
 
 def redraw(*args):
     return _P5_INSTANCE.redraw(*args)
@@ -708,12 +739,6 @@ def mag(*args):
 def remap(*args):
     return _P5_INSTANCE.map(*args)
 
-def max(*args):
-    return _P5_INSTANCE.max(*args)
-
-def min(*args):
-    return _P5_INSTANCE.min(*args)
-
 def norm(*args):
     return _P5_INSTANCE.norm(*args)
 
@@ -743,6 +768,13 @@ def random_seed(*args):
 
 def random(*args):
     return _P5_INSTANCE.random(*args)
+
+def random_int(*args):  # py5 compatibility
+    *a, b = args
+    return int(_P5_INSTANCE.random(*a, b + 1))
+
+def random_choice(seq):  # py5 compatibility
+    return seq[int(_P5_INSTANCE.random(len(seq)))]
 
 def random_gaussian(*args):
     return _P5_INSTANCE.randomGaussian(*args)
@@ -801,11 +833,15 @@ def text_descent(*args):
 def load_font(*args):
     return _P5_INSTANCE.loadFont(*args)
 
+def create_font(*args): # py5 compatibility
+    print('Sorry, create_font() is unavailable in pyp5js!')
+
 def text(*args):
     return _P5_INSTANCE.text(*args)
 
-def text_font(*args):
-    return _P5_INSTANCE.textFont(*args)
+def text_font(*args): # py5 compatibility
+    if args[0]:
+        return _P5_INSTANCE.textFont(*args)
 
 def orbit_control(*args):
     return _P5_INSTANCE.orbitControl(*args)
@@ -952,8 +988,9 @@ def createCanvas(*args):
 def size(*args):
     canvas = createCanvas(*args)
     background(200) # py5 compatibility
+    fill(255) # py5 compatibility (for text default color)
     return canvas
-    
+
 def __deviceMoved(e):
     try:
         device_moved()
@@ -1062,7 +1099,7 @@ def __mouseWheel(e):
     try:
         mouse_wheel()
     except TypeError:
-        e.get_count = lambda: e.delta // abs(e.delta)        
+        e.get_count = lambda: e.delta // abs(e.delta)
         mouse_wheel(e)
     except NameError:
         pass
@@ -1159,6 +1196,10 @@ class Py5Vector:
     def mag(self):
         return self.__vector.mag()
 
+    @mag.setter   # py5 compat
+    def mag(self, mag):
+        self.set_mag(mag)
+
     @property
     def mag_sq(self):
         return self.__vector.magSq()
@@ -1166,6 +1207,13 @@ class Py5Vector:
     def set_mag(self, mag):
         self.__vector.setMag(mag)
         return self
+
+    # py5 compat
+    @property
+    def norm(self):
+        n = self.copy()
+        n.normalize()
+        return n
 
     def normalize(self):
         self.__vector.normalize()
@@ -1369,7 +1417,7 @@ class Py5Vector:
     @classmethod
     def fromAngle(cls, angle, length=1):
         # https://github.com/processing/p5.js/blob/3f0b2f0fe575dc81c724474154f5b23a517b7233/src/math/p5.Vector.js
-        return Py5Vector(length * cos(angle), length * sin(angle), 0)
+        return cls(length * cos(angle), length * sin(angle), 0)
 
     @classmethod
     def fromAngles(theta, phi, length=1):
@@ -1378,13 +1426,20 @@ class Py5Vector:
         sinPhi = sin(phi)
         cosTheta = cos(theta)
         sinTheta = sin(theta)
-        return Py5Vector(length * sinTheta * sinPhi,
+        return cls(length * sinTheta * sinPhi,
                        -length * cosTheta,
                        length * sinTheta * cosPhi)
 
     @classmethod
+    def random(cls, dim=2): # py5 compat
+        if dim == 3:
+            return cls.random3D()
+        else:
+            return cls.fromAngle(random(TWO_PI))
+
+    @classmethod
     def random2D(cls):
-        return Py5Vector.fromAngle(random(TWO_PI))
+        return cls.fromAngle(random(TWO_PI))
 
     @classmethod
     def random3D(cls, dest=None):
@@ -1394,7 +1449,7 @@ class Py5Vector:
         vx = mult * cos(angle)
         vy = mult * sin(angle)
         if dest is None:
-            return Py5Vector(vx, vy, vz)
+            return cls(vx, vy, vz)
         dest.set(vx, vy, vz)
         return dest
 
@@ -1725,8 +1780,39 @@ event_functions = {
 start_p5(preload, setup, draw, event_functions)
 `;
 
+
+export function preprocessCode(code) {
+	// Check if the code contains a setup definition
+	if (code.indexOf('def setup') === -1) {
+		// If not, wrap the entire code inside a new setup function
+		const lines = code.trim().split('\n');
+		const indentedLines = lines.map(function(line) {
+			return '  ' + line;
+		});
+		code = 'def setup():\n' + indentedLines.join('\n');
+	}
+	// Check if the code contains a size() function call
+	if (code.indexOf('size(') === -1) {
+		// Find the indentation level of the first line inside the setup function
+		const setupIndex = code.indexOf('def setup');
+		const setupEndIndex = code.indexOf('\n', setupIndex);
+		const setupLine = code.substring(setupEndIndex + 1);
+		const indentation = setupLine.match(/^ */)[0];
+		// add size(100, 100) as the first line of the setup definition
+		code = code.replace('def setup():', 'def setup():\n' + indentation + 'size(100, 100)');
+	}
+	if (code.indexOf('get_pixels(') > 0) {
+		code = code.replace('get_pixels(', 'get(')
+	}
+	return code;
+}
+
 export function runCode(userCode) {
-	let code = [placeholder, userCode, wrapperContent, startCode].join('\n');
+	let code = [
+		placeholder,
+		preprocessCode(userCode),
+		wrapperContent,
+		startCode].join('\n');
 
 	if (window.instance) {
 		window.instance.canvas.remove();
