@@ -18,13 +18,10 @@ name = 'Função olho'
 subt = 'Definindo uma função de desenho e a chamando.'
 dcat = '120 - funções'
 desc = (
-f"""<h6>{name}</h6>"""
-f"""<img src="parsons_probs/{file}.png"></br>"""
-f"""<code>{subt}</code> """
+f"""<h6>{name}</h6><img src="parsons_probs/{file}.png"></br><code>{subt}</code> """
 f"""Organize o bloco de definição da função olho para que ela """
 f"""possa ser chamada no setup() e os olhos desenhados.</br>"""
-    )
-
+)
 def format_source():
     with open(__file__) as f:
         code_lines = ''
@@ -41,22 +38,16 @@ def exiting():
     print(file)
     code_lines = format_source()
     yaml = f"""\
-problem_name: {name} 
-
-problem_subtitle: {subt}
-
-problem_category: {dcat}
-
+problem_name: {name}\n
+problem_subtitle: {subt}\n
+problem_category: {dcat}\n
 problem_description: |
-  {desc}
-   
+  {desc}\n   
 code_lines: |
-{code_lines}
-  
-test_fn: setup
+{code_lines}\n
 """
     with open(file + '.yaml', 'w') as f:
         f.write(yaml)
-    
+
     
     

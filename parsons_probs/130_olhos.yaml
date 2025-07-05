@@ -1,4 +1,4 @@
-problem_name: Função olho 
+problem_name: Função olho
 
 problem_subtitle: Definindo uma função de desenho e a chamando.
 
@@ -22,5 +22,4 @@ code_lines: |
   fill(0) # preto (0) 
   circle(x, y, tamanho * 0.10) # pupila
 
-  
-test_fn: setup
+
