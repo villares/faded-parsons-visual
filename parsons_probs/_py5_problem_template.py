@@ -4,7 +4,7 @@ def setup(): #0given
     size(400, 400) #1given
     square(200, 250, 50) #1given
     
-# END OF PUZZLE - GENERATING METADAA
+# END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
 name = 'Exemplo estático'
 subt = 'Quadradinho'
