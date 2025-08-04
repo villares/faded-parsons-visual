@@ -12,7 +12,7 @@ def olho(x, y, tamanho): #0given
     fill(0) # preto (0) 
     circle(x, y, tamanho * 0.10) # pupila
     
-# END PUZZLE
+# END OF PUZZLE - GENERATING METADATA
 file = Path(__file__).stem
 name = 'Função olho'
 subt = 'Definindo uma função de desenho e a chamando.'
@@ -28,13 +28,17 @@ def format_source():
         for lin in f.readlines():
             if lin.startswith('# END'):
                 break
-            fline = '  ' + lin.strip(' ') # preserves \n
-            if fline.strip():  # skip empty lines
-                code_lines += fline
+            elif '!REMOVE' in lin:
+                continue
+            elif '!BLANK' in lin:
+                lin.lstrip('#')  # to add comments with !BLANK to puzzle
+            lin = lin.strip(' ') # this preserves \n
+            if lin.strip(): # skip empty lines as .strip() removes \n
+                code_lines += '  ' + lin
     return code_lines
 
 def exiting():
-    save(file + '.png')  # save image result
+    save(f'{file}.png')  # save image result
     print(file)
     code_lines = format_source()
     yaml = f"""\
@@ -48,6 +52,3 @@ code_lines: |
 """
     with open(file + '.yaml', 'w') as f:
         f.write(yaml)
-
-    
-    
