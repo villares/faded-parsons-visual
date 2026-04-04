@@ -1,4 +1,8 @@
+
+
 # Python Faded Parsons Problems with Visual Output
+
+## Moved to https://codeberg.org/villares/python-parsons-visual
 
 This tool should allow you to run Faded Parsons Problems in static page in the browser, with visual results, using [pyp5js](https://github.com/berinhard/pyp5js/) (_pyodide_ and the _p5js_ canvas) to show the sketch results, as written with puzzle blocks in a dialect close to [py5](https://py5coding.org) in *imported mode* style.
 
